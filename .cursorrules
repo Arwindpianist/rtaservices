@@ -1,0 +1,74 @@
+# CursorRules for RTA Services Clone
+# Defines variables, data sources, steps and build strategy
+
+variables:
+  project_name: "rta-services-clone"
+  ui_framework: "Next.js"
+  styling: "TailwindCSS"
+  deploy_target: "Vercel"
+
+data_sources:
+  - name: "homepage_html"
+    type: html_snapshot
+    url: "https://www.rtaservices.net/"
+  - name: "images"
+    type: asset_collection
+    elements: all_images
+    from: "homepage_html"
+
+steps:
+  - name: "setup_project"
+    run:
+      - "npx create-next-app@latest $project_name"
+      - "cd $project_name"
+      - "npm install tailwindcss postcss autoprefixer"
+
+  - name: "configure_tailwind"
+    run:
+      - "npx tailwindcss init -p"
+      - append: |
+          @import "tailwindcss/base";
+          @import "tailwindcss/components";
+          @import "tailwindcss/utilities";
+
+  - name: "generate_homepage"
+    uses: html_to_react
+    input: homepage_html
+    output: "pages/index.tsx"
+    mapping:
+      - map: hero_section
+      - map: services_section
+      - map: why_choose_us
+
+  - name: "extract_components"
+    uses: component_extractor
+    input: homepage_html
+    output_folder: "components"
+    rules:
+      - match: section
+      - output: as_react_component
+
+  - name: "routing"
+    run:
+      - add_page: "/about"
+      - add_page: "/services"
+      - add_page: "/product"
+      - add_page: "/contact"
+
+  - name: "layout"
+    run:
+      - create: "components/Navbar.tsx"
+      - create: "components/Footer.tsx"
+
+  - name: "forms"
+    run:
+      - integrate: "Contact form with client-side validation"
+
+  - name: "deploy"
+    run:
+      - "vercel --prod"
+
+outputs:
+  - "Live site URL"
+  - "Repo link"
+  - "Deployment status"

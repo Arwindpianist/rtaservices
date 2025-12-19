@@ -1,0 +1,77 @@
+[
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_2944f1a4ef824c33a5d3a9c7c9ab852b~mv2.png/v1/crop/x_87,y_280,w_1112,h_355/fill/w_306,h_97,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/327124_2944f1a4ef824c33a5d3a9c7c9ab852b~mv2.png",
+    "local_path": "assets/original/logo.png",
+    "used_in_component": "Navbar"
+  },
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_c67e523bdb98478ca86c528e32058a96~mv2.jpg/v1/fill/w_634,h_634,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Asian%20IT%20female%20engineer%20in%20data%20centers.jpg",
+    "local_path": "assets/original/hero-engineer.jpg",
+    "used_in_component": "Hero"
+  },
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_b5d70508325a442c82dccf072c51b6da~mv2.jpg/v1/fill/w_214,h_288,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Asian%20engineer%20performing%20replacement%20of%20parts%20in%20a%20data%20center.jpg",
+    "local_path": "assets/original/maintenance.jpg",
+    "used_in_component": "Services"
+  },
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_f0124517ac7f40c89e749703f71cff4a~mv2.jpg/v1/fill/w_214,h_286,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/asian%20logistic%20lady%20in%20a%20warehouse%20packing.jpg",
+    "local_path": "assets/original/logistics.jpg",
+    "used_in_component": "Services"
+  },
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_9b5947d2a3e74deca61fb36bd7688212~mv2.png/v1/fill/w_214,h_286,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Felmale%20Engineer.png",
+    "local_path": "assets/original/engineer.png",
+    "used_in_component": "Services"
+  },
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_fd0ea3f4d10d4317bf8c30de31505ee2~mv2.jpg/v1/fill/w_584,h_410,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/why%20RTA_edited.jpg",
+    "local_path": "assets/original/why-rta.jpg",
+    "used_in_component": "WhyChooseUs"
+  },
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_f5f578950dfd45de85d2ccf59e057814~mv2.png/v1/fill/w_483,h_93,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/ACA%20Logo_edited.png",
+    "local_path": "assets/original/aca-logo.png",
+    "used_in_component": "PartnerSection"
+  },
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_170c8dfffcb0438f9d6c3d2bcc80698a~mv2.png/v1/fill/w_258,h_118,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dell%20EMC_edited_edited_edited.png",
+    "local_path": "assets/original/dell-emc.png",
+    "used_in_component": "BrandLogos"
+  },
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_d3530c9a561c41d28dd8a98ba74ad576~mv2.png/v1/fill/w_154,h_118,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/IBM_edited.png",
+    "local_path": "assets/original/ibm.png",
+    "used_in_component": "BrandLogos"
+  },
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_d77b1685c5884e038c2ce574a1a6a2ff~mv2.png/v1/fill/w_130,h_126,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/HPE_edited.png",
+    "local_path": "assets/original/hpe.png",
+    "used_in_component": "BrandLogos"
+  },
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_14ce9412b4e94e8c858cfbfbb9286975~mv2.png/v1/fill/w_183,h_118,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Sun%20Oracle_edited.png",
+    "local_path": "assets/original/sun-oracle.png",
+    "used_in_component": "BrandLogos"
+  },
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_dfb1a78b010a42a8bc4430f533e76efe~mv2.png/v1/fill/w_143,h_184,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/NetApp_edited.png",
+    "local_path": "assets/original/netapp.png",
+    "used_in_component": "BrandLogos"
+  },
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_a3d966fdeac1462b8daf6931e298f78e~mv2.png/v1/fill/w_130,h_132,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Huawei_edited.png",
+    "local_path": "assets/original/huawei.png",
+    "used_in_component": "BrandLogos"
+  },
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_c408e3237abe4f958a2f3ca6cb32211e~mv2.png/v1/fill/w_195,h_105,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Cisco_edited.png",
+    "local_path": "assets/original/cisco.png",
+    "used_in_component": "BrandLogos"
+  },
+  {
+    "original_url": "https://static.wixstatic.com/media/327124_0938f60f635c48849cb3740c5b0ea914~mv2.png/v1/fill/w_207,h_105,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Fujitsu_edited.png",
+    "local_path": "assets/original/fujitsu.png",
+    "used_in_component": "BrandLogos"
+  }
+]

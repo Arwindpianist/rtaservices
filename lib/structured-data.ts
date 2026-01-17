@@ -30,7 +30,18 @@ export interface ServiceSchema {
     "@type": string;
     name: string;
   };
-  areaServed: string;
+  areaServed: string | {
+    "@type": string;
+    geoMidpoint: {
+      "@type": string;
+      latitude: string;
+      longitude: string;
+    };
+    geoRadius: {
+      "@type": string;
+      name: string;
+    };
+  };
   serviceType: string;
 }
 

@@ -3,14 +3,17 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Drawer } from 'vaul';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,9 +26,15 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About Us' },
-    { href: '/services', label: 'Services' },
     { href: '/product', label: 'Product' },
     { href: '/contact', label: 'Contact' },
+  ];
+
+  const serviceLinks = [
+    { href: '/services', label: 'All Services Overview' },
+    { href: '/services#maintenance', label: 'IT Maintenance Services (TPM)' },
+    { href: '/services#assets', label: 'IT Assets Management' },
+    { href: '/services#professional', label: 'IT Professional Services' },
   ];
 
   return (
@@ -74,18 +83,80 @@ export default function Navbar() {
               >
                 <Link
                   href={link.href}
-                  className="text-rta-text hover:text-[#FFBF23] px-3 py-2 text-body font-medium transition-colors duration-200 relative"
+                  className={`text-rta-text hover:text-[#FFBF23] px-3 py-2 text-body font-medium transition-colors duration-200 relative ${
+                    pathname === link.href ? 'text-[#FFBF23]' : ''
+                  }`}
                 >
                   {link.label}
+                  {pathname === link.href && (
+                    <motion.span
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FFBF23]"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 0.2 }}
+                    />
+                  )}
                   <motion.span
                     className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FFBF23]"
                     initial={{ scaleX: 0 }}
-                    whileHover={{ scaleX: 1 }}
+                    whileHover={{ scaleX: pathname === link.href ? 1 : 1 }}
                     transition={{ duration: 0.2 }}
                   />
                 </Link>
               </motion.div>
             ))}
+            
+            {/* Services Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsServicesOpen(true)}
+              onMouseLeave={() => setIsServicesOpen(false)}
+            >
+              <motion.div
+                whileHover={{ y: -2 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Link
+                  href="/services"
+                  className={`text-rta-text hover:text-[#FFBF23] px-3 py-2 text-body font-medium transition-colors duration-200 relative flex items-center gap-1 ${
+                    pathname === '/services' ? 'text-[#FFBF23]' : ''
+                  }`}
+                >
+                  Services
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''}`} />
+                  {pathname === '/services' && (
+                    <motion.span
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FFBF23]"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 0.2 }}
+                    />
+                  )}
+                </Link>
+              </motion.div>
+              
+              <AnimatePresence>
+                {isServicesOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-rta-border py-2 z-50"
+                  >
+                    {serviceLinks.map((service) => (
+                      <Link
+                        key={service.href}
+                        href={service.href}
+                        className="block px-4 py-2 text-body text-rta-text hover:bg-rta-bg-light hover:text-[#FFBF23] transition-colors duration-200"
+                      >
+                        {service.label}
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
             <Button
               asChild
               className="bg-[#FFBF23] text-white hover:bg-[#E6A91F] hover:shadow-lg hover:shadow-[#FFBF23]/20"

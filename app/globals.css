@@ -112,6 +112,48 @@
     @apply font-bold text-rta-text;
   }
 
+  /* Skip to content link for accessibility */
+  .skip-to-content {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #FFBF23;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    z-index: 100;
+    border-radius: 0 0 4px 0;
+    font-weight: 600;
+  }
+
+  .skip-to-content:focus {
+    top: 0;
+    outline: 2px solid #E6A91F;
+    outline-offset: 2px;
+  }
+
+  /* Enhanced focus styles for accessibility */
+  *:focus-visible {
+    outline: 2px solid #FFBF23;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Ensure buttons and links have proper focus indicators */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid #FFBF23;
+    outline-offset: 2px;
+  }
+
+  /* Remove default focus for mouse users, keep for keyboard */
+  *:focus:not(:focus-visible) {
+    outline: none;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { fadeInUp, staggerContainer, getAnimationVariants, viewportOptions } from '@/lib/animations';
 
 export default function Hero() {
@@ -29,20 +30,34 @@ export default function Hero() {
             variants={getAnimationVariants(fadeInUp)}
           >
             <h1 className="text-hero-sm md:text-hero-md lg:text-hero font-bold text-rta-text mb-6">
-              Discover the Power of Our IT Solutions
+              Enterprise IT Support That Reduces Costs by Up to 40%
             </h1>
             <p className="text-body-lg md:text-xl text-rta-text-secondary mb-8 leading-relaxed">
-              RTA Services provide end-to-end IT services for enterprise systems, including installation, upgrades, and OS deployment for servers, storage, and networking equipment, backed by L1 to L3 support for seamless operations. Our asset management services for ISPs and data centers cover warehousing, logistics, and hardware sparing. We also extend warranties for EOL/EOSL hardware, ensuring continued reliability beyond manufacturer guarantees.
+              Multi-vendor IT maintenance, asset management, and professional services 
+              for enterprise systems across Asia-Pacific. 24/7 support with guaranteed 
+              uptime SLAs.
             </p>
+            <div className="flex flex-col sm:flex-row gap-4">
             <Button
               asChild
-              className="bg-[#FFBF23] text-white hover:bg-[#E6A91F] hover:shadow-lg hover:shadow-[#FFBF23]/20"
+              className="bg-[#FFBF23] text-white hover:bg-[#E6A91F] hover:shadow-lg hover:shadow-[#FFBF23]/20 px-8 py-4 text-base font-semibold"
               style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
+              aria-label="Request free consultation for enterprise IT services"
             >
-              <Link href="/services">
-                Learn More
+              <Link href="/contact?form=quote">
+                Request Free Consultation
               </Link>
             </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="bg-white text-[#FFBF23] border-2 border-[#FFBF23] hover:bg-[#FFBF23]/10 px-8 py-4 text-base font-semibold"
+              >
+                <Link href="/services">
+                  Learn More
+                </Link>
+              </Button>
+            </div>
           </motion.div>
 
           {/* Image */}
@@ -52,7 +67,7 @@ export default function Hero() {
           >
             <Image
               src="/assets/original/hero-engineer.jpg"
-              alt="Asian IT female engineer in data centers"
+              alt="Certified IT engineer performing enterprise hardware maintenance in data center - RTA Services"
               fill
               className="object-cover"
               priority
@@ -62,7 +77,7 @@ export default function Hero() {
 
         {/* Features Grid */}
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
           initial="hidden"
           whileInView="visible"
           viewport={viewportOptions}
@@ -71,13 +86,28 @@ export default function Hero() {
           {features.map((feature, index) => (
             <motion.div 
               key={index} 
-              className="text-center space-y-2"
+              className="text-center space-y-3 p-6 rounded-lg bg-white/50 backdrop-blur-sm border border-rta-border/50 hover:bg-white/70 transition-colors"
               variants={getAnimationVariants(fadeInUp)}
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ y: -4, scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
               <div className="text-3xl font-bold text-[#FFBF23]">{feature.title}</div>
               <div className="text-xl font-semibold text-rta-text">{feature.subtitle}</div>
+              {index === 0 && (
+                <Badge className="bg-green-100 text-green-800 border-green-200 mt-2">
+                  Up to 40%
+                </Badge>
+              )}
+              {index === 1 && (
+                <Badge className="bg-blue-100 text-blue-800 border-blue-200 mt-2">
+                  20+ Brands
+                </Badge>
+              )}
+              {index === 2 && (
+                <Badge className="bg-purple-100 text-purple-800 border-purple-200 mt-2">
+                  99.9% SLA
+                </Badge>
+              )}
             </motion.div>
           ))}
         </motion.div>

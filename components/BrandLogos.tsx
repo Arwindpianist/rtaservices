@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import { fadeInUp, staggerContainer, getAnimationVariants, viewportOptions } from '@/lib/animations';
 
 export default function BrandLogos() {
@@ -19,10 +20,10 @@ export default function BrandLogos() {
   ];
 
   return (
-    <section className="py-20 lg:py-[100px]" style={{ backgroundColor: '#334a8c' }}>
+    <section className="py-16 lg:py-24" style={{ backgroundColor: '#334a8c' }}>
       <div className="mx-auto" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-12"
           initial="hidden"
           whileInView="visible"
           viewport={viewportOptions}
@@ -31,6 +32,7 @@ export default function BrandLogos() {
           <h2 className="text-h2-md md:text-h2 font-bold text-white mb-4">
             Product Range
           </h2>
+          <Separator className="w-24 mx-auto my-6 bg-white/30" />
           <p className="text-body-lg text-white max-w-3xl mx-auto" style={{ opacity: 0.95 }}>
             RTA Services supports all major brands in the IT space, offering comprehensive solutions for a wide range of enterprise hardware, including servers, storage systems, and networking equipment.
           </p>

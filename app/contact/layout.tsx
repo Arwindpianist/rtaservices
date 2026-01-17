@@ -1,8 +1,16 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Contact Us - RTA Services',
-  description: 'Get in touch with RTA Services for inquiries, support, or to request a quote for our IT services.',
+  title: 'Contact RTA Services | Get IT Support Quote | Singapore Office',
+  description: 'Contact RTA Services for enterprise IT support inquiries. Singapore office: +65 9644 4147. Sales, support & general inquiries. Request free consultation.',
+  openGraph: {
+    title: 'Contact RTA Services | Get IT Support Quote | Singapore Office',
+    description: 'Contact RTA Services for enterprise IT support inquiries. Singapore office: +65 9644 4147. Sales, support & general inquiries.',
+    url: 'https://rta.arwindpianist.com/contact',
+  },
+  alternates: {
+    canonical: '/contact',
+  },
 };
 
 export default function ContactLayout({

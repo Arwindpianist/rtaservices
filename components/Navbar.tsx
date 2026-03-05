@@ -32,20 +32,20 @@ export default function Navbar() {
 
   const serviceLinks = [
     { href: '/services', label: 'All Services Overview' },
-    { href: '/services#maintenance', label: 'IT Maintenance Services (TPM)' },
-    { href: '/services#assets', label: 'IT Assets Management' },
-    { href: '/services#professional', label: 'IT Professional Services' },
+    { href: '/services#maintenance', label: 'Third-Party Maintenance' },
+    { href: '/services#oss', label: 'Open Source Software (OSS)' },
+    { href: '/services#professional', label: 'Professional Services' },
   ];
 
   return (
     <motion.nav 
-      className="bg-white sticky top-0 z-50"
+      className="bg-white sticky top-0 z-50 border-b border-transparent"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
       <motion.div
-        className="absolute inset-0 backdrop-blur-sm bg-white/95"
+        className={`absolute inset-0 backdrop-blur-sm bg-white/95 ${isScrolled ? 'border-b border-rta-black' : ''}`}
         initial={{ opacity: 0 }}
         animate={{ 
           opacity: isScrolled ? 1 : 0,
@@ -54,8 +54,8 @@ export default function Navbar() {
         transition={{ duration: 0.2 }}
         style={{ pointerEvents: 'none' }}
       />
-      <div className="relative mx-auto" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
-        <div className="flex justify-between items-center h-16">
+      <div className="relative mx-auto" style={{ maxWidth: '1400px', paddingLeft: '12px', paddingRight: '12px' }}>
+        <div className="flex justify-between items-center h-14 py-2">
           {/* Logo */}
           <motion.div 
             className="flex-shrink-0"
@@ -64,11 +64,12 @@ export default function Navbar() {
           >
             <Link href="/" className="flex items-center">
               <Image
-                src="/assets/original/logo.png"
-                alt="RTA Services"
-                width={120}
-                height={38}
-                className="h-8 w-auto"
+                src="/images/newlogo.png"
+                alt="RTA Services - Sustaining your IT assets"
+                width={280}
+                height={56}
+                className="h-11 w-auto"
+                priority
               />
             </Link>
           </motion.div>
@@ -83,21 +84,21 @@ export default function Navbar() {
               >
                 <Link
                   href={link.href}
-                  className={`text-rta-text hover:text-[#FFBF23] px-3 py-2 text-body font-medium transition-colors duration-200 relative ${
-                    pathname === link.href ? 'text-[#FFBF23]' : ''
+                  className={`text-rta-text hover:text-rta-red px-3 py-2 text-body font-medium transition-colors duration-200 relative ${
+                    pathname === link.href ? 'text-rta-gold' : ''
                   }`}
                 >
                   {link.label}
                   {pathname === link.href && (
                     <motion.span
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FFBF23]"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-rta-gold"
                       initial={{ scaleX: 0 }}
                       animate={{ scaleX: 1 }}
                       transition={{ duration: 0.2 }}
                     />
                   )}
                   <motion.span
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FFBF23]"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-rta-gold"
                     initial={{ scaleX: 0 }}
                     whileHover={{ scaleX: pathname === link.href ? 1 : 1 }}
                     transition={{ duration: 0.2 }}
@@ -118,15 +119,15 @@ export default function Navbar() {
               >
                 <Link
                   href="/services"
-                  className={`text-rta-text hover:text-[#FFBF23] px-3 py-2 text-body font-medium transition-colors duration-200 relative flex items-center gap-1 ${
-                    pathname === '/services' ? 'text-[#FFBF23]' : ''
+                  className={`text-rta-text hover:text-rta-gold px-3 py-2 text-body font-medium transition-colors duration-200 relative flex items-center gap-1 ${
+                    pathname === '/services' ? 'text-rta-gold' : ''
                   }`}
                 >
                   Services
                   <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''}`} />
                   {pathname === '/services' && (
                     <motion.span
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FFBF23]"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-rta-gold"
                       initial={{ scaleX: 0 }}
                       animate={{ scaleX: 1 }}
                       transition={{ duration: 0.2 }}
@@ -148,7 +149,7 @@ export default function Navbar() {
                       <Link
                         key={service.href}
                         href={service.href}
-                        className="block px-4 py-2 text-body text-rta-text hover:bg-rta-bg-light hover:text-[#FFBF23] transition-colors duration-200"
+                        className="block px-4 py-2 text-body text-rta-text hover:bg-rta-bg-light hover:text-rta-gold transition-colors duration-200"
                       >
                         {service.label}
                       </Link>
@@ -159,7 +160,7 @@ export default function Navbar() {
             </div>
             <Button
               asChild
-              className="bg-[#FFBF23] text-white hover:bg-[#E6A91F] hover:shadow-lg hover:shadow-[#FFBF23]/20"
+              className="bg-rta-gold-cta text-white hover:bg-rta-gold-cta-hover hover:shadow-lg"
               style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
             >
               <Link href="/contact?form=quote">
@@ -180,7 +181,7 @@ export default function Navbar() {
               <Drawer.Trigger asChild>
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center rounded-md p-2 text-rta-text hover:text-[#FFBF23] hover:bg-gray-100 transition-colors"
+                  className="inline-flex items-center justify-center rounded-md p-2 text-rta-text hover:text-rta-gold hover:bg-gray-100 transition-colors"
                   aria-label="Toggle menu"
                 >
                   <Menu className="h-6 w-6" />
@@ -200,7 +201,7 @@ export default function Navbar() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="text-rta-text hover:text-[#FFBF23] h-9 w-9"
+                          className="text-rta-text hover:text-rta-gold h-9 w-9"
                           aria-label="Close menu"
                         >
                           <X className="h-5 w-5" />
@@ -224,7 +225,7 @@ export default function Navbar() {
                           <Drawer.Close asChild>
                             <Link
                               href={link.href}
-                              className="block px-3 py-2.5 text-base font-medium text-rta-text hover:text-[#FFBF23] hover:bg-rta-bg-light rounded-lg transition-all duration-200"
+                              className="block px-3 py-2.5 text-base font-medium text-rta-text hover:text-rta-gold hover:bg-rta-bg-light rounded-lg transition-all duration-200"
                             >
                               {link.label}
                             </Link>
@@ -246,7 +247,7 @@ export default function Navbar() {
                         <Drawer.Close asChild>
                           <Button
                             asChild
-                            className="bg-[#FFBF23] text-white w-full hover:bg-[#E6A91F] hover:shadow-lg hover:shadow-[#FFBF23]/20 h-11"
+                            className="bg-rta-gold-cta text-white w-full hover:bg-rta-gold-cta-hover hover:shadow-lg h-11"
                             style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
                           >
                             <Link href="/contact?form=quote">

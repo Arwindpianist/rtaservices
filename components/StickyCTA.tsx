@@ -35,7 +35,7 @@ export default function StickyCTA() {
           <div className="flex items-center gap-2 max-w-7xl mx-auto">
             <Button
               asChild
-              className="flex-1 bg-[#FFBF23] text-white hover:bg-[#E6A91F]"
+              className="flex-1 bg-rta-gold-cta text-white hover:bg-rta-gold-cta-hover"
               size="sm"
             >
               <Link href="tel:+6596444147">
@@ -46,7 +46,7 @@ export default function StickyCTA() {
             <Button
               asChild
               variant="outline"
-              className="flex-1 border-[#FFBF23] text-[#FFBF23] hover:bg-[#FFBF23]/10"
+              className="flex-1 border-rta-gold text-rta-gold hover:bg-rta-gold/10"
               size="sm"
             >
               <Link href="/contact?form=quote">

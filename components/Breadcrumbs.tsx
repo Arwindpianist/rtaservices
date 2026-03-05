@@ -17,6 +17,12 @@ export default function Breadcrumbs() {
     return null;
   }
 
+  const pathLabels: Record<string, string> = {
+    oss: 'RTA OSS',
+    tpm: 'RTA TPM',
+    ps: 'RTA Professional Services',
+  };
+
   const generateBreadcrumbs = (): BreadcrumbItem[] => {
     const paths = pathname.split('/').filter(Boolean);
     const breadcrumbs: BreadcrumbItem[] = [{ label: 'Home', href: '/' }];
@@ -24,7 +30,7 @@ export default function Breadcrumbs() {
     let currentPath = '';
     paths.forEach((path, index) => {
       currentPath += `/${path}`;
-      const label = path
+      const label = pathLabels[path.toLowerCase()] || path
         .split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
@@ -50,7 +56,7 @@ export default function Breadcrumbs() {
                 {index === 0 ? (
                   <Link
                     href={crumb.href}
-                    className="text-rta-text-secondary hover:text-[#FFBF23] transition-colors"
+                    className="text-rta-text-secondary hover:text-rta-gold transition-colors"
                     aria-label="Home"
                   >
                     <Home className="w-4 h-4" />
@@ -65,7 +71,7 @@ export default function Breadcrumbs() {
                     ) : (
                       <Link
                         href={crumb.href}
-                        className="text-rta-text-secondary hover:text-[#FFBF23] transition-colors"
+                        className="text-rta-text-secondary hover:text-rta-gold transition-colors"
                       >
                         {crumb.label}
                       </Link>

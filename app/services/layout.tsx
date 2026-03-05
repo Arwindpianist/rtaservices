@@ -1,11 +1,11 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Enterprise IT Services | Maintenance, Asset Management & Professional Services',
-  description: 'Comprehensive IT services: hardware maintenance (TPM), asset lifecycle management, IMAC services, OS deployment & L1-L3 support. Multi-vendor expertise. Custom SLAs. Get quote.',
+  title: 'RTA TPM, RTA OSS, RTA PS | Enterprise SLA Grade Maintenance & Support',
+  description: 'RTA TPM (Extend Hardware Lifespan), RTA OSS (Open-Source Software under SLA), RTA PS (Strategic Consulting & Make IT Happen). 24x7 support levels, guaranteed SLAs. Get a quote.',
   openGraph: {
-    title: 'Enterprise IT Services | Maintenance, Asset Management & Professional Services',
-    description: 'Comprehensive IT services: hardware maintenance (TPM), asset lifecycle management, IMAC services, OS deployment & L1-L3 support. Multi-vendor expertise.',
+    title: 'RTA TPM, RTA OSS, RTA PS | Enterprise SLA Grade Maintenance & Support',
+    description: 'RTA TPM, RTA OSS, RTA PS. 24x7 support levels, guaranteed SLAs. Your strategic IT maintenance partner in Asia.',
     url: 'https://rta.arwindpianist.com/services',
   },
   alternates: {

@@ -250,7 +250,7 @@ export default function ContactForm() {
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="bg-[#FFBF23] text-white w-full hover:bg-[#E6A91F] hover:shadow-lg hover:shadow-[#FFBF23]/20"
+        className="bg-rta-gold-cta text-white w-full hover:bg-rta-gold-cta-hover hover:shadow-lg"
         style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
       >
         {isSubmitting ? 'Sending...' : 'Send Message'}

@@ -1,19 +1,16 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import ConditionalShell from "@/components/ConditionalShell";
 import Analytics from "@/components/Analytics";
 import SkipToContent from "@/components/SkipToContent";
-import StickyCTA from "@/components/StickyCTA";
 
 export const metadata: Metadata = {
   title: {
-    default: "Enterprise IT Support Services Singapore | RTA Services - 40% Cost Savings",
+    default: "Enterprise SLA Grade Maintenance Services & Support Partner | RTA Services",
     template: "%s | RTA Services"
   },
-  description: "Multi-vendor IT maintenance, asset management & professional services for enterprise systems. 24/7 support, guaranteed uptime SLAs. Serving Asia-Pacific. Request free consultation.",
-  keywords: "IT services Singapore, enterprise IT support, server maintenance, storage solutions, networking equipment, L1 L2 L3 support, asset management, data center services, Asia-Pacific IT services, multi-vendor support, IT maintenance contracts, enterprise hardware support",
+  description: "We empower organizations to maintain, migrate and scale, cost effectively. RTA TPM, RTA OSS, RTA PS. Your strategic IT maintenance partner in Asia. 24/7 support, guaranteed SLAs.",
+  keywords: "IT services Singapore, enterprise IT support, server maintenance, storage solutions, networking equipment, L1 L2 L3 support, asset management, data center services, Asia-Pacific IT services, multi-vendor support, IT maintenance contracts, enterprise hardware support, RTA TPM, RTA OSS, open source software support",
   authors: [{ name: "RTA Services" }],
   creator: "RTA Services",
   publisher: "RTA Services",
@@ -22,8 +19,8 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Enterprise IT Support Services Singapore | RTA Services - 40% Cost Savings",
-    description: "Multi-vendor IT maintenance, asset management & professional services for enterprise systems. 24/7 support, guaranteed uptime SLAs. Serving Asia-Pacific.",
+    title: "Enterprise SLA Grade Maintenance Services & Support Partner | RTA Services",
+    description: "We empower organizations to maintain, migrate and scale, cost effectively. RTA TPM, RTA OSS, RTA PS. Your strategic IT maintenance partner in Asia.",
     url: "https://rta.arwindpianist.com",
     siteName: "RTA Services",
     locale: "en_US",
@@ -39,8 +36,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Enterprise IT Support Services Singapore | RTA Services",
-    description: "Multi-vendor IT maintenance, asset management & professional services. 24/7 support, guaranteed uptime SLAs.",
+    title: "Enterprise SLA Grade Maintenance Services & Support Partner | RTA Services",
+    description: "We empower organizations to maintain, migrate and scale, cost effectively. Your strategic IT maintenance partner in Asia.",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -75,11 +72,7 @@ export default function RootLayout({
       <body>
         <Analytics />
         <SkipToContent />
-        <Navbar />
-        <Breadcrumbs />
-        <main id="main-content" className="min-h-screen">{children}</main>
-        <Footer />
-        <StickyCTA />
+        <ConditionalShell>{children}</ConditionalShell>
       </body>
     </html>
   );

@@ -1,11 +1,11 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Contact RTA Services | Get IT Support Quote | Singapore Office',
-  description: 'Contact RTA Services for enterprise IT support inquiries. Singapore office: +65 9644 4147. Sales, support & general inquiries. Request free consultation.',
+  title: 'Contact RTA Services | Your Strategic IT Maintenance Partner in Asia',
+  description: 'Contact RTA Services for enterprise IT support. Singapore office: +65 9644 4147. Regional presence: Indonesia, Malaysia, Singapore, Thailand. Request free consultation.',
   openGraph: {
-    title: 'Contact RTA Services | Get IT Support Quote | Singapore Office',
-    description: 'Contact RTA Services for enterprise IT support inquiries. Singapore office: +65 9644 4147. Sales, support & general inquiries.',
+    title: 'Contact RTA Services | Your Strategic IT Maintenance Partner in Asia',
+    description: 'Contact RTA Services. Singapore office: +65 9644 4147. Regional presence across Asia.',
     url: 'https://rta.arwindpianist.com/contact',
   },
   alternates: {

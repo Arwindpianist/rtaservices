@@ -23,10 +23,10 @@ export default function PartnerSection() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 lg:p-8">
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 bg-[#FFBF23]/10 rounded-lg">
-                    <Handshake className="w-6 h-6 text-[#FFBF23]" aria-hidden="true" />
+                  <div className="p-2 bg-rta-gold/10 rounded-lg">
+                    <Handshake className="w-6 h-6 text-rta-gold" aria-hidden="true" />
                   </div>
-                  <Badge className="bg-[#FFBF23] text-white">30+ Years Experience</Badge>
+                  <Badge className="bg-rta-gold-cta text-white">30+ Years Experience</Badge>
                 </div>
                 <CardTitle className="text-2xl mb-4">
                   Trusted Partnership with ACA Pacific

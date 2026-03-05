@@ -1,16 +1,18 @@
 import Hero from '@/components/Hero';
 import Services from '@/components/Services';
+import ValuePropositionSection from '@/components/ValuePropositionSection';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import PartnerSection from '@/components/PartnerSection';
 import BrandLogos from '@/components/BrandLogos';
+import OSSProductRange from '@/components/OSSProductRange';
 import { getOrganizationSchema, getLocalBusinessSchema } from '@/lib/structured-data';
 
 export const metadata = {
-  title: 'Enterprise IT Support Services Singapore | RTA Services - 40% Cost Savings',
-  description: 'Multi-vendor IT maintenance, asset management & professional services for enterprise systems. 24/7 support, guaranteed uptime SLAs. Serving Asia-Pacific. Request free consultation.',
+  title: 'Enterprise SLA Grade Maintenance Services & Support Partner | RTA Services',
+  description: 'We empower organizations to maintain, migrate and scale, cost effectively. RTA TPM, RTA OSS, RTA PS. 24/7 support, guaranteed SLAs. Your strategic IT maintenance partner in Asia.',
   openGraph: {
-    title: 'Enterprise IT Support Services Singapore | RTA Services - 40% Cost Savings',
-    description: 'Multi-vendor IT maintenance, asset management & professional services for enterprise systems. 24/7 support, guaranteed uptime SLAs. Serving Asia-Pacific.',
+    title: 'Enterprise SLA Grade Maintenance Services & Support Partner | RTA Services',
+    description: 'We empower organizations to maintain, migrate and scale, cost effectively. RTA TPM, RTA OSS, RTA PS. Serving Asia-Pacific.',
     url: 'https://rta.arwindpianist.com',
   },
 };
@@ -31,9 +33,11 @@ export default function Home() {
       />
       <Hero />
       <Services />
+      <ValuePropositionSection />
       <WhyChooseUs />
       <PartnerSection />
       <BrandLogos />
+      <OSSProductRange />
     </>
   );
 }

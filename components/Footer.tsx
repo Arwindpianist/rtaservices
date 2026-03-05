@@ -34,7 +34,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-rta-footer text-rta-text-light">
+    <footer className="bg-rta-footer text-rta-text-light border-t-2 border-rta-red">
       <div className="mx-auto py-12" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Contact */}
@@ -119,7 +119,7 @@ export default function Footer() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email*"
                 required
-                className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-[#FFBF23]"
+                className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-rta-red"
               />
               <div className="flex items-center space-x-2">
                 <input
@@ -150,7 +150,7 @@ export default function Footer() {
                     key="button"
                     type="submit"
                     disabled={isSubscribing}
-                    className="bg-[#FFBF23] text-white w-full hover:bg-[#E6A91F] hover:shadow-lg hover:shadow-[#FFBF23]/20"
+                    className="bg-rta-gold-cta text-white w-full hover:bg-rta-gold-cta-hover hover:shadow-lg"
                     style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
                   >
                     {isSubscribing ? 'Subscribing...' : 'Subscribe'}
@@ -162,7 +162,10 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-body-sm">
-          <p>© 2024 by RTA Services.</p>
+          <p className="mb-2">© 2024 by RTA Services.</p>
+          <p className="text-rta-text-light">
+            Regional Presence: Indonesia · Malaysia · Singapore · Thailand
+          </p>
         </div>
       </div>
     </footer>

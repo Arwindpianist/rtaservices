@@ -92,6 +92,30 @@
     --input: 0 0% 87.8%;
     --ring: 43 100% 57%;
     --radius: 6px;
+    /* RTA brand (slide-aligned) */
+    --rta-blue: #1A3D6E;
+    --rta-blue-hover: #132d55;
+    --rta-blue-on: #FFFFFF;
+    --rta-red: #E0292D;
+    --rta-red-hover: #C41E22;
+    --rta-red-on: #FFFFFF;
+    --rta-gold: #FFBF23;
+    --rta-gold-hover: #E6A91F;
+    --rta-gold-on: #1A1A1A;
+    /* CTA buttons: darker gold so white text meets WCAG AA (4.5:1+) */
+    --rta-gold-cta: #B8860B;
+    --rta-gold-cta-hover: #9A7209;
+    --rta-gold-cta-on: #FFFFFF;
+    --rta-card-bg: #F9F9F9;
+    --rta-black: #1A1A1A;
+    /* Body text – 4.5:1+ contrast on white */
+    --rta-text: #1A1A1A;
+    --rta-text-secondary: #424242;
+    --rta-text-muted: #6B6B6B;
+    /* Tier labels / UI – background for white or gold text */
+    --rta-tier-bg: #6B6B6B;
+    --rta-tier-bg-light: #8C8C8C;
+    --rta-border: #D1D1D1;
   }
 
   * {
@@ -109,7 +133,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold text-rta-text;
+    @apply font-bold text-rta-blue;
   }
 
   /* Skip to content link for accessibility */
@@ -117,8 +141,8 @@
     position: absolute;
     top: -40px;
     left: 0;
-    background: #FFBF23;
-    color: white;
+    background: var(--rta-gold-cta);
+    color: var(--rta-gold-cta-on);
     padding: 8px 16px;
     text-decoration: none;
     z-index: 100;
@@ -128,13 +152,13 @@
 
   .skip-to-content:focus {
     top: 0;
-    outline: 2px solid #E6A91F;
+    outline: 2px solid var(--rta-gold-cta-hover);
     outline-offset: 2px;
   }
 
-  /* Enhanced focus styles for accessibility */
+  /* Enhanced focus styles for accessibility – high-contrast outline */
   *:focus-visible {
-    outline: 2px solid #FFBF23;
+    outline: 2px solid var(--rta-gold-cta);
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -145,7 +169,7 @@
   input:focus-visible,
   textarea:focus-visible,
   select:focus-visible {
-    outline: 2px solid #FFBF23;
+    outline: 2px solid var(--rta-gold-cta);
     outline-offset: 2px;
   }
 
@@ -166,13 +190,24 @@
 }
 
 @layer components {
+  /* Primary CTA: dark gold background with white text for WCAG AA contrast */
   .btn-primary {
-    @apply bg-[#FFBF23] text-white px-6 py-3 rounded-md font-semibold text-base leading-normal transition-all duration-200 hover:bg-[#E6A91F] active:scale-[0.98];
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    @apply px-6 py-3 rounded-md font-semibold text-base leading-normal transition-all duration-200 active:scale-[0.98];
+    background-color: var(--rta-gold-cta);
+    color: var(--rta-gold-cta-on);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+  .btn-primary:hover {
+    background-color: var(--rta-gold-cta-hover);
   }
   
   .btn-secondary {
-    @apply bg-gray-200 text-rta-text px-6 py-3 rounded-md font-semibold text-base leading-normal transition-all duration-200 hover:bg-gray-300 active:scale-[0.98];
+    @apply px-6 py-3 rounded-md font-semibold text-base leading-normal transition-all duration-200 active:scale-[0.98];
+    background-color: #E5E5E5;
+    color: var(--rta-text);
+  }
+  .btn-secondary:hover {
+    background-color: #D1D1D1;
   }
 }
 

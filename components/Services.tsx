@@ -5,57 +5,64 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Wrench, Package, Users, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Wrench, Code2, Users, CheckCircle2, ArrowRight } from 'lucide-react';
 import { fadeInUp, staggerContainer, getAnimationVariants, viewportOptions } from '@/lib/animations';
 
 export default function Services() {
   const services = [
     {
-      title: 'IT Maintenance Services (TPM)',
+      title: 'RTA TPM',
+      subtitle: 'Extend Hardware Lifespan',
       icon: Wrench,
       image: '/assets/original/maintenance.jpg',
-      alt: 'Certified IT engineer performing hardware maintenance and parts replacement in enterprise data center - RTA Services',
-      badges: ['24/7 Support', 'EOL/EOSL'],
+      alt: 'Certified IT engineer performing third-party hardware and software maintenance in enterprise data center - RTA Services',
+      accentBorder: 'rta-red',
+      description: 'Cost-effective alternative to OEM maintenance. Master service levels without premium renewals cost.',
       features: [
-        'Extended warranties for EOL and EOSL enterprise hardware.',
-        '24/7 helpdesk support.',
-        'Replacement of faulty hardware parts.',
-        'L1 to L3 remote/ onsite engineering support.',
-        'Customizable Service Level Agreement (SLA).',
+        '24/7 Global helpdesk',
+        'Response time under Enterprise SLA',
+        'Multi-vendor expertise',
+        'Extended warranty support',
+        'Hardware sparing',
       ],
     },
     {
-      title: 'IT Assets Management Services',
-      icon: Package,
+      title: 'RTA OSS',
+      subtitle: 'Open-Source Software under SLA',
+      icon: Code2,
       image: '/assets/original/logistics.jpg',
-      alt: 'Professional logistics specialist managing IT asset inventory in regional warehouse - RTA Services',
-      badges: ['Regional', 'Logistics'],
+      alt: 'Open source software support and enterprise OSS stacks - RTA Services',
+      accentBorder: 'rta-blue',
+      description: 'Enterprise-grade reliability with guaranteed SLAs, ensuring your critical OSS stacks never sleep.',
       features: [
-        'Regional warehousing.',
-        'Logistics support.',
-        'Hardware sparing and management.',
-        'Hardware Disposal & Degaussing.',
+        '24/7/365 Global Technical Support',
+        'Guaranteed SLAs – Tiering model',
+        'Access to Senior Enterprise Architects',
+        'End-to-End Stack Coverage',
+        'Extended Long-Term Support (LTS)',
       ],
     },
     {
-      title: 'IT Professional Services',
+      title: 'RTA PS',
+      subtitle: 'Strategic Consulting & Make IT Happen',
       icon: Users,
       image: '/assets/original/engineer.png',
       alt: 'Certified L3 IT engineer providing professional services for enterprise computing systems - RTA Services',
-      badges: ['L1-L3', 'IMAC'],
+      accentBorder: 'rta-blue',
+      description: 'Dedicated to maintaining, upgrading, and migrating your Hardware stack and your open-source infrastructure with expert support.',
       features: [
-        'Engineering expertise from L1 to L3 support',
-        'Project management services for enterprise computing systems.',
-        'IMAC (Install, Move, Add & Change) servers, storage, and networking equipment.',
-        'Operating system installation and upgrades.',
+        'Architecture Auditing & consulting',
+        'IMAC services',
+        'L1 to L3 engineering expertise',
+        'IT asset reselling / disposition',
+        'Global logistics & Warehousing capabilities',
       ],
     },
   ];
 
   return (
-    <section className="py-16 lg:py-24 bg-rta-bg-light">
+    <section className="py-16 lg:py-24 bg-white">
       <div className="mx-auto" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
         <motion.div 
           className="text-center mb-12"
@@ -64,14 +71,12 @@ export default function Services() {
           viewport={viewportOptions}
           variants={getAnimationVariants(fadeInUp)}
         >
-          <h2 className="text-h2-md md:text-h2 font-bold text-rta-text mb-4">
-            Comprehensive IT Services for Enterprise Infrastructure
+          <h2 className="text-h2-md md:text-h2 font-bold text-rta-blue mb-4">
+            Enterprise SLA Grade Maintenance Services & Support Partner
           </h2>
-          <Separator className="w-24 mx-auto my-6" />
+          <Separator className="w-24 mx-auto my-6 bg-rta-red" />
           <p className="text-body-lg text-rta-text-secondary max-w-3xl mx-auto">
-            From hardware maintenance to complete asset lifecycle management, 
-            we provide end-to-end solutions that keep your critical systems 
-            running 24/7 while reducing total cost of ownership.
+            We empower organizations to maintain, migrate and scale, cost effectively.
           </p>
         </motion.div>
 
@@ -91,7 +96,9 @@ export default function Services() {
                 whileHover={{ y: -4, transition: { duration: 0.2 } }}
                 transition={{ duration: 0.2 }}
               >
-                <Card className="group h-full transition-all duration-300 hover:shadow-lg border-rta-border">
+                <Card className={`group h-full transition-all duration-300 hover:shadow-lg border-rta-border bg-rta-card-bg ${
+                  service.accentBorder === 'rta-red' ? 'border-l-[6px] border-l-rta-red' : 'border-l-[6px] border-l-rta-blue'
+                }`}>
                   <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
                     <Image
                       src={service.image}
@@ -102,25 +109,22 @@ export default function Services() {
                   </div>
                   <CardHeader>
                     <div className="flex items-start justify-between mb-3">
-                      <div className="p-3 bg-[#FFBF23]/10 rounded-lg group-hover:bg-[#FFBF23]/20 transition-colors">
-                        <IconComponent className="w-6 h-6 text-[#FFBF23]" aria-hidden="true" />
+                      <div className="p-3 bg-rta-gold/10 rounded-lg group-hover:bg-rta-gold/20 transition-colors">
+                        <IconComponent className="w-6 h-6 text-rta-gold" aria-hidden="true" />
                       </div>
-                      <Badge variant="secondary" className="text-xs">Enterprise</Badge>
                     </div>
-                    <CardTitle className="text-xl mb-3">{service.title}</CardTitle>
-                    <div className="flex flex-wrap gap-2">
-                      {service.badges.map((badge, idx) => (
-                        <Badge key={idx} variant="outline" className="text-xs">
-                          {badge}
-                        </Badge>
-                      ))}
-                    </div>
+                    <CardTitle className="text-xl mb-1">
+                      <span className="text-rta-blue">{service.title.split(' ')[0]} </span>
+                      <span className="text-rta-gold">{service.title.split(' ').slice(1).join(' ')}</span>
+                    </CardTitle>
+                    <p className="text-body-sm font-semibold text-rta-text mb-3">{service.subtitle}</p>
+                    <p className="text-body-sm text-rta-text-secondary mb-3">{service.description}</p>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-2.5">
                       {service.features.map((feature, idx) => (
                         <li key={idx} className="flex items-start gap-2.5">
-                          <CheckCircle2 className="w-4 h-4 text-[#FFBF23] mt-0.5 flex-shrink-0" aria-hidden="true" />
+                          <CheckCircle2 className="w-4 h-4 text-rta-gold mt-0.5 flex-shrink-0" aria-hidden="true" />
                           <span className="text-sm text-muted-foreground leading-relaxed">{feature}</span>
                         </li>
                       ))}
@@ -129,7 +133,7 @@ export default function Services() {
                   <CardFooter className="pt-4">
                     <Button
                       asChild
-                      className="w-full bg-[#FFBF23] text-white hover:bg-[#E6A91F] hover:shadow-lg"
+                      className="w-full bg-rta-gold-cta text-white hover:bg-rta-gold-cta-hover hover:shadow-lg"
                       size="lg"
                     >
                       <Link href="/contact?form=quote">

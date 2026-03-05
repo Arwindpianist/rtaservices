@@ -86,7 +86,7 @@ export default function ContactPage() {
                 </h3>
                 <motion.a
                   href="mailto:sales@rtaservices.net"
-                  className="text-[#FFBF23] hover:text-[#E6A91F] transition-colors"
+                  className="text-rta-gold hover:text-rta-gold-hover transition-colors"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.2 }}
                 >
@@ -105,7 +105,7 @@ export default function ContactPage() {
                 </h3>
                 <motion.a
                   href="tel:+6596444147"
-                  className="text-[#FFBF23] hover:text-[#E6A91F] transition-colors"
+                  className="text-rta-gold hover:text-rta-gold-hover transition-colors"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.2 }}
                 >
@@ -124,7 +124,7 @@ export default function ContactPage() {
                 </h3>
                 <motion.a
                   href="mailto:support@rtaservices.net"
-                  className="text-[#FFBF23] hover:text-[#E6A91F] transition-colors"
+                  className="text-rta-gold hover:text-rta-gold-hover transition-colors"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.2 }}
                 >

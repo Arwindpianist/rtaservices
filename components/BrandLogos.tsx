@@ -20,7 +20,7 @@ export default function BrandLogos() {
   ];
 
   return (
-    <section className="py-16 lg:py-24" style={{ backgroundColor: '#334a8c' }}>
+    <section className="py-16 lg:py-24 bg-rta-blue">
       <div className="mx-auto" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
         <motion.div 
           className="text-center mb-12"
@@ -29,9 +29,12 @@ export default function BrandLogos() {
           viewport={viewportOptions}
           variants={getAnimationVariants(fadeInUp)}
         >
-          <h2 className="text-h2-md md:text-h2 font-bold text-white mb-4">
-            Product Range
+          <h2 className="text-h2-md md:text-h2 font-bold text-white mb-2">
+            RTA <span className="text-rta-gold">TPM</span> Product Range
           </h2>
+          <p className="text-body-lg font-semibold text-white/90 uppercase tracking-wider mb-4">
+            Server, Storage & Network
+          </p>
           <Separator className="w-24 mx-auto my-6 bg-white/30" />
           <p className="text-body-lg text-white max-w-3xl mx-auto" style={{ opacity: 0.95 }}>
             RTA Services supports all major brands in the IT space, offering comprehensive solutions for a wide range of enterprise hardware, including servers, storage systems, and networking equipment.
@@ -73,7 +76,7 @@ export default function BrandLogos() {
         >
           <Button
             asChild
-            className="bg-[#FFBF23] text-white hover:bg-[#E6A91F] hover:shadow-lg hover:shadow-[#FFBF23]/20"
+            className="bg-rta-gold-cta text-white hover:bg-rta-gold-cta-hover hover:shadow-lg"
             style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
           >
             <Link href="/contact">

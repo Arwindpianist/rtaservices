@@ -55,6 +55,10 @@ export const metadata: Metadata = {
     // Add Google Search Console verification when available
     // google: "verification_token_here",
   },
+  icons: {
+    icon: "/images/icononly_nobuffer.png",
+    apple: "/images/icononly_nobuffer.png",
+  },
 };
 
 export default function RootLayout({

@@ -111,7 +111,7 @@ export default function WhyChooseUs() {
         >
           <div className="relative h-64 md:h-80 rounded-lg overflow-hidden shadow-md">
             <Image
-              src="/assets/original/why-rta.jpg"
+              src="/images/services/why-rta-cover.jpg"
               alt="Enterprise IT infrastructure supported by RTA Services - multi-vendor hardware maintenance and asset management"
               fill
               className="object-cover"

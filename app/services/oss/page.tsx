@@ -13,21 +13,9 @@ import {
   CheckCircle2,
   ArrowRight,
 } from 'lucide-react';
+import ProductLogo from '@/components/ProductLogo';
+import { OSS_PRODUCT_LOGO } from '@/lib/data/product-range-logos';
 import { fadeInUp, staggerContainer, getAnimationVariants, viewportOptions } from '@/lib/animations';
-
-const OSS_PACKAGES = [
-  'Puppet',
-  'Kubernetes',
-  'Prometheus',
-  'Angular.js',
-  'Apache Tomcat',
-  'Apache ActiveMQ',
-  'Apache Cassandra',
-  'Apache Spark',
-  'Apache Kafka',
-  'CentOS',
-  'Hadoop',
-];
 
 const ossTiers = [
   { tier: 'GOLD', coverage: '24 x 7 Around the clock', response: 'Within 1 hour', submission: 'Chat, Email, Group Chat, Phone', l1: 'By RTA', l2l3: 'Enterprise Architects 20+ years experience' },
@@ -434,14 +422,15 @@ export default function OSSPage() {
             viewport={viewportOptions}
             variants={getAnimationVariants(staggerContainer)}
           >
-            {OSS_PACKAGES.map((name) => (
-              <motion.span
-                key={name}
+            {OSS_PRODUCT_LOGO.map((item) => (
+              <motion.div
+                key={item.name}
                 variants={getAnimationVariants(fadeInUp)}
-                className="px-4 py-2 bg-white border border-rta-border rounded-lg text-body-sm font-medium text-rta-text"
+                className="flex items-center gap-2 px-4 py-2 bg-white border border-rta-border rounded-lg"
               >
-                {name}
-              </motion.span>
+                <ProductLogo name={item.name} logo={item.logo} size={28} />
+                <span className="text-body-sm font-medium text-rta-text">{item.name}</span>
+              </motion.div>
             ))}
           </motion.div>
         </div>

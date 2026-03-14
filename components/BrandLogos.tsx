@@ -1,27 +1,21 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import ProductLogo from '@/components/ProductLogo';
+import { TPM_PRODUCT_LOGO } from '@/lib/data/product-range-logos';
 import { fadeInUp, staggerContainer, getAnimationVariants, viewportOptions } from '@/lib/animations';
 
 export default function BrandLogos() {
-  const brands = [
-    { name: 'Dell EMC', image: '/assets/original/dell-emc.png' },
-    { name: 'IBM', image: '/assets/original/ibm.png' },
-    { name: 'HPE', image: '/assets/original/hpe.png' },
-    { name: 'Sun Oracle', image: '/assets/original/sun-oracle.png' },
-    { name: 'NetApp', image: '/assets/original/netapp.png' },
-    { name: 'Cisco', image: '/assets/original/cisco.png' },
-    { name: 'Huawei', image: '/assets/original/huawei.png' },
-    { name: 'Fujitsu', image: '/assets/original/fujitsu.png' },
-  ];
+  const brands = TPM_PRODUCT_LOGO;
 
   return (
-    <section className="py-16 lg:py-24 bg-rta-blue">
-      <div className="mx-auto" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
+    <section className="relative py-16 lg:py-24 bg-rta-blue overflow-hidden">
+      {/* White tint overlay */}
+      <div className="absolute inset-0 bg-white/10 z-0" aria-hidden="true" />
+      <div className="relative z-10 mx-auto" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
         <motion.div 
           className="text-center mb-12"
           initial="hidden"
@@ -42,33 +36,35 @@ export default function BrandLogos() {
         </motion.div>
 
         <motion.div 
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
           initial="hidden"
           whileInView="visible"
           viewport={viewportOptions}
           variants={getAnimationVariants(staggerContainer)}
         >
-          {brands.map((brand, index) => (
+          {brands.map((brand) => (
             <motion.div
-              key={index}
-              className="flex items-center justify-center h-32"
+              key={brand.name}
+              className="group flex items-center justify-center aspect-square min-h-[140px] rounded-xl bg-white/15 backdrop-blur-sm border border-white/20 p-6 transition-all duration-300 hover:bg-white/25 hover:border-rta-gold hover:shadow-lg hover:shadow-rta-gold/20"
               variants={getAnimationVariants(fadeInUp)}
-              whileHover={{ y: -4, scale: 1.05 }}
+              whileHover={{ y: -4 }}
               transition={{ duration: 0.2 }}
             >
-              <Image
-                src={brand.image}
-                alt={brand.name}
-                width={120}
-                height={60}
-                className="object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-              />
+              <div className="w-full h-full flex items-center justify-center">
+                <ProductLogo
+                  name={brand.name}
+                  logo={brand.logo}
+                  size={160}
+                  grayscale
+                  className="max-h-24 max-w-full w-auto object-contain"
+                />
+              </div>
             </motion.div>
           ))}
         </motion.div>
 
         <motion.div 
-          className="text-center mt-12"
+          className="text-center mt-10"
           initial="hidden"
           whileInView="visible"
           viewport={viewportOptions}

@@ -15,8 +15,8 @@ export default function Services() {
       title: 'RTA TPM',
       subtitle: 'Extend Hardware Lifespan',
       icon: Wrench,
-      image: '/assets/original/maintenance.jpg',
-      alt: 'Certified IT engineer performing third-party hardware and software maintenance in enterprise data center - RTA Services',
+      image: '/images/services/service-tpm-cover.jpg',
+      alt: 'Enterprise data center and server infrastructure - third-party hardware maintenance and support - RTA Services',
       accentBorder: 'rta-red',
       description: 'Cost-effective alternative to OEM maintenance. Master service levels without premium renewals cost.',
       features: [
@@ -31,8 +31,8 @@ export default function Services() {
       title: 'RTA OSS',
       subtitle: 'Open-Source Software under SLA',
       icon: Code2,
-      image: '/assets/original/logistics.jpg',
-      alt: 'Open source software support and enterprise OSS stacks - RTA Services',
+      image: '/images/services/service-oss-cover.jpg',
+      alt: 'Open-source software development and enterprise OSS support - RTA Services',
       accentBorder: 'rta-blue',
       description: 'Enterprise-grade reliability with guaranteed SLAs, ensuring your critical OSS stacks never sleep.',
       features: [
@@ -47,8 +47,8 @@ export default function Services() {
       title: 'RTA PS',
       subtitle: 'Strategic Consulting & Make IT Happen',
       icon: Users,
-      image: '/assets/original/engineer.png',
-      alt: 'Certified L3 IT engineer providing professional services for enterprise computing systems - RTA Services',
+      image: '/images/services/service-ps-cover.jpg',
+      alt: 'IT professional services and strategic consulting - enterprise infrastructure - RTA Services',
       accentBorder: 'rta-blue',
       description: 'Dedicated to maintaining, upgrading, and migrating your Hardware stack and your open-source infrastructure with expert support.',
       features: [

@@ -4,25 +4,9 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import ProductLogo from '@/components/ProductLogo';
+import { OSS_PRODUCT_LOGO } from '@/lib/data/product-range-logos';
 import { fadeInUp, staggerContainer, getAnimationVariants, viewportOptions } from '@/lib/animations';
-
-const OSS_PACKAGES = [
-  'Kubernetes',
-  'Prometheus',
-  'Angular',
-  'Apache Tomcat',
-  'Apache ActiveMQ',
-  'Apache Cassandra',
-  'Apache Spark',
-  'Kafka',
-  'CentOS',
-  'Hadoop',
-  'Docker',
-  'Rocky Linux',
-  'PostgreSQL',
-  'Python',
-  'Puppet',
-];
 
 export default function OSSProductRange() {
   return (
@@ -73,13 +57,14 @@ export default function OSSProductRange() {
           viewport={viewportOptions}
           variants={getAnimationVariants(staggerContainer)}
         >
-          {OSS_PACKAGES.map((name) => (
+          {OSS_PRODUCT_LOGO.map((item) => (
             <motion.div
-              key={name}
+              key={item.name}
               variants={getAnimationVariants(fadeInUp)}
-              className="px-4 py-3 bg-rta-card-bg border border-rta-border rounded-lg text-center text-body-sm font-medium text-rta-text"
+              className="flex flex-col items-center justify-center gap-2 px-4 py-4 bg-rta-card-bg border border-rta-border rounded-lg text-center"
             >
-              {name}
+              <ProductLogo name={item.name} logo={item.logo} size={40} className="flex-shrink-0" />
+              <span className="text-body-sm font-medium text-rta-text">{item.name}</span>
             </motion.div>
           ))}
         </motion.div>

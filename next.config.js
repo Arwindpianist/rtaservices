@@ -9,6 +9,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.rtaservices.net',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.jsdelivr.net',
+        pathname: '/npm/simple-icons@**/icons/*.svg',
+      },
     ],
   },
   compress: true,

@@ -1,15 +1,21 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2 } from 'lucide-react';
 
 /**
  * Shown after Zoho form submission (redirect target).
- * Configure your Zoho form to redirect here on success.
- * Message and styling can be updated later.
+ * When loaded in an iframe (e.g. after form submit), break out so the user sees this full page.
  */
 export default function SupportThankYouPage() {
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.self !== window.top) {
+      window.top!.location.href = window.location.href;
+    }
+  }, []);
+
   return (
     <div className="min-h-[60vh] bg-rta-bg-light flex items-center justify-center py-12 lg:py-16">
       <div className="mx-auto max-w-md px-5 sm:px-6 text-center">

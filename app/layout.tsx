@@ -3,6 +3,7 @@ import "./globals.css";
 import ConditionalShell from "@/components/ConditionalShell";
 import Analytics from "@/components/Analytics";
 import SkipToContent from "@/components/SkipToContent";
+import ChatWidget from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
   title: {
@@ -77,6 +78,7 @@ export default function RootLayout({
         <Analytics />
         <SkipToContent />
         <ConditionalShell>{children}</ConditionalShell>
+        <ChatWidget />
       </body>
     </html>
   );

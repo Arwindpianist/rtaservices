@@ -3,11 +3,8 @@
 import { MessageCircle } from 'lucide-react';
 
 /**
- * Temporary support endpoint for customers.
- * Embed your Zoho form here (SalesIQ-like) by replacing the placeholder
- * with an iframe or script from Zoho.
- *
- * Configure the Zoho form to redirect to: /support/thank-you (on submit)
+ * Support contact page with embedded Zoho Web-to-Lead form.
+ * Form posts to Zoho CRM and redirects to /support/thank-you on success.
  */
 export default function SupportContactPage() {
   return (
@@ -21,17 +18,13 @@ export default function SupportContactPage() {
           </p>
         </div>
 
-        {/* Zoho form embed placeholder – replace with your Zoho form iframe/script */}
-        <div className="rounded-xl border border-rta-border bg-white p-8 shadow-sm">
-          <div className="aspect-[4/3] min-h-[320px] rounded-lg border-2 border-dashed border-rta-border bg-rta-bg-light flex items-center justify-center">
-            <p className="text-body-sm text-rta-text-secondary text-center px-4">
-              Zoho form embed will go here.
-              <br />
-              <span className="text-rta-blue font-medium">
-                Configure your form to redirect to: /support/thank-you
-              </span>
-            </p>
-          </div>
+        <div className="rounded-xl overflow-hidden">
+          <iframe
+            src="/support-form.html"
+            title="Support contact form"
+            className="w-full min-h-[680px] border-0 bg-transparent"
+            sandbox="allow-forms allow-scripts allow-same-origin"
+          />
         </div>
       </div>
     </div>

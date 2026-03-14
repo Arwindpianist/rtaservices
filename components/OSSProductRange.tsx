@@ -1,6 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { fadeInUp, staggerContainer, getAnimationVariants, viewportOptions } from '@/lib/animations';
 
@@ -43,6 +45,25 @@ export default function OSSProductRange() {
             Open-Source Software Packages
           </p>
           <Separator className="w-24 mx-auto my-6 bg-rta-red" />
+        </motion.div>
+
+        <motion.div
+          className="flex justify-center mb-10"
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOptions}
+          variants={getAnimationVariants(fadeInUp)}
+        >
+          <Button
+            asChild
+            variant="outline"
+            className="border-2 border-rta-blue text-rta-blue bg-transparent hover:bg-rta-blue hover:text-white px-8 py-4 text-base font-semibold rounded-lg transition-colors duration-300"
+            aria-label="Search supported open-source software and request OSS support"
+          >
+            <Link href="/support/request">
+              Search for OSS support
+            </Link>
+          </Button>
         </motion.div>
 
         <motion.div

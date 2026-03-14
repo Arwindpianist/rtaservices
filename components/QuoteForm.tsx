@@ -1,13 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 
+export const QUOTE_SERVICE_OPTIONS = [
+  { value: 'rta-tpm', label: 'RTA TPM', description: 'Hardware maintenance & extended warranty' },
+  { value: 'rta-oss', label: 'RTA OSS', description: 'Open-source software support under SLA' },
+  { value: 'rta-ps', label: 'RTA PS', description: 'Professional services & consulting' },
+  { value: 'general', label: 'General / Multiple', description: 'More than one service or general inquiry' },
+] as const;
+
+export type QuoteServiceValue = (typeof QUOTE_SERVICE_OPTIONS)[number]['value'];
+
 interface QuoteFormData {
+  service: QuoteServiceValue;
   companyName: string;
   contactPerson: string;
   email: string;
@@ -16,6 +27,7 @@ interface QuoteFormData {
 }
 
 interface FormErrors {
+  service?: string;
   companyName?: string;
   contactPerson?: string;
   email?: string;
@@ -24,7 +36,9 @@ interface FormErrors {
 }
 
 export default function QuoteForm() {
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState<QuoteFormData>({
+    service: 'general',
     companyName: '',
     contactPerson: '',
     email: '',
@@ -34,6 +48,15 @@ export default function QuoteForm() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  // Pre-fill service from URL (?form=quote&service=oss | tpm | ps | general)
+  useEffect(() => {
+    const serviceParam = searchParams.get('service');
+    const valid = QUOTE_SERVICE_OPTIONS.some((o) => o.value === serviceParam);
+    if (serviceParam && valid) {
+      setFormData((prev) => ({ ...prev, service: serviceParam as QuoteServiceValue }));
+    }
+  }, [searchParams]);
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -47,6 +70,10 @@ export default function QuoteForm() {
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
+
+    if (!formData.service) {
+      newErrors.service = 'Please select a service';
+    }
 
     if (!formData.companyName.trim()) {
       newErrors.companyName = 'Company name is required';
@@ -109,6 +136,7 @@ export default function QuoteForm() {
       if (response.ok) {
         setSubmitStatus('success');
         setFormData({
+          service: formData.service,
           companyName: '',
           contactPerson: '',
           email: '',
@@ -128,6 +156,51 @@ export default function QuoteForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <Label className="text-body-sm text-rta-text mb-3 block">
+          Service you&apos;re looking for *
+        </Label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {QUOTE_SERVICE_OPTIONS.map((opt) => (
+            <label
+              key={opt.value}
+              className={`flex flex-col p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+                formData.service === opt.value
+                  ? 'border-rta-blue bg-rta-bg-blue/20'
+                  : 'border-rta-border hover:border-rta-blue/50'
+              }`}
+            >
+              <input
+                type="radio"
+                name="service"
+                value={opt.value}
+                checked={formData.service === opt.value}
+                onChange={() => {
+                  setFormData((prev) => ({ ...prev, service: opt.value }));
+                  if (errors.service) setErrors((prev) => ({ ...prev, service: undefined }));
+                }}
+                className="sr-only"
+              />
+              <span className="font-semibold text-rta-text">{opt.label}</span>
+              <span className="text-body-sm text-rta-text-secondary mt-0.5">{opt.description}</span>
+            </label>
+          ))}
+        </div>
+        <AnimatePresence>
+          {errors.service && (
+            <motion.p
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="mt-1 text-body-sm text-red-600"
+            >
+              {errors.service}
+            </motion.p>
+          )}
+        </AnimatePresence>
+      </div>
+
       <div>
         <Label htmlFor="companyName" className="text-body-sm text-rta-text mb-2">
           Company Name *

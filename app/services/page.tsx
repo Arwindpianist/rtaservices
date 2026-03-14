@@ -103,6 +103,8 @@ export default function ServicesPage() {
             const IconComponent = service.icon;
             const sectionId = index === 0 ? 'maintenance' : index === 1 ? 'oss' : 'professional';
             const ossHref = index === 1 ? '/services/oss' : undefined;
+            const quoteService = index === 0 ? 'rta-tpm' : index === 1 ? 'rta-oss' : 'rta-ps';
+            const quoteHref = `/contact?form=quote&service=${quoteService}`;
             return (
               <motion.div
                 key={index}
@@ -171,7 +173,7 @@ export default function ServicesPage() {
                           className="w-full bg-rta-gold-cta text-white hover:bg-rta-gold-cta-hover hover:shadow-lg"
                           size="lg"
                         >
-                          <Link href={ossHref || '/contact?form=quote'}>
+                          <Link href={ossHref || quoteHref}>
                             {ossHref ? 'Learn More' : 'Request Quote'}
                             <ArrowRight className="w-4 h-4 ml-2" />
                           </Link>

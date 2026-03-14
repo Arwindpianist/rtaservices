@@ -97,3 +97,4 @@
 
 ## Dashboard Features - Arnaud presentation mode
 - All the features above, but in a presentation mode without HRM System and payroll system and Master financial data
+

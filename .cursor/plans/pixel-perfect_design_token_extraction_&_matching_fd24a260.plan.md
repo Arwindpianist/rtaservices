@@ -79,13 +79,14 @@ todos:
       - match-brands
       - match-footer
       - match-forms
+isProject: false
 ---
 
 # Pixel-Perfect Design Token Extraction & Matching Plan
 
 ## Objective
 
-Achieve visual 1:1 parity with https://www.rtaservices.net/ by extracting exact design tokens and applying them precisely.
+Achieve visual 1:1 parity with [https://www.rtaservices.net/](https://www.rtaservices.net/) by extracting exact design tokens and applying them precisely.
 
 ## Phase 1: Design Token Extraction
 
@@ -260,3 +261,4 @@ Update `app/globals.css` with:
 - NO default Tailwind values - use custom values
 - NO relative units where px is used - match unit types
 - Verify each change against the live site
+

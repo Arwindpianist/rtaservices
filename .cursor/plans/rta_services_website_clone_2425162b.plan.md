@@ -97,6 +97,7 @@ todos:
     dependencies:
       - create-api-routes
       - seo-config
+isProject: false
 ---
 
 # RTA Services Website Clone - Implementation Plan
@@ -173,7 +174,6 @@ rtaservices/
   - Subtitle text matching original
   - "Learn More" CTA button
   - Background image handling
-
 - **Services Section** (`components/Services.tsx`):
   - Three service cards:
     - IT Maintenance Services (TPM)
@@ -181,18 +181,15 @@ rtaservices/
     - IT Professional Services
   - Each with icon/image, title, and bullet points
   - Responsive grid layout
-
 - **Why Choose Us** (`components/WhyChooseUs.tsx`):
   - Three USP blocks:
     - Significant Cost Saving
     - Multi Vendor Support
     - Guaranteed Uptime
   - Icon/image for each benefit
-
 - **Partner Section** (`components/PartnerSection.tsx`):
   - ACA Pacific collaboration highlight
   - Partner logo and description text
-
 - **Brand Logos** (`components/BrandLogos.tsx`):
   - Grid of brand logos (Dell EMC, IBM, HPE, Sun Oracle, NetApp, Cisco, Huawei, Fujitsu, etc.)
   - Responsive grid that adapts to screen size
@@ -213,7 +210,6 @@ rtaservices/
   - Client-side validation (required fields, email format)
   - Error messages and success states
   - Submit handler calling `/api/contact`
-
 - **QuoteForm** (`components/QuoteForm.tsx`):
   - Company name, contact person, email, phone, requirements
   - Client-side validation
@@ -221,12 +217,11 @@ rtaservices/
 
 ### 6. API Routes
 
-- **`app/api/contact/route.ts`**:
+- `**app/api/contact/route.ts`**:
   - POST endpoint for contact form
   - Validate input, send email (using Nodemailer or Resend)
   - Return appropriate responses
-
-- **`app/api/quote/route.ts`**:
+- `**app/api/quote/route.ts`**:
   - POST endpoint for quote requests
   - Validate input, send email
   - Return appropriate responses
@@ -283,3 +278,4 @@ rtaservices/
 4. SEO-optimized with proper metadata
 5. Performance optimized with Next.js Image and code splitting
 6. Accessible navigation and semantic HTML
+

@@ -69,15 +69,6 @@ export default function Hero() {
                   Request Free Consultation
                 </Link>
               </Button>
-              <Button
-                asChild
-                variant="outline"
-                className="border-2 border-rta-blue text-rta-blue bg-transparent hover:bg-rta-blue hover:text-white px-8 py-4 text-base font-semibold rounded-lg transition-colors duration-300"
-              >
-                <Link href="/services">
-                  Learn More
-                </Link>
-              </Button>
             </motion.div>
           </motion.div>
 

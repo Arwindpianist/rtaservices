@@ -1,39 +1,25 @@
 import { MetadataRoute } from 'next';
 
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://www.rtaservices.net';
+
+/** Public routes only (no dashboard – behind auth). */
+const PUBLIC_PATHS = [
+  { path: '', priority: 1, changeFrequency: 'weekly' as const },
+  { path: '/about', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/services', priority: 0.9, changeFrequency: 'monthly' as const },
+  { path: '/services/oss', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/product', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/contact', priority: 0.7, changeFrequency: 'monthly' as const },
+  { path: '/support/request', priority: 0.85, changeFrequency: 'monthly' as const },
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.rtaservices.net';
+  const baseUrl = BASE_URL.replace(/\/$/, '');
 
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/services`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/product`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-  ];
+  return PUBLIC_PATHS.map(({ path, priority, changeFrequency }) => ({
+    url: path ? `${baseUrl}${path}` : baseUrl,
+    lastModified: new Date(),
+    changeFrequency,
+    priority,
+  }));
 }
-

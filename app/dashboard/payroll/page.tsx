@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,26 +8,18 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, ChevronRight, X, DollarSign } from 'lucide-react';
 import { MOCK_PAYROLL, getPayrollTaxSummary, type PayrollEntry } from '@/lib/mock-data/payroll';
 import { useDashboardPresentation } from '../DashboardPresentationContext';
+import { RequirePayroll } from '@/lib/dashboard-capability-guard';
 
 function formatAmount(amount: number, currency = 'SGD'): string {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency, maximumFractionDigits: 0 }).format(amount);
 }
 
-export default function PayrollPage() {
-  const { presentationMode } = useDashboardPresentation();
-  const [capabilities, setCapabilities] = useState<{ canSeePayroll?: boolean } | null>(null);
+function PayrollContent() {
   const [country, setCountry] = useState<string>('all');
   const [department, setDepartment] = useState<string>('all');
   const [status, setStatus] = useState<string>('all');
   const [selectedEntry, setSelectedEntry] = useState<PayrollEntry | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
-
-  useEffect(() => {
-    fetch('/api/dashboard/me')
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: { capabilities?: { canSeePayroll?: boolean } } | null) => setCapabilities(data?.capabilities ?? null))
-      .catch(() => setCapabilities(null));
-  }, []);
 
   let entries: PayrollEntry[] = MOCK_PAYROLL;
   if (country !== 'all') entries = entries.filter((e) => e.country === country);
@@ -38,38 +30,6 @@ export default function PayrollPage() {
   const countries = [...new Set(MOCK_PAYROLL.map((e) => e.country))];
   const departments = [...new Set(MOCK_PAYROLL.map((e) => e.department))];
   const statuses = [...new Set(MOCK_PAYROLL.map((e) => e.payStatus))];
-
-  if (capabilities && capabilities.canSeePayroll === false) {
-    return (
-      <div className="min-h-[calc(100vh-3.5rem)] bg-rta-bg-light flex items-center justify-center p-4">
-        <Card className="border-rta-border bg-white shadow-card max-w-md">
-          <CardContent className="pt-6">
-            <p className="text-body-sm font-medium text-rta-text">You don’t have access to payroll.</p>
-            <p className="text-body-sm text-rta-text-secondary mt-1">This area is restricted to certain roles.</p>
-            <Button asChild variant="outline" size="sm" className="mt-4">
-              <Link href="/dashboard">Back to dashboard</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  if (presentationMode) {
-    return (
-      <div className="min-h-[calc(100vh-3.5rem)] bg-rta-bg-light flex items-center justify-center p-4">
-        <Card className="border-rta-border bg-white shadow-card max-w-md">
-          <CardContent className="pt-6">
-            <p className="text-body-sm font-medium text-rta-text">Payroll is hidden in presentation mode.</p>
-            <p className="text-body-sm text-rta-text-secondary mt-1">Turn off presentation mode in the header to view payroll.</p>
-            <Button asChild variant="outline" size="sm" className="mt-4">
-              <Link href="/dashboard">Back to dashboard</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-[calc(100vh-3.5rem)] bg-rta-bg-light">
@@ -250,7 +210,6 @@ export default function PayrollPage() {
           </CardContent>
         </Card>
 
-        {/* Payroll entry detail modal */}
         {detailOpen && selectedEntry && (
           <div
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-rta-blue/60 backdrop-blur-sm"
@@ -313,5 +272,31 @@ export default function PayrollPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function PayrollPage() {
+  const { presentationMode } = useDashboardPresentation();
+
+  if (presentationMode) {
+    return (
+      <div className="min-h-[calc(100vh-3.5rem)] bg-rta-bg-light flex items-center justify-center p-4">
+        <Card className="border-rta-border bg-white shadow-card max-w-md">
+          <CardContent className="pt-6">
+            <p className="text-body-sm font-medium text-rta-text">Payroll is hidden in presentation mode.</p>
+            <p className="text-body-sm text-rta-text-secondary mt-1">Turn off presentation mode in the header to view payroll.</p>
+            <Button asChild variant="outline" size="sm" className="mt-4">
+              <Link href="/dashboard">Back to dashboard</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <RequirePayroll>
+      <PayrollContent />
+    </RequirePayroll>
   );
 }

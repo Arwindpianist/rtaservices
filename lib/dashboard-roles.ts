@@ -1,6 +1,10 @@
 /**
  * Hardcoded dashboard user IDs and role capabilities.
- * Chris = finances (no payroll/HRM); Arnaud = + payroll, HRM, master financials; Craig = same as Chris for now; Other staff = same as Chris.
+ * Per roles-and-req.md:
+ * - Chris: finances only — no salary/leave, payroll, HRM, master financials.
+ * - Arnaud: Chris + salary/leave, payroll, HRM, master financials.
+ * - Craig: same as Arnaud but no HRM (temporarily can mirror Chris if needed).
+ * - Other staff: same as Chris.
  */
 
 export const DASHBOARD_USER_IDS = ['chris', 'arnaud', 'craig', 'other'] as const;
@@ -36,11 +40,11 @@ const ROLE_CAPABILITIES: Record<DashboardRole, RoleCapabilities> = {
     canSeeSalaryAndLeave: true,
   },
   craig: {
-    // Temporarily same as Chris (no HRM)
-    canSeePayroll: false,
+    // Same as Arnaud except no HRM System
+    canSeePayroll: true,
     canSeeHrm: false,
-    canSeeMasterFinancials: false,
-    canSeeSalaryAndLeave: false,
+    canSeeMasterFinancials: true,
+    canSeeSalaryAndLeave: true,
   },
   other: {
     canSeePayroll: false,

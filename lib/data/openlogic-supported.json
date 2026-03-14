@@ -1,0 +1,1770 @@
+[
+  {
+    "name": "389 Directory Server",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "7-Zip",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Activiti",
+    "levels": "Bronze"
+  },
+  {
+    "name": "AdoptOpenJDK",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Alfresco",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "AlmaLinux",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Amazon SDK for Java",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Aminator",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Anaconda",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Android SDK",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Angular",
+    "levels": "Bronze"
+  },
+  {
+    "name": "AngularJS",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Ansible",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "ANTLR",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Apache ActiveMQ Classic",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Airflow",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Ambari",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Ant",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Artemis",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Avro",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Axiom",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Apache Axis",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Apache Axis2",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Apache Camel",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Cassandra",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Cocoon",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Apache Commons",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache CouchDB",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Apache CXF",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Derby",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Apache Flex",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Apache Groovy",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Apache Hadoop",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Hbase",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Hive",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache HTTP Server",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Jackrabbit",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Jmeter",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache jUDDI",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Apache Kafka",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Karaf",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Log4j",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Apache Maven",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache MyFaces",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Apache NiFi",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Oozie",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Parquet",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache POI",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Apache Ranger",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache ServiceMix",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Sling",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Apache Solr",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Spark",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Subversion",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Apache Tomcat",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache TomEE",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Traffic Server",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Apache Xalan-j",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Apache Zeppelin",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Zookeeper",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "ApacheDS",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Apache Flink",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apache Struts",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Apigility",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "AposePDF",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Archiva",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Artifactory",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "AspectJ",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Asterisk",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Atomic OS",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Atomikos Transactions Essentials",
+    "levels": "Bronze"
+  },
+  {
+    "name": "AWStats",
+    "levels": "Bronze"
+  },
+  {
+    "name": "AWX",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Bacula",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "BeanShell",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Beats (ELK)",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "BIND",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "BlazeDS",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Bootstrap",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Bouncy Castle Crypto APIs",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "c3p0",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Cacti",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Calico",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "CAPTCHA",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "CentOS",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "CentOS Stream",
+    "levels": "Bronze"
+  },
+  {
+    "name": "CentOS+",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Ceph",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "cglib",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Chaos Monkey",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Checkstyle",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Chef",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Chronograf",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "CKEditor for Java",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Clonezilla",
+    "levels": "Bronze"
+  },
+  {
+    "name": "CMake",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "CollabNet Subervsion Edge",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "containerd",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "CoreOS",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Coreutils",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Couchbase",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "CRI-O",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Cucumber",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "curl",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "CyberNeko HTML Parser",
+    "levels": "Bronze"
+  },
+  {
+    "name": "DDD",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Debian",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Django",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Docker",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Docx4j",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Dojo AJAX",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Dom4j",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Dovecot",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Doxygen",
+    "levels": "Bronze"
+  },
+  {
+    "name": "DRBD",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Drools",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Drupal",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Dyno Client",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Dynomite",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "EasyMock",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Eclipse",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Eclipse - JBoss Tools Plugin",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Eclipse Memory Analyzer (MAT)",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "EclipseLink",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Ehcache",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Elasticsearch (ELK)",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Eset",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "etcd",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Express.js",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Fedora Linux",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Fjquery",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "fluentbit",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "FluentD",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "FOG - A Free Cloning Solution",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Foreman",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "FOSSology",
+    "levels": "Bronze"
+  },
+  {
+    "name": "FreeIPA",
+    "levels": "Bronze"
+  },
+  {
+    "name": "FreeType Fonts",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Galera Cluster",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Gawk",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "GemFire",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "GIMP",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Git",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "GitLab",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "GlassFish",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Glib",
+    "levels": "Bronze"
+  },
+  {
+    "name": "GlusterFS",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Governator",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Gradle",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Grafana",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Grails",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Grails 2",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Graylog",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "GTK+",
+    "levels": "Bronze"
+  },
+  {
+    "name": "H2 Database Engine",
+    "levels": "Bronze"
+  },
+  {
+    "name": "HAProxy",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Harbor",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "HashiCorp Consul",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Hashicorp Nomad",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "HashiCorp Terraform",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "HashiCorp Vault",
+    "levels": "Bronze"
+  },
+  {
+    "name": "HawtIO",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Hazelcast",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Helm",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Hibernate",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "HSQLDB",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Hue",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "ICEFaces",
+    "levels": "Bronze"
+  },
+  {
+    "name": "ImageMagick",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Infinispan",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "InfluxDB",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Inkscape",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Intellij IDEA",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "iReport Designer for JasperReports",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Istio",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "iText",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "iText XML Worker",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Ivy",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Jackson JSON Processor",
+    "levels": "Bronze"
+  },
+  {
+    "name": "JAMon (Java Application Monitor)",
+    "levels": "Bronze"
+  },
+  {
+    "name": "JanusGraph",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "JasperReports",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "JasperReports Library",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "JasperReports Server",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Jasypt",
+    "levels": "Bronze"
+  },
+  {
+    "name": "JavaCC",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Jaxen",
+    "levels": "Bronze"
+  },
+  {
+    "name": "JBoss Ajax4JSF",
+    "levels": "Bronze"
+  },
+  {
+    "name": "JBoss jBPM",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "JBoss Portal",
+    "levels": "Bronze"
+  },
+  {
+    "name": "JBoss Profiler",
+    "levels": "Bronze"
+  },
+  {
+    "name": "JBoss Teiid",
+    "levels": "Bronze"
+  },
+  {
+    "name": "JCAPTCHA",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "JCIFS",
+    "levels": "Bronze"
+  },
+  {
+    "name": "JCommon",
+    "levels": "Bronze"
+  },
+  {
+    "name": "JDOM",
+    "levels": "Bronze"
+  },
+  {
+    "name": "JEdit",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Jenkins",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Jersey",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Jetty",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "JGroups",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "JLint",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "JMock",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "JMX",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Joda-Time",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Joomla!",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Jopr - RHQ",
+    "levels": "Bronze"
+  },
+  {
+    "name": "jQuery",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "jQuery UI",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "JSch",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Json-lib",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "jsTree",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "jTDS",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "JTidy",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "JUnit",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "JWebUnit",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Kapacitor",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Kdiff3",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Keepass",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Keras",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Keycloak",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Kiali",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Kibana (ELK)",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Kubernetes",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Kubespray",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "KVM",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "LFTP",
+    "levels": "Bronze"
+  },
+  {
+    "name": "LibreOffice",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "libxml2",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "libxslt",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "lighttpd",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "LinuxHA",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Logback",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Logstash (ELK)",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Loki",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Longhorn",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Loopback",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Magento",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "MariaDB",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Matplotlib",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "MediaWiki",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Memcached",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Mercurial",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Metro",
+    "levels": "Bronze"
+  },
+  {
+    "name": "MinGW",
+    "levels": "Bronze"
+  },
+  {
+    "name": "MinIO",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "MIT Kerberos",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Mock Objects",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Mockito",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "MongoDB",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Mongrel",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Mono",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Moodle",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Mulesoft ESB",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Multi-Master Replication Manager for MySQL",
+    "levels": "Bronze"
+  },
+  {
+    "name": "MyBatis for Java",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "MyBatis-Spring",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "MyFaces Tomahawk",
+    "levels": "Bronze"
+  },
+  {
+    "name": "MyFaces Trinidad",
+    "levels": "Bronze"
+  },
+  {
+    "name": "MySQL",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "MySQL2",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Nagios",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Nebula",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Net-SNMP",
+    "levels": "Bronze"
+  },
+  {
+    "name": "NetBeans",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Netgate Pfsense",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Netty",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "NGINX",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Nikto",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Nmap",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Node-Red",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Node.js",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Notepad++",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "NumPy",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Odoo",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OKD",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Open ESB",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenAM",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenDS",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenEJB",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Openfire",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenJ9",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "OpenJDK",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "OpenJPA",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "OpenLDAP",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "OpenLiberty",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "OpenProj",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenSearch",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "OpenSearch Dashboards",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "OpenSSL",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "OpenSSL FIPS 140-2 Module",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "OpenStack ANSIBLE",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack BARBICAN",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack CEILOMETER",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack CINDER",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack CLOUDKITTY",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack CONGRESS",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack DESIGNATE",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack FREEZER",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack GLANCE",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack HEAT",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack HORIZON",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack IRONIC",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack KEYSTONE",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack MANILA",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack MONASCA",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack NEUTRON",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack NOVA",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack OCTAVIA",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack RALLY",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack SWIFT",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack TACKER",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack TROVE",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenStack WATCHER",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenSUSE",
+    "levels": "Bronze"
+  },
+  {
+    "name": "OpenVAS",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "OpenVPN",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Oracle Java",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Oracle Linux",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Orafce",
+    "levels": "Bronze"
+  },
+  {
+    "name": "oVirt",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Patroni",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "PEAR",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Pentaho BI Suite CE",
+    "levels": "Bronze"
+  },
+  {
+    "name": "pgAdmin",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "pgbackrest",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "pgBadger",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "pgBouncer",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "pgpool-II",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "pgpoolAdmin",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "pg_bulkload",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "pg_reorg",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "pg_reporter",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "pg_rman",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "pg_statsinfo",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "PHP",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "phpBB",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "phpMyAdmin",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "phpPgAdmin",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "PicketLink",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Pidgin",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Pitest",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Plone CMS",
+    "levels": "Bronze"
+  },
+  {
+    "name": "PM2",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Postfix",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Postgres Driver for C (libpq, not ODBC)",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Postgres Driver for Java",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Postgres Driver for Perl",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Postgres Driver for PHP (PDO)",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Postgres Driver for Ruby",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "PostgreSQL",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Priam",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "ProFTPD",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Project-Open",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Prometheus",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "PuTTY",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "pyBrain",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Python",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "QEMU",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Quartz",
+    "levels": "Bronze"
+  },
+  {
+    "name": "R",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "RabbitMQ",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Raigad",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Rancher Console",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Rancher Kubernetes Engine (RKE)",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "RANCID (Really Awesome New Cisco Config Differ)",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Rdesktop",
+    "levels": "Bronze"
+  },
+  {
+    "name": "ReactJS",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Readline",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Redis",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Redux",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Relax and Recover (ReaR)",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Restlet",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Rocket.Chat",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Rocky Linux",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "rsync",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Ruby",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Ruby on Rails",
+    "levels": "Bronze"
+  },
+  {
+    "name": "RubyGems",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Samba",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "SAX",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Selenium",
+    "levels": "Bronze"
+  },
+  {
+    "name": "SELinux",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Sendmail",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Simian Army",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "SLF4j",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Slony-I",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "SniffAir",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Snort",
+    "levels": "Bronze"
+  },
+  {
+    "name": "SoapUI",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "SonarQube",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Sonatype Nexus",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Spacewalk",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Spinnaker",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Spring Batch",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Spring BlazeDS Integration",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Spring Boot",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Spring Cloud",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Spring Framework",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Spring LDAP",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Spring Retry",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Spring Security",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Spring Web Flow",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Spring Web Services",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "SQLite",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "sqlmap",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Squid",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "SQuirrel SQL Client",
+    "levels": "Bronze"
+  },
+  {
+    "name": "StAX",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Stunnel",
+    "levels": "Bronze"
+  },
+  {
+    "name": "SVN::Web",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Talend Open Studio for ESB",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Tcl/Tk",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Telegraf",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Tensorflow",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Terracotta",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Terragrunt",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "TestNG",
+    "levels": "Bronze"
+  },
+  {
+    "name": "TortoiseGit",
+    "levels": "Bronze"
+  },
+  {
+    "name": "TortoiseSVN",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Trac",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "TrueCrypt",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Ubuntu",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Vaadin",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Velocity",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Vim",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "VisualVM",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "vsftpd",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Webmin",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Wildfly",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "WinSCP",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Wireshark",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "WordPress",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "WSDL4J",
+    "levels": "Bronze"
+  },
+  {
+    "name": "WSO2 API Manager",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Yarn",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "Zabbix",
+    "levels": "Silver, Bronze"
+  },
+  {
+    "name": "Zimbra Collaboration Suite",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Zipkin",
+    "levels": "Gold, Silver, Bronze"
+  },
+  {
+    "name": "zlib",
+    "levels": "Bronze"
+  },
+  {
+    "name": "Zuul",
+    "levels": "Silver, Bronze"
+  }
+]

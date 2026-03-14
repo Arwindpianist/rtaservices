@@ -1,11 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const VALID_SERVICES = ['rta-tpm', 'rta-oss', 'rta-ps', 'general'];
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { companyName, contactPerson, email, phone, requirements } = body;
+    const { service, companyName, contactPerson, email, phone, requirements } = body;
 
     // Validation
+    if (!service || !VALID_SERVICES.includes(service)) {
+      return NextResponse.json(
+        { error: 'Please select a valid service (rta-tpm, rta-oss, rta-ps, or general)' },
+        { status: 400 }
+      );
+    }
+
     if (!companyName || !contactPerson || !email || !phone || !requirements) {
       return NextResponse.json(
         { error: 'All fields are required' },
@@ -40,6 +49,7 @@ export async function POST(request: NextRequest) {
     // For now, we'll just log and return success
     // In production, replace this with actual email sending logic
     console.log('Quote request submission:', {
+      service,
       companyName,
       contactPerson,
       email,
@@ -54,8 +64,9 @@ export async function POST(request: NextRequest) {
     // await resend.emails.send({
     //   from: 'quotes@rtaservices.net',
     //   to: 'sales@rtaservices.net',
-    //   subject: `Quote Request from ${companyName}`,
+    //   subject: `Quote Request [${service}] from ${companyName}`,
     //   html: `
+    //     <p><strong>Service:</strong> ${service}</p>
     //     <p><strong>Company:</strong> ${companyName}</p>
     //     <p><strong>Contact Person:</strong> ${contactPerson}</p>
     //     <p><strong>Email:</strong> ${email}</p>

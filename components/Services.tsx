@@ -89,6 +89,8 @@ export default function Services() {
         >
           {services.map((service, index) => {
             const IconComponent = service.icon;
+            const quoteService = index === 0 ? 'rta-tpm' : index === 1 ? 'rta-oss' : 'rta-ps';
+            const quoteHref = `/contact?form=quote&service=${quoteService}`;
             return (
               <motion.div
                 key={index}
@@ -136,7 +138,7 @@ export default function Services() {
                       className="w-full bg-rta-gold-cta text-white hover:bg-rta-gold-cta-hover hover:shadow-lg"
                       size="lg"
                     >
-                      <Link href="/contact?form=quote">
+                      <Link href={quoteHref}>
                         Get Quote
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </Link>

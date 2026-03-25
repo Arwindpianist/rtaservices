@@ -12,6 +12,7 @@ export default function Footer() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [isSubscribing, setIsSubscribing] = useState(false);
+  const currentYear = new Date().getFullYear();
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -162,7 +163,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-body-sm">
-          <p className="mb-2">© 2024 by RTA Services.</p>
+          <p className="mb-2">© {currentYear} by RTA Services.</p>
           <p className="text-rta-text-light">
             Regional Presence: Indonesia · Malaysia · Singapore · Thailand
           </p>

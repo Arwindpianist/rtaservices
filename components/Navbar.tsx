@@ -62,7 +62,7 @@ export default function Navbar() {
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center pt-0.5">
               <Image
                 src="/images/newlogo.png"
                 alt="RTA Services - Sustaining your IT assets"

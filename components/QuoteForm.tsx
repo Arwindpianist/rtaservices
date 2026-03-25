@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from '@/components/ui/input';
@@ -40,7 +40,7 @@ interface QuoteFormProps {
   defaultService?: QuoteServiceValue;
 }
 
-export default function QuoteForm({ defaultService }: QuoteFormProps = {}) {
+function QuoteFormInner({ defaultService }: QuoteFormProps = {}) {
   const searchParams = useSearchParams();
   const initialService = defaultService ?? 'general';
   const [formData, setFormData] = useState<QuoteFormData>({
@@ -390,5 +390,25 @@ export default function QuoteForm({ defaultService }: QuoteFormProps = {}) {
         {isSubmitting ? 'Submitting...' : 'Request Quote'}
       </Button>
     </form>
+  );
+}
+
+export default function QuoteForm(props: QuoteFormProps = {}) {
+  return (
+    <Suspense
+      fallback={
+        <div className="space-y-6 animate-pulse" aria-busy="true" aria-label="Loading quote form">
+          <div className="h-32 rounded-lg bg-rta-bg-light" />
+          <div className="h-10 rounded-md bg-rta-bg-light" />
+          <div className="h-10 rounded-md bg-rta-bg-light" />
+          <div className="h-10 rounded-md bg-rta-bg-light" />
+          <div className="h-10 rounded-md bg-rta-bg-light" />
+          <div className="h-32 rounded-md bg-rta-bg-light" />
+          <div className="h-12 rounded-md bg-rta-border/40" />
+        </div>
+      }
+    >
+      <QuoteFormInner {...props} />
+    </Suspense>
   );
 }

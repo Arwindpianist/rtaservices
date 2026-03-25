@@ -126,10 +126,10 @@ export default function StatementsPage() {
                         <td className="px-4 py-3 text-body-sm text-rta-text-secondary">{formatDate(line.date)}</td>
                         <td className="px-4 py-3 text-body-sm text-rta-text">{line.description}</td>
                         <td className="px-4 py-3 text-body-sm text-rta-text tabular-nums text-right">
-                          {line.debit ? formatAmount(line.debit, st.currency) : '—'}
+                          {line.debit ? formatAmount(line.debit, st.currency) : '-'}
                         </td>
                         <td className="px-4 py-3 text-body-sm text-rta-text tabular-nums text-right">
-                          {line.credit ? formatAmount(line.credit, st.currency) : '—'}
+                          {line.credit ? formatAmount(line.credit, st.currency) : '-'}
                         </td>
                         <td className="px-4 py-3 text-body-sm font-medium text-rta-text tabular-nums text-right">
                           {formatAmount(line.balance, st.currency)}
@@ -194,11 +194,11 @@ export default function StatementsPage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-rta-text-secondary">Debit</span>
-                  <span className="text-rta-text tabular-nums">{selectedLine.debit ? formatAmount(selectedLine.debit, selectedCurrency) : '—'}</span>
+                  <span className="text-rta-text tabular-nums">{selectedLine.debit ? formatAmount(selectedLine.debit, selectedCurrency) : '-'}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-rta-text-secondary">Credit</span>
-                  <span className="text-rta-text tabular-nums">{selectedLine.credit ? formatAmount(selectedLine.credit, selectedCurrency) : '—'}</span>
+                  <span className="text-rta-text tabular-nums">{selectedLine.credit ? formatAmount(selectedLine.credit, selectedCurrency) : '-'}</span>
                 </div>
                 <div className="flex justify-between pt-2 border-t border-rta-border">
                   <span className="text-rta-text-secondary font-medium">Running balance</span>

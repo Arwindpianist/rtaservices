@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { use, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import ContactForm from '@/components/ContactForm';
@@ -27,7 +27,12 @@ function FormSection() {
   );
 }
 
-export default function ContactPage() {
+export default function ContactPage({
+  searchParams,
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  use(searchParams ?? Promise.resolve({}));
 
   return (
     <div className="bg-rta-bg-light py-20 lg:py-[100px]">

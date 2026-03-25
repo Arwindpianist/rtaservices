@@ -14,6 +14,11 @@ const nextConfig = {
         hostname: 'cdn.jsdelivr.net',
         pathname: '/npm/simple-icons@**/icons/*.svg',
       },
+      {
+        protocol: 'https',
+        hostname: 'flagcdn.com',
+        pathname: '/**',
+      },
     ],
   },
   compress: true,

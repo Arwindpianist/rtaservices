@@ -112,7 +112,7 @@ export default function ReconciliationPage() {
                           </td>
                           <td className="px-4 py-3 text-body-sm text-rta-text-secondary">{inv.status.replace(/_/g, ' ')}</td>
                           <td className="px-4 py-3 text-body-sm text-rta-text-secondary">
-                            {existing ? existing.zohoQuoteId : '—'}
+                            {existing ? existing.zohoQuoteId : '-'}
                           </td>
                           <td className="px-4 py-3">
                             {existing ? (

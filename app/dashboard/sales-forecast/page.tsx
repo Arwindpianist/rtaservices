@@ -41,7 +41,7 @@ export default function SalesForecastPage() {
         <Card className="mt-6 mb-8 relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
           <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
           <CardHeader className="relative">
-            <CardTitle className="text-base font-semibold text-rta-blue">Forecasted sales — next 12 months</CardTitle>
+            <CardTitle className="text-base font-semibold text-rta-blue">Forecasted sales - next 12 months</CardTitle>
             <p className="text-body-sm text-rta-text-secondary">Monthly forecast (mock data)</p>
           </CardHeader>
           <CardContent className="relative">
@@ -93,7 +93,7 @@ export default function SalesForecastPage() {
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
             <div className="absolute top-0 right-0 w-20 h-20 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
             <CardHeader className="relative">
-              <CardTitle className="text-base font-semibold text-rta-blue">Deals — closing possibility & target month</CardTitle>
+              <CardTitle className="text-base font-semibold text-rta-blue">Deals - closing possibility & target month</CardTitle>
               <p className="text-body-sm text-rta-text-secondary">Click a row to view details</p>
             </CardHeader>
             <CardContent className="relative">

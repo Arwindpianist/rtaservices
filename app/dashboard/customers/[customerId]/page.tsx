@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { use, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,7 +11,7 @@ function formatAmount(amount: number, currency = 'USD'): string {
 }
 
 function formatDate(dateStr: string): string {
-  if (!dateStr) return '—';
+  if (!dateStr) return '-';
   return new Date(dateStr).toLocaleDateString();
 }
 
@@ -27,13 +27,9 @@ type CustomerDetail = {
 };
 
 export default function CustomerDetailPage({ params }: { params: Promise<{ customerId: string }> }) {
-  const [customerId, setCustomerId] = useState<string | null>(null);
+  const { customerId } = use(params);
   const [data, setData] = useState<CustomerDetail | null>(null);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    params.then((p) => setCustomerId(p.customerId));
-  }, [params]);
 
   useEffect(() => {
     if (!customerId) return;
@@ -45,7 +41,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ custo
       .finally(() => setLoading(false));
   }, [customerId]);
 
-  if (!customerId || (loading && !data)) {
+  if (loading && !data) {
     return (
       <div className="min-h-[calc(100vh-3.5rem)] bg-rta-bg-light flex items-center justify-center">
         <div className="flex items-center gap-2 text-rta-text-secondary">
@@ -83,7 +79,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ custo
             <CardContent className="pt-6">
               <div className="flex items-center gap-2 mb-4">
                 <FileText className="w-4 h-4 text-rta-blue" />
-                <h2 className="text-base font-semibold text-rta-text">Zoho — Quotes</h2>
+                <h2 className="text-base font-semibold text-rta-text">Zoho - Quotes</h2>
               </div>
               <div className="overflow-x-auto rounded-md border border-rta-border">
                 <table className="w-full text-left">
@@ -117,7 +113,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ custo
             <CardContent className="pt-6">
               <div className="flex items-center gap-2 mb-4">
                 <FileText className="w-4 h-4 text-rta-blue" />
-                <h2 className="text-base font-semibold text-rta-text">Zoho — Deals</h2>
+                <h2 className="text-base font-semibold text-rta-text">Zoho - Deals</h2>
               </div>
               <div className="overflow-x-auto rounded-md border border-rta-border">
                 <table className="w-full text-left">
@@ -152,7 +148,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ custo
           <CardContent className="pt-6">
             <div className="flex items-center gap-2 mb-4">
               <Receipt className="w-4 h-4 text-rta-blue" />
-              <h2 className="text-base font-semibold text-rta-text">Xero — Invoices</h2>
+              <h2 className="text-base font-semibold text-rta-text">Xero - Invoices</h2>
             </div>
             <div className="overflow-x-auto rounded-md border border-rta-border">
               <table className="w-full text-left">

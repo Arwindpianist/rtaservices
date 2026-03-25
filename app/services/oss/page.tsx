@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import QuoteForm from '@/components/QuoteForm';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
@@ -52,6 +53,35 @@ export default function OSSPage() {
               <span className="text-body-sm font-semibold text-rta-red">Elite Sponsor</span>
               <div className="text-body-sm text-rta-text-secondary">open source initiative®</div>
             </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Proof points – main selling points */}
+      <section className="py-12 lg:py-16 bg-white">
+        <div className="mx-auto" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOptions}
+            variants={getAnimationVariants(staggerContainer)}
+          >
+            {[
+              { metric: '400+', title: 'Technologies Mastered', desc: 'Deep expertise across the entire open-source landscape, from operating systems to databases and middleware.' },
+              { metric: '24/7', title: 'Global Support', desc: 'Enterprise-grade reliability with guaranteed SLAs, ensuring your critical infrastructure never sleeps.' },
+              { metric: '100%', title: 'Commitment', desc: 'Dedicated to maintaining, upgrading, and migrating your open-source infrastructure with expert support.' },
+            ].map((block, idx) => (
+              <motion.div
+                key={idx}
+                className="relative pl-6 border-l-[6px] border-l-rta-red bg-white p-6 rounded-lg border border-rta-border shadow-sm"
+                variants={getAnimationVariants(fadeInUp)}
+              >
+                <p className="text-3xl font-bold text-rta-red mb-2">{block.metric}</p>
+                <h3 className="text-h3 font-bold text-rta-text mb-2">{block.title}</h3>
+                <p className="text-body text-rta-text-secondary">{block.desc}</p>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>
@@ -374,35 +404,6 @@ export default function OSSPage() {
         </div>
       </section>
 
-      {/* Proof points */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="mx-auto" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOptions}
-            variants={getAnimationVariants(staggerContainer)}
-          >
-            {[
-              { metric: '400+', title: 'Technologies Mastered', desc: 'Deep expertise across the entire open-source landscape, from operating systems to databases and middleware.' },
-              { metric: '24/7', title: 'Global Support', desc: 'Enterprise-grade reliability with guaranteed SLAs, ensuring your critical infrastructure never sleeps.' },
-              { metric: '100%', title: 'Commitment', desc: 'Dedicated to maintaining, upgrading, and migrating your open-source infrastructure with expert support.' },
-            ].map((block, idx) => (
-              <motion.div
-                key={idx}
-                className="relative pl-6 border-l-[6px] border-l-rta-red bg-white p-6 rounded-lg border border-rta-border shadow-sm"
-                variants={getAnimationVariants(fadeInUp)}
-              >
-                <p className="text-3xl font-bold text-rta-red mb-2">{block.metric}</p>
-                <h3 className="text-h3 font-bold text-rta-text mb-2">{block.title}</h3>
-                <p className="text-body text-rta-text-secondary">{block.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
       {/* Technologies mastered */}
       <section className="py-12 bg-rta-card-bg border-y border-rta-border">
         <div className="mx-auto" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
@@ -436,30 +437,24 @@ export default function OSSPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 lg:py-24 bg-rta-blue">
-        <div className="mx-auto text-center" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
+      {/* Request Quote */}
+      <section id="request-quote" className="py-16 lg:py-24 bg-rta-bg-light scroll-mt-20">
+        <div className="mx-auto" style={{ maxWidth: '640px', paddingLeft: '20px', paddingRight: '20px' }}>
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={viewportOptions}
             variants={getAnimationVariants(fadeInUp)}
           >
-            <h2 className="text-h2-md md:text-h2 font-bold text-white mb-4">
+            <h2 className="text-h2-md md:text-h2 font-bold text-rta-blue mb-2 text-center">
               Ready to Get Enterprise OSS Support?
             </h2>
-            <p className="text-body-lg text-white/90 mb-8 max-w-2xl mx-auto">
+            <p className="text-body text-rta-text-secondary mb-8 text-center max-w-xl mx-auto">
               Connect with our experts for a free consultation. We&apos;ll help you maintain, migrate, and scale your open-source infrastructure.
             </p>
-            <Button
-              asChild
-              className="bg-rta-gold-cta text-white hover:bg-rta-gold-cta-hover hover:shadow-lg px-8 py-4 text-base font-semibold"
-            >
-              <Link href="/contact?form=quote&service=rta-oss">
-                Request Free Consultation
-                <ArrowRight className="w-4 h-4 ml-2 inline" />
-              </Link>
-            </Button>
+            <div className="bg-white rounded-xl border border-rta-border shadow-card p-6 sm:p-8">
+              <QuoteForm defaultService="rta-oss" />
+            </div>
           </motion.div>
         </div>
       </section>

@@ -4,8 +4,16 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { MagicCard } from '@/components/ui/magic-card';
 import { DollarSign, Settings, Zap, CheckCircle2 } from 'lucide-react';
 import { fadeInUp, staggerContainer, getAnimationVariants, viewportOptions } from '@/lib/animations';
+
+const regionalPresence = [
+  { name: 'Indonesia', code: 'id' },
+  { name: 'Malaysia', code: 'my' },
+  { name: 'Singapore', code: 'sg' },
+  { name: 'Thailand', code: 'th' },
+];
 
 export default function WhyChooseUs() {
   const benefits = [
@@ -30,8 +38,6 @@ export default function WhyChooseUs() {
       icon: CheckCircle2,
     },
   ];
-
-  const regionalPresence = ['Indonesia', 'Malaysia', 'Singapore', 'Thailand'];
 
   return (
     <section className="bg-white py-16 lg:py-24">
@@ -83,22 +89,44 @@ export default function WhyChooseUs() {
           })}
         </motion.div>
 
-        {/* Regional Presence */}
-        <motion.div 
-          className="mt-12"
+        {/* Regional Presence - MagicCard with muted bg so glow is visible */}
+        <motion.div
+          className="mt-12 rounded-2xl bg-rta-bg-light p-6 md:p-8"
           initial="hidden"
           whileInView="visible"
           viewport={viewportOptions}
           variants={getAnimationVariants(fadeInUp)}
         >
-          <h3 className="text-h3 font-bold text-rta-text-muted mb-4">Regional Presence</h3>
-          <div className="flex flex-wrap gap-4">
-            {regionalPresence.map((country) => (
-              <span key={country} className="px-4 py-2 bg-rta-card-bg border border-rta-border rounded-lg text-body font-medium text-rta-text">
-                {country}
-              </span>
-            ))}
-          </div>
+          <h3 className="text-h3 font-bold text-rta-text-muted mb-4 text-center">Regional Presence</h3>
+          <MagicCard
+            mode="gradient"
+            gradientFrom="#FFBF23"
+            gradientTo="#E0292D"
+            gradientColor="#FFBF2366"
+            gradientOpacity={0.6}
+            gradientSize={280}
+            className="w-full max-w-2xl mx-auto p-6 md:p-8"
+          >
+            <div className="flex flex-wrap gap-6 justify-center items-center">
+              {regionalPresence.map((country) => (
+                <div
+                  key={country.code}
+                  className="flex flex-col items-center gap-2"
+                >
+                  <span className="overflow-hidden rounded-lg shrink-0 ring-2 ring-rta-border/50 shadow-sm">
+                    <Image
+                      src={`https://flagcdn.com/w80/${country.code}.png`}
+                      alt={`${country.name} flag`}
+                      width={48}
+                      height={36}
+                      className="block object-cover w-12 h-9"
+                    />
+                  </span>
+                  <span className="text-body font-medium text-rta-text">{country.name}</span>
+                </div>
+              ))}
+            </div>
+          </MagicCard>
         </motion.div>
 
         {/* Image Section */}

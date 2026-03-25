@@ -31,7 +31,7 @@ function formatAmount(amount: number, currency = 'USD'): string {
 }
 
 function formatDate(dateStr: string): string {
-  if (!dateStr) return '—';
+  if (!dateStr) return '-';
   return new Date(dateStr).toLocaleDateString();
 }
 
@@ -216,19 +216,19 @@ export default function QuoteToCashPage() {
                           </td>
                           <td className="px-4 py-3">
                             <Badge variant="outline" className={`text-body-sm border ${getStageBadgeClass(row.stage)}`}>
-                              {row.stage || '—'}
+                              {row.stage || '-'}
                             </Badge>
                           </td>
-                          <td className="px-4 py-3 text-body-sm text-rta-text-secondary">{row.dealName ?? '—'}</td>
-                          <td className="px-4 py-3 text-body-sm text-rta-text-secondary">{row.endCustomer ?? '—'}</td>
+                          <td className="px-4 py-3 text-body-sm text-rta-text-secondary">{row.dealName ?? '-'}</td>
+                          <td className="px-4 py-3 text-body-sm text-rta-text-secondary">{row.endCustomer ?? '-'}</td>
                           <td className="px-4 py-3 text-body-sm text-rta-text-secondary">
-                            {row.xeroInvoiceNumber ?? '—'}
+                            {row.xeroInvoiceNumber ?? '-'}
                           </td>
                           <td className="px-4 py-3 text-body-sm text-rta-text-secondary">
-                            {(row.xeroStatus || '—').replace(/_/g, ' ')}
+                            {(row.xeroStatus || '-').replace(/_/g, ' ')}
                           </td>
                           <td className="px-4 py-3 text-body-sm text-rta-text tabular-nums text-right">
-                            {row.paidAmount != null ? formatAmount(row.paidAmount, row.currency) : '—'}
+                            {row.paidAmount != null ? formatAmount(row.paidAmount, row.currency) : '-'}
                           </td>
                           <td className="px-4 py-3 text-body-sm text-rta-text-secondary">
                             {formatDate(row.paidAt || '')}
@@ -292,7 +292,7 @@ export default function QuoteToCashPage() {
                     <p className="text-body-sm text-rta-text-secondary">{selectedRow.customer}</p>
                     <div className="flex flex-wrap items-center gap-2 mt-2">
                       <Badge variant="outline" className={`border ${getStageBadgeClass(selectedRow.stage)}`}>
-                        {selectedRow.stage || '—'}
+                        {selectedRow.stage || '-'}
                       </Badge>
                       {selectedRow.xeroInvoiceNumber && (
                         <Badge variant="outline" className="border-rta-border text-rta-text">
@@ -359,7 +359,7 @@ export default function QuoteToCashPage() {
                     )}
                     <div>
                       <dt className="text-rta-text-secondary font-medium">Xero status</dt>
-                      <dd className="text-rta-text">{(selectedRow.xeroStatus || '—').replace(/_/g, ' ')}</dd>
+                      <dd className="text-rta-text">{(selectedRow.xeroStatus || '-').replace(/_/g, ' ')}</dd>
                     </div>
                     <div>
                       <dt className="text-rta-text-secondary font-medium">Paid date</dt>

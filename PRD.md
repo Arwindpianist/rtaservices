@@ -37,14 +37,14 @@ Footer	Social links, newsletter subscription
 RTA Services Pte Ltd
 2.2 Components
 
-Navigation bar — logo + links + CTA
+Navigation bar - logo + links + CTA
 
-Hero section — headline, subtext, primary CTA
+Hero section - headline, subtext, primary CTA
 
-Service cards — “IT Maintenance”, “Asset Management” etc 
+Service cards - “IT Maintenance”, “Asset Management” etc 
 RTA Services Pte Ltd
 
-Why Choose Us — USP icons & text
+Why Choose Us - USP icons & text
 
 Brand logos grid
 

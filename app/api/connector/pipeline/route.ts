@@ -113,7 +113,7 @@ export async function GET() {
       (q.id as string);
     const acct = q.Account_Name as { name?: string } | undefined;
     const contact = q.Contact_Name as { name?: string } | undefined;
-    const customer = acct?.name || contact?.name || '—';
+    const customer = acct?.name || contact?.name || '-';
     const amount = Number(q.Grand_Total) || 0;
     const currency = (extractVal(q.Currency_2) || 'USD').toUpperCase();
     const link = linkByQuoteId.get(id);

@@ -81,7 +81,7 @@ export default function Services() {
         </motion.div>
 
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
           initial="hidden"
           whileInView="visible"
           viewport={viewportOptions}
@@ -89,19 +89,19 @@ export default function Services() {
         >
           {services.map((service, index) => {
             const IconComponent = service.icon;
-            const quoteService = index === 0 ? 'rta-tpm' : index === 1 ? 'rta-oss' : 'rta-ps';
-            const quoteHref = `/contact?form=quote&service=${quoteService}`;
+            const serviceHref = index === 0 ? '/services/tpm' : index === 1 ? '/services/oss' : '/services/ps';
             return (
               <motion.div
                 key={index}
+                className="flex h-full"
                 variants={getAnimationVariants(fadeInUp)}
                 whileHover={{ y: -4, transition: { duration: 0.2 } }}
                 transition={{ duration: 0.2 }}
               >
-                <Card className={`group h-full transition-all duration-300 hover:shadow-lg border-rta-border bg-rta-card-bg ${
+                <Card className={`group flex h-full flex-col transition-all duration-300 hover:shadow-lg border-rta-border bg-rta-card-bg ${
                   service.accentBorder === 'rta-red' ? 'border-l-[6px] border-l-rta-red' : 'border-l-[6px] border-l-rta-blue'
                 }`}>
-                  <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
+                  <div className="relative h-40 w-full shrink-0 overflow-hidden rounded-t-lg">
                     <Image
                       src={service.image}
                       alt={service.alt}
@@ -109,37 +109,37 @@ export default function Services() {
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <CardHeader>
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="p-3 bg-rta-gold/10 rounded-lg group-hover:bg-rta-gold/20 transition-colors">
-                        <IconComponent className="w-6 h-6 text-rta-gold" aria-hidden="true" />
+                  <CardHeader className="shrink-0">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="p-2.5 bg-rta-gold/10 rounded-lg group-hover:bg-rta-gold/20 transition-colors shrink-0">
+                        <IconComponent className="w-5 h-5 text-rta-gold" aria-hidden="true" />
                       </div>
                     </div>
-                    <CardTitle className="text-xl mb-1">
+                    <CardTitle className="text-lg mb-0.5 leading-tight">
                       <span className="text-rta-blue">{service.title.split(' ')[0]} </span>
                       <span className="text-rta-gold">{service.title.split(' ').slice(1).join(' ')}</span>
                     </CardTitle>
-                    <p className="text-body-sm font-semibold text-rta-text mb-3">{service.subtitle}</p>
-                    <p className="text-body-sm text-rta-text-secondary mb-3">{service.description}</p>
+                    <p className="text-body-sm font-semibold text-rta-text mb-1">{service.subtitle}</p>
+                    <p className="text-body-sm text-rta-text-secondary line-clamp-2">{service.description}</p>
                   </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2.5">
-                      {service.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start gap-2.5">
+                  <CardContent className="flex-1 min-h-0">
+                    <ul className="space-y-2">
+                      {service.features.slice(0, 4).map((feature, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
                           <CheckCircle2 className="w-4 h-4 text-rta-gold mt-0.5 flex-shrink-0" aria-hidden="true" />
-                          <span className="text-sm text-muted-foreground leading-relaxed">{feature}</span>
+                          <span className="text-sm text-muted-foreground leading-snug">{feature}</span>
                         </li>
                       ))}
                     </ul>
                   </CardContent>
-                  <CardFooter className="pt-4">
+                  <CardFooter className="shrink-0 pt-4 mt-auto">
                     <Button
                       asChild
                       className="w-full bg-rta-gold-cta text-white hover:bg-rta-gold-cta-hover hover:shadow-lg"
                       size="lg"
                     >
-                      <Link href={quoteHref}>
-                        Get Quote
+                      <Link href={serviceHref}>
+                        Learn More
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </Link>
                     </Button>

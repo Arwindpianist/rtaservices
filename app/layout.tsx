@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import ConditionalShell from "@/components/ConditionalShell";
 import Analytics from "@/components/Analytics";
 import SkipToContent from "@/components/SkipToContent";
@@ -68,17 +70,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+Grantha:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
         <link rel="preconnect" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
       </head>
       <body>
-        <Analytics />
-        <SkipToContent />
-        <ConditionalShell>{children}</ConditionalShell>
-        <ChatWidget />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <TooltipProvider>
+            <Analytics />
+            <SkipToContent />
+            <ConditionalShell>{children}</ConditionalShell>
+            <ChatWidget />
+          </TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -64,7 +64,7 @@ export async function GET() {
         const name = extractVal(q[quoteNumberField]) || extractVal(q.Subject) || q.id;
         const acct = q.Account_Name as { name?: string } | undefined;
         const contact = q.Contact_Name as { name?: string } | undefined;
-        const customer = acct?.name || contact?.name || '—';
+        const customer = acct?.name || contact?.name || '-';
         const amount = Number(q.Grand_Total) || 0;
         const currency = (extractVal(q.Currency_2) || 'USD').toUpperCase();
         toBeInvoiced.push({ id: q.id, name, customer, amount, currency });
@@ -100,7 +100,7 @@ export async function GET() {
           outstanding.push({
             id: inv.InvoiceID,
             number: inv.InvoiceNumber || inv.InvoiceID,
-            entity: inv.Contact?.Name || '—',
+            entity: inv.Contact?.Name || '-',
             amount,
             currency,
             dueDate,

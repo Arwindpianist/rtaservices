@@ -1,7 +1,7 @@
 /**
  * Hardcoded dashboard user IDs and role capabilities.
  * Per roles-and-req.md:
- * - Chris: finances only — no salary/leave, payroll, HRM, master financials.
+ * - Chris: finances only, no salary/leave, payroll, HRM, master financials.
  * - Arnaud: Chris + salary/leave, payroll, HRM, master financials.
  * - Craig: same as Arnaud but no HRM (temporarily can mirror Chris if needed).
  * - Other staff: same as Chris.

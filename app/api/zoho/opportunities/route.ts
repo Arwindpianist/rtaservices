@@ -215,7 +215,7 @@ export async function GET(request: Request) {
         name: extractQuoteName(q),
         amount: (q.Grand_Total as number) ?? 0,
         currency: extractCurrencyFromQuote(q),
-        stage: stage || '—',
+        stage: stage || '-',
         subject: q.Subject as string,
         accountName: acct?.name,
         dealName: deal?.name,
@@ -307,7 +307,7 @@ export async function GET(request: Request) {
           name: (d.Deal_Name as string) || 'Unnamed',
           amount: (d.Amount as number) ?? 0,
           currency: extractCurrencyFromDeal(d),
-          stage: (typeof stage === 'string' ? stage : '—'),
+          stage: (typeof stage === 'string' ? stage : '-'),
           accountName: acct && typeof acct === 'object' ? acct.name : undefined,
           validTill: d.Closing_Date as string,
           description: d.Description as string,
@@ -377,7 +377,7 @@ export async function GET(request: Request) {
 
     const stageMap: Record<string, { count: number; value: number }> = {};
     for (const o of allOpportunities) {
-      const stage = o.stage || '—';
+      const stage = o.stage || '-';
       if (!stageMap[stage]) stageMap[stage] = { count: 0, value: 0 };
       stageMap[stage].count += 1;
       stageMap[stage].value += o.amount || 0;

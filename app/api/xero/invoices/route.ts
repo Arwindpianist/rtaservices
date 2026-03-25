@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
         id: inv.InvoiceID || inv.InvoiceNumber,
         number: inv.InvoiceNumber,
         type: type === 'ACCPAY' ? 'in' as const : 'out' as const,
-        entity: inv.Contact?.Name || '—',
+        entity: inv.Contact?.Name || '-',
         amount: inv.Total ?? 0,
         currency: inv.CurrencyCode || 'USD',
         dueDate: inv.DueDate || inv.Date || '',

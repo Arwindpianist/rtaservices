@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { use, useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Lock, User, Presentation } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -151,9 +151,13 @@ function DashboardBar({
 
 export default function DashboardLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params?: Promise<Record<string, string | string[]>>;
 }) {
+  use(params ?? Promise.resolve({}));
+
   const [auth, setAuth] = useState<AuthState | null>(null);
   const [accessCode, setAccessCode] = useState('');
   const [error, setError] = useState('');

@@ -55,7 +55,7 @@ export default function PaymentsPage() {
           </Button>
         </div>
         <h1 className="text-h3 font-bold text-rta-blue">Payments</h1>
-        <p className="text-body-sm text-rta-text-secondary mt-1">Due, overdue, late, on time, early — for customers, suppliers, staff</p>
+        <p className="text-body-sm text-rta-text-secondary mt-1">Due, overdue, late, on time, early. For customers, suppliers, staff</p>
 
         <div className="mt-6 space-y-4">
           <div>

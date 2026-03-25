@@ -43,7 +43,7 @@ function PayrollContent() {
           </Button>
         </div>
         <h1 className="text-h3 font-bold text-rta-blue">Payroll</h1>
-        <p className="text-body-sm text-rta-text-secondary mt-1">Starts with SG — by country, department, role, employee, pay period/date/amount/method/status/type/frequency, taxes</p>
+        <p className="text-body-sm text-rta-text-secondary mt-1">Starts with SG. By country, department, role, employee, pay period/date/amount/method/status/type/frequency, taxes</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 mb-6">
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">

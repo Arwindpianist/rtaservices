@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Wrench, Code2, Users, CheckCircle2, ArrowRight, Headphones, Package, Server } from 'lucide-react';
+import { Wrench, Code2, Users, CheckCircle2, ArrowRight } from 'lucide-react';
 import { fadeInUp, staggerContainer, getAnimationVariants, viewportOptions } from '@/lib/animations';
 
 export default function ServicesPage() {
@@ -61,18 +61,6 @@ export default function ServicesPage() {
     },
   ];
 
-  const tpmTiers = [
-    { name: 'BASIC', coverage: 'Normal Business Hours Coverage, 9 am - 6 pm, Monday to Friday Excluding public holidays', sla: '9x5', scope: 'Our 24x7 Global Helpdesk assures timely escalation, quick turnaround and effective resolution of incidences.', icon: Headphones },
-    { name: 'ENHANCED', coverage: 'Extended hours coverage, 9 am - 6 pm, Monday to Saturday Excluding public holidays', sla: '9x6', scope: 'Efficient spare parts management and logistics aimed at accelerating break-fix processes.', icon: Package },
-    { name: 'PREMIUM', coverage: 'Full coverage, 7 days a week 24 hours a day Including public holidays', sla: '24x7', scope: 'Swift, on-site technical support from our team of qualified and certified engineers.', icon: Server },
-  ];
-
-  const ossTiers = [
-    { tier: 'GOLD', coverage: '24 x 7 Around the clock', response: 'Within 1 hour', submission: 'Chat, Email, Group Chat, Phone', l1: 'By RTA', l2l3: 'Enterprise Architects 20+ years experience' },
-    { tier: 'SILVER', coverage: 'Business Hours 8am-6pm local time', response: 'Within 4 hours', submission: 'Chat, Email, Group Chat', l1: 'By RTA', l2l3: 'Senior Engineers 10+ years experience' },
-    { tier: 'BRONZE', coverage: 'Business Hours 8am - 6pm local time', response: 'Within 8 hours', submission: 'Email, Portal', l1: 'By RTA', l2l3: 'Engineers 5+ years experience' },
-  ];
-
   return (
     <div className="bg-white py-16 lg:py-24">
       <div className="mx-auto" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
@@ -95,16 +83,20 @@ export default function ServicesPage() {
         <motion.div 
           className="space-y-12"
           initial="hidden"
-          whileInView="visible"
+          animate="visible"
           viewport={viewportOptions}
-          variants={getAnimationVariants(staggerContainer)}
+          variants={{
+            hidden: { opacity: 1 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.08, delayChildren: 0.05 }
+            }
+          }}
         >
           {services.map((service, index) => {
             const IconComponent = service.icon;
             const sectionId = index === 0 ? 'maintenance' : index === 1 ? 'oss' : 'professional';
-            const ossHref = index === 1 ? '/services/oss' : undefined;
-            const quoteService = index === 0 ? 'rta-tpm' : index === 1 ? 'rta-oss' : 'rta-ps';
-            const quoteHref = `/contact?form=quote&service=${quoteService}`;
+            const detailHref = index === 0 ? '/services/tpm' : index === 1 ? '/services/oss' : '/services/ps';
             return (
               <motion.div
                 key={index}
@@ -167,15 +159,25 @@ export default function ServicesPage() {
                           ))}
                         </ul>
                       </CardContent>
-                      <CardFooter>
+                      <CardFooter className="flex flex-col sm:flex-row gap-3">
                         <Button
                           asChild
-                          className="w-full bg-rta-gold-cta text-white hover:bg-rta-gold-cta-hover hover:shadow-lg"
+                          className="flex-1 bg-rta-gold-cta text-white hover:bg-rta-gold-cta-hover hover:shadow-lg"
                           size="lg"
                         >
-                          <Link href={ossHref || quoteHref}>
-                            {ossHref ? 'Learn More' : 'Request Quote'}
+                          <Link href={detailHref}>
+                            Learn More
                             <ArrowRight className="w-4 h-4 ml-2" />
+                          </Link>
+                        </Button>
+                        <Button
+                          asChild
+                          variant="outline"
+                          className="flex-1 border-rta-blue text-rta-blue hover:bg-rta-blue hover:text-white"
+                          size="lg"
+                        >
+                          <Link href={`${detailHref}#request-quote`}>
+                            Request Quote
                           </Link>
                         </Button>
                       </CardFooter>
@@ -186,102 +188,6 @@ export default function ServicesPage() {
             );
           })}
         </motion.div>
-
-        {/* RTA TPM 24x7 Support Level */}
-        <motion.section
-          className="mt-16 lg:mt-24"
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOptions}
-          variants={getAnimationVariants(fadeInUp)}
-        >
-          <h2 id="tpm-support" className="text-h2-md md:text-h2 font-bold text-rta-blue mb-2">
-            RTA TPM <span className="text-rta-gold">24x7</span> Support Level
-          </h2>
-          <p className="text-body text-rta-text-secondary mb-8">SLA TYPE: Next Business Day / 4 Hours Onsite Response / 2 Hours Onsite Response</p>
-          <div className="space-y-4">
-            {tpmTiers.map((tier, idx) => {
-              const IconComponent = tier.icon;
-              return (
-                <Card key={idx} className="overflow-hidden border-rta-border bg-rta-card-bg">
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-0">
-                    <div className="md:col-span-2 bg-rta-tier-grey px-4 py-3 flex items-center">
-                      <span className="text-white font-bold text-sm uppercase">{tier.name}</span>
-                    </div>
-                    <div className="md:col-span-5 bg-rta-tier-light/50 px-4 py-3 flex items-center">
-                      <span className="text-body-sm text-rta-text">{tier.coverage}</span>
-                    </div>
-                    <div className="md:col-span-2 bg-rta-blue px-4 py-3 flex items-center justify-center">
-                      <span className="text-white font-bold">{tier.sla}</span>
-                    </div>
-                    <div className="md:col-span-3 px-4 py-3 flex items-start gap-3">
-                      <IconComponent className="w-6 h-6 text-rta-blue flex-shrink-0 mt-0.5" aria-hidden="true" />
-                      <span className="text-body-sm text-rta-text-secondary">{tier.scope}</span>
-                    </div>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
-        </motion.section>
-
-        {/* RTA OSS 24x7 Support Level */}
-        <motion.section
-          className="mt-16 lg:mt-24"
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOptions}
-          variants={getAnimationVariants(fadeInUp)}
-        >
-          <h2 id="oss-support" className="text-h2-md md:text-h2 font-bold text-rta-blue mb-2">
-            RTA OSS <span className="text-rta-gold">24x7</span> Support Level
-          </h2>
-          <p className="text-body text-rta-text-secondary mb-6">Tier comparison: Coverage, Response Time (Severity 1), Problem Submission, L1 Support, L2/L3 Support</p>
-          <div className="overflow-x-auto rounded-lg border border-rta-border">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr>
-                  <th className="bg-rta-blue text-white px-4 py-3 text-body-sm font-semibold">Tier</th>
-                  <th className="bg-rta-gold text-white px-4 py-3 text-body-sm font-semibold">GOLD</th>
-                  <th className="bg-rta-tier-grey text-white px-4 py-3 text-body-sm font-semibold">SILVER</th>
-                  <th className="bg-amber-700 text-white px-4 py-3 text-body-sm font-semibold">BRONZE</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white">
-                <tr className="border-b border-rta-border">
-                  <td className="px-4 py-3 bg-rta-bg-light font-medium text-body-sm">Coverage</td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[0].coverage}</td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[1].coverage}</td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[2].coverage}</td>
-                </tr>
-                <tr className="border-b border-rta-border">
-                  <td className="px-4 py-3 bg-rta-bg-light font-medium text-body-sm">Response Time (Severity 1)</td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[0].response}</td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[1].response}</td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[2].response}</td>
-                </tr>
-                <tr className="border-b border-rta-border">
-                  <td className="px-4 py-3 bg-rta-bg-light font-medium text-body-sm">Problem Submission</td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[0].submission}</td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[1].submission}</td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[2].submission}</td>
-                </tr>
-                <tr className="border-b border-rta-border">
-                  <td className="px-4 py-3 bg-rta-bg-light font-medium text-body-sm">L1 Support</td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[0].l1} <Button size="sm" className="ml-1 bg-rta-blue text-white hover:bg-rta-blue/90 text-xs">RTA TEAM</Button></td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[1].l1} <Button size="sm" className="ml-1 bg-rta-blue text-white hover:bg-rta-blue/90 text-xs">RTA TEAM</Button></td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[2].l1} <Button size="sm" className="ml-1 bg-rta-blue text-white hover:bg-rta-blue/90 text-xs">RTA TEAM</Button></td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-3 bg-rta-bg-light font-medium text-body-sm">L2/L3 Support</td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[0].l2l3}</td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[1].l2l3}</td>
-                  <td className="px-4 py-3 text-body-sm">{ossTiers[2].l2l3}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </motion.section>
       </div>
     </div>
   );

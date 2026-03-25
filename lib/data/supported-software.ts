@@ -2,7 +2,7 @@
  * Full supported-technology list (442 entries) sourced from the same catalog
  * as OpenLogic’s supported technology offering. Refreshed via:
  *   npm run fetch-supported-software
- * Data file: openlogic-supported.json (do not edit by hand—re-run fetch).
+ * Data file: openlogic-supported.json (do not edit by hand; re-run fetch).
  */
 
 import openlogicRaw from './openlogic-supported.json';

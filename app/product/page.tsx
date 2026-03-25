@@ -30,7 +30,7 @@ export default function ProductPage() {
               Our Product & Service Range
             </h1>
             <p className="text-body-lg text-rta-text-secondary max-w-2xl mx-auto">
-              Third-party maintenance (TPM), open-source software (OSS) support, and professional services (PS)—all under one roof.
+              Third-party maintenance (TPM), open-source software (OSS) support, and professional services (PS), all under one roof.
             </p>
           </motion.div>
         </div>
@@ -58,7 +58,7 @@ export default function ProductPage() {
             </p>
             <Separator className="w-24 mx-auto my-4 bg-rta-gold" />
             <p className="text-body text-rta-text-secondary max-w-3xl mx-auto">
-              We support all major brands in the IT space—servers, storage systems, and networking equipment—with comprehensive third-party maintenance.
+              We support all major brands in the IT space: servers, storage systems, and networking equipment, with comprehensive third-party maintenance.
             </p>
           </motion.div>
 
@@ -192,7 +192,7 @@ export default function ProductPage() {
             </p>
             <Separator className="w-24 mx-auto my-4 bg-rta-blue" />
             <p className="text-body text-rta-text-secondary max-w-3xl mx-auto">
-              End-to-end professional services for servers, storage, and networking—from installation and upgrades to migrations and ITAD.
+              End-to-end professional services for servers, storage, and networking, from installation and upgrades to migrations and ITAD.
             </p>
           </motion.div>
 

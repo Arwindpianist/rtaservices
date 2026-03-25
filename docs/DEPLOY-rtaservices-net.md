@@ -1,4 +1,4 @@
-# Deploying to rtaservices.net — Environment & tokens
+# Deploying to rtaservices.net - Environment & tokens
 
 Steps to move from localhost to **rtaservices.net**. The main site is **https://www.rtaservices.net/** (canonical; bare `rtaservices.net` redirects to `www`).
 

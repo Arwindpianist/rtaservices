@@ -20,7 +20,7 @@ function formatAmount(amount: number, currency = 'USD'): string {
 }
 
 function formatDate(dateStr: string): string {
-  if (!dateStr) return '—';
+  if (!dateStr) return '-';
   return new Date(dateStr).toLocaleDateString();
 }
 
@@ -140,7 +140,7 @@ export default function BillsPage() {
                           <td className="px-4 py-3 text-body-sm font-medium text-rta-text">{i.entity}</td>
                           <td className="px-4 py-3 text-body-sm text-rta-text tabular-nums text-right">{formatAmount(i.amount, i.currency)}</td>
                           <td className="px-4 py-3 text-body-sm text-rta-text-secondary">{formatDate(i.dueDate)}</td>
-                          <td className="px-4 py-3 text-body-sm text-rta-text-secondary">{i.ageBucket || '—'}</td>
+                          <td className="px-4 py-3 text-body-sm text-rta-text-secondary">{i.ageBucket || '-'}</td>
                           <td className="px-4 py-3">
                             <Badge variant="outline" className="text-body-sm border-rta-border text-rta-text">
                               {(i.status || '').replace(/_/g, ' ')}
@@ -179,7 +179,7 @@ export default function BillsPage() {
                 <div className="relative flex items-start justify-between gap-4">
                   <div>
                     <h2 id="bill-detail-title" className="text-lg font-bold text-rta-text mb-1">
-                      Bill — {selectedBill.entity}
+                      Bill - {selectedBill.entity}
                     </h2>
                     <p className="text-body-sm text-rta-text-secondary">{selectedBill.entity}</p>
                     <div className="flex flex-wrap items-center gap-2 mt-2">
@@ -223,7 +223,7 @@ export default function BillsPage() {
                     </div>
                     <div>
                       <dt className="text-rta-text-secondary font-medium">Aging</dt>
-                      <dd className="text-rta-text">{selectedBill.ageBucket || '—'}</dd>
+                      <dd className="text-rta-text">{selectedBill.ageBucket || '-'}</dd>
                     </div>
                     <div>
                       <dt className="text-rta-text-secondary font-medium">Status</dt>

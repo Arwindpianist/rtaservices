@@ -20,7 +20,7 @@ function formatAmount(amount: number, currency = 'USD'): string {
 }
 
 function formatDate(dateStr: string): string {
-  if (!dateStr) return '—';
+  if (!dateStr) return '-';
   return new Date(dateStr).toLocaleDateString();
 }
 
@@ -185,7 +185,7 @@ export default function InvoicesPage() {
                           <td className="px-4 py-3 text-body-sm text-rta-text">{i.entity}</td>
                           <td className="px-4 py-3 text-body-sm text-rta-text tabular-nums text-right">{formatAmount(i.amount, i.currency)}</td>
                           <td className="px-4 py-3 text-body-sm text-rta-text-secondary">{formatDate(i.dueDate)}</td>
-                          <td className="px-4 py-3 text-body-sm text-rta-text-secondary">{i.ageBucket || '—'}</td>
+                          <td className="px-4 py-3 text-body-sm text-rta-text-secondary">{i.ageBucket || '-'}</td>
                           <td className="px-4 py-3">
                             <Badge variant="outline" className="text-body-sm border-rta-border text-rta-text">
                               {(i.status || '').replace(/_/g, ' ')}
@@ -277,7 +277,7 @@ export default function InvoicesPage() {
                     </div>
                     <div>
                       <dt className="text-rta-text-secondary font-medium">Aging</dt>
-                      <dd className="text-rta-text">{selectedInvoice.ageBucket || '—'}</dd>
+                      <dd className="text-rta-text">{selectedInvoice.ageBucket || '-'}</dd>
                     </div>
                     <div>
                       <dt className="text-rta-text-secondary font-medium">Status</dt>

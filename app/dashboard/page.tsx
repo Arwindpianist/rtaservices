@@ -269,7 +269,7 @@ export default function DashboardPage() {
         </CardContent>
       </Card>
 
-      {/* KPI cards — top spotlight */}
+      {/* KPI cards - top spotlight */}
       {!zohoLoading && !zoho.error && zoho.opportunities.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 lg:mb-8">
           {zoho.winPercentage != null && (
@@ -340,7 +340,7 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Top opportunities — primary focus */}
+      {/* Top opportunities - primary focus */}
       <Card className="mb-6 lg:mb-8 border-rta-border bg-white shadow-card">
         <CardHeader className="pb-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -349,7 +349,7 @@ export default function DashboardPage() {
                 <TrendingUp className="w-5 h-5 text-rta-blue" />
                 Top opportunities
               </CardTitle>
-              <p className="text-body-sm text-rta-text-secondary mt-1">From Zoho CRM — click a row for details</p>
+              <p className="text-body-sm text-rta-text-secondary mt-1">From Zoho CRM. Click a row for details</p>
             </div>
             <div className="flex flex-wrap gap-1.5">
               {PERIODS.map((p) => (

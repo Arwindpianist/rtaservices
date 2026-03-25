@@ -61,7 +61,7 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
           >
-            Your strategic IT maintenance partner in Asia—partnered with ACA Pacific to deliver enterprise-grade support and professional services.
+            Your strategic IT maintenance partner in Asia, partnered with ACA Pacific to deliver enterprise-grade support and professional services.
           </motion.p>
         </div>
       </section>
@@ -159,7 +159,7 @@ export default function AboutPage() {
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <p className="text-body-lg text-rta-text-secondary leading-relaxed">
-                          RTA Services deliver three branches of support: third-party hardware and software maintenance, open source software (OSS) support, and professional services—including installation, upgrades, and OS deployment for servers, storage, and networking, backed by L1 to L3 support.
+                          RTA Services deliver three branches of support: third-party hardware and software maintenance, open source software (OSS) support, and professional services, including installation, upgrades, and OS deployment for servers, storage, and networking, backed by L1 to L3 support.
                         </p>
                         <Separator />
                         <p className="text-body-lg text-rta-text-secondary leading-relaxed">

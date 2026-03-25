@@ -8,9 +8,9 @@ import { fadeInUp, staggerContainer, getAnimationVariants, viewportOptions } fro
 
 export default function Hero() {
   const features = [
-    { title: 'Cost Saving', detail: 'Up to 40%' },
-    { title: 'Multi-Vendor', detail: '20+ brands' },
-    { title: 'Guaranteed Uptime', detail: '99.9% SLA' },
+    { title: 'Network and Server Hardware', detail: 'TPM – multi-vendor, SLA-grade' },
+    { title: 'Open Source Software', detail: 'OSS – 24/7, guaranteed SLAs' },
+    { title: 'Professional Services', detail: 'PS – deploy, migrate, consult' },
   ];
 
   return (
@@ -34,9 +34,9 @@ export default function Hero() {
           >
             <motion.div variants={getAnimationVariants(fadeInUp)}>
               <h1 className="text-hero-sm md:text-hero-md lg:text-hero font-bold text-rta-blue mb-4 leading-tight">
-                Enterprise <span className="text-rta-red font-bold">SLA</span> Grade Maintenance{' '}
+                <span className="text-rta-red font-bold">Hardware.</span>{' '}
                 <span className="relative inline-block">
-                  <span className="text-rta-gold">Services</span>
+                  <span className="text-rta-gold">Software.</span>
                   <motion.span
                     className="absolute bottom-0 left-0 right-0 h-1 bg-rta-gold/40 rounded-full"
                     initial={{ scaleX: 0 }}
@@ -46,7 +46,8 @@ export default function Hero() {
                     style={{ originX: 0 }}
                   />
                 </span>
-                {' '}&amp; Support Partner
+                {' '}<span className="text-rta-blue">Services.</span>{' '}
+                One Partner.
               </h1>
               <span className="inline-block w-16 h-1 rounded-full bg-rta-gold mt-2 mb-6" aria-hidden="true" />
             </motion.div>
@@ -54,7 +55,7 @@ export default function Hero() {
               className="text-body-lg md:text-xl text-rta-text-secondary mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed"
               variants={getAnimationVariants(fadeInUp)}
             >
-              We empower organizations to maintain, migrate and scale, cost effectively.
+              Maintain, migrate, and scale cost-effectively. Third-party hardware maintenance, enterprise OSS support, and professional services. 24/7. SLA-grade. Asia.
             </motion.p>
             <motion.div 
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"

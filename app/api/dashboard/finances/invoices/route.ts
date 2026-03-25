@@ -45,7 +45,7 @@ async function fetchXeroInvoices(
     return {
       id: inv.InvoiceID || inv.InvoiceNumber || '',
       type: type === 'ACCPAY' ? ('in' as const) : ('out' as const),
-      entity: inv.Contact?.Name || '—',
+      entity: inv.Contact?.Name || '-',
       amount: inv.Total ?? 0,
       currency: inv.CurrencyCode || 'USD',
       dueDate,

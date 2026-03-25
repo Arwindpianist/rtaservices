@@ -149,7 +149,7 @@ export default function SupportRequestPage() {
             Browse <strong>{SUPPORTED_SOFTWARE.length}</strong> supported technologies, select one, then request support with your details.
           </p>
           <p className="text-body-sm text-rta-text-secondary mb-10">
-            All listings stay on this site—no external catalog.
+            All listings stay on this site. No external catalog.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-8">
@@ -206,7 +206,7 @@ export default function SupportRequestPage() {
                   )}
                   {query.trim() && filtered.length === DROPDOWN_LIMIT && (
                     <p className="px-4 py-2 text-xs text-rta-text-secondary border-t border-rta-border">
-                      Showing first {DROPDOWN_LIMIT} matches—refine search or use full list.
+                      Showing first {DROPDOWN_LIMIT} matches. Refine search or use full list.
                     </p>
                   )}
                 </div>
@@ -215,7 +215,7 @@ export default function SupportRequestPage() {
                 <p className="mt-2 text-body-sm text-rta-text">
                   Selected: <strong>{selected.name}</strong>
                   {selected.supportLevel && selected.supportLevel.length > 0 && (
-                    <span className="text-rta-text-secondary"> — {selected.supportLevel.join(', ')}</span>
+                    <span className="text-rta-text-secondary"> - {selected.supportLevel.join(', ')}</span>
                   )}
                   <button
                     type="button"
@@ -379,7 +379,7 @@ export default function SupportRequestPage() {
                           <td className="px-4 py-2.5 text-rta-text-secondary">
                             {item.supportLevel && item.supportLevel.length > 0
                               ? item.supportLevel.join(', ')
-                              : '—'}
+                              : '-'}
                           </td>
                           <td className="px-4 py-2.5">
                             <Button

@@ -35,10 +35,16 @@ interface FormErrors {
   requirements?: string;
 }
 
-export default function QuoteForm() {
+interface QuoteFormProps {
+  /** When set, service is fixed and the selector is hidden (e.g. on a dedicated service page) */
+  defaultService?: QuoteServiceValue;
+}
+
+export default function QuoteForm({ defaultService }: QuoteFormProps = {}) {
   const searchParams = useSearchParams();
+  const initialService = defaultService ?? 'general';
   const [formData, setFormData] = useState<QuoteFormData>({
-    service: 'general',
+    service: initialService,
     companyName: '',
     contactPerson: '',
     email: '',
@@ -49,14 +55,18 @@ export default function QuoteForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  // Pre-fill service from URL (?form=quote&service=oss | tpm | ps | general)
+  // Pre-fill service from URL (?form=quote&service=...) or keep defaultService
   useEffect(() => {
+    if (defaultService) {
+      setFormData((prev) => ({ ...prev, service: defaultService }));
+      return;
+    }
     const serviceParam = searchParams.get('service');
     const valid = QUOTE_SERVICE_OPTIONS.some((o) => o.value === serviceParam);
     if (serviceParam && valid) {
       setFormData((prev) => ({ ...prev, service: serviceParam as QuoteServiceValue }));
     }
-  }, [searchParams]);
+  }, [searchParams, defaultService]);
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -156,6 +166,7 @@ export default function QuoteForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {!defaultService && (
       <div>
         <Label className="text-body-sm text-rta-text mb-3 block">
           Service you&apos;re looking for *
@@ -200,6 +211,7 @@ export default function QuoteForm() {
           )}
         </AnimatePresence>
       </div>
+      )}
 
       <div>
         <Label htmlFor="companyName" className="text-body-sm text-rta-text mb-2">

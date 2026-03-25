@@ -12,6 +12,7 @@ const config: Config = {
   	extend: {
   		fontFamily: {
   			sans: [
+  				'"Noto Sans Grantha"',
   				'Helvetica',
   				'"Helvetica Neue"',
   				'Arial',

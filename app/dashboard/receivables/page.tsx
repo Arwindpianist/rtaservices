@@ -12,7 +12,7 @@ function formatAmount(amount: number, currency = 'USD'): string {
 }
 
 function formatDate(dateStr: string): string {
-  if (!dateStr) return '—';
+  if (!dateStr) return '-';
   return new Date(dateStr).toLocaleDateString();
 }
 

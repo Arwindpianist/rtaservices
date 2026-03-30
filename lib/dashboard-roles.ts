@@ -18,6 +18,7 @@ export const DASHBOARD_USER_LABELS: Record<DashboardUserId, string> = {
 };
 
 export type DashboardRole = 'chris' | 'arnaud' | 'craig' | 'other';
+export const TOP5_PRESENTATION_ROLES: DashboardRole[] = ['chris', 'craig', 'other'];
 
 export interface RoleCapabilities {
   canSeePayroll: boolean;
@@ -40,11 +41,11 @@ const ROLE_CAPABILITIES: Record<DashboardRole, RoleCapabilities> = {
     canSeeSalaryAndLeave: true,
   },
   craig: {
-    // Same as Arnaud except no HRM System
-    canSeePayroll: true,
+    // Same visibility as Chris (finance-restricted), no HRM System
+    canSeePayroll: false,
     canSeeHrm: false,
-    canSeeMasterFinancials: true,
-    canSeeSalaryAndLeave: true,
+    canSeeMasterFinancials: false,
+    canSeeSalaryAndLeave: false,
   },
   other: {
     canSeePayroll: false,
@@ -63,6 +64,10 @@ export function getRoleForUser(userId: string): DashboardRole {
 
 export function getRoleCapabilities(role: DashboardRole): RoleCapabilities {
   return ROLE_CAPABILITIES[role];
+}
+
+export function canUseTop5Presentation(role: DashboardRole): boolean {
+  return TOP5_PRESENTATION_ROLES.includes(role);
 }
 
 export function isValidUserId(userId: string): userId is DashboardUserId {

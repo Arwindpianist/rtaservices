@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, ChevronRight, X, DollarSign } from 'lucide-react';
-import { MOCK_PAYROLL, getPayrollTaxSummary, type PayrollEntry } from '@/lib/mock-data/payroll';
+import { ArrowLeft, ChevronRight, X, DollarSign, Loader2 } from 'lucide-react';
+import type { PayrollEntry } from '@/lib/mock-data/payroll';
 import { useDashboardPresentation } from '../DashboardPresentationContext';
 import { RequirePayroll } from '@/lib/dashboard-capability-guard';
 
@@ -20,16 +20,45 @@ function PayrollContent() {
   const [status, setStatus] = useState<string>('all');
   const [selectedEntry, setSelectedEntry] = useState<PayrollEntry | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [source, setSource] = useState('mock');
+  const [allEntries, setAllEntries] = useState<PayrollEntry[]>([]);
+  const [taxSummary, setTaxSummary] = useState<{ totalTaxes: number; totalGross: number; totalNet: number }>({
+    totalTaxes: 0,
+    totalGross: 0,
+    totalNet: 0,
+  });
 
-  let entries: PayrollEntry[] = MOCK_PAYROLL;
+  useEffect(() => {
+    fetch('/api/dashboard/payroll')
+      .then((res) => res.json())
+      .then((data) => {
+        const entries = (data.entries ?? []) as PayrollEntry[];
+        setAllEntries(entries);
+        setSource(data.source || 'mock');
+        setTaxSummary(
+          data.summary ?? {
+            totalTaxes: entries.reduce((sum, row) => sum + row.taxes, 0),
+            totalGross: entries.reduce((sum, row) => sum + row.grossAmount, 0),
+            totalNet: entries.reduce((sum, row) => sum + row.payAmount, 0),
+          }
+        );
+      })
+      .catch(() => {
+        setAllEntries([]);
+        setSource('mock');
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  let entries: PayrollEntry[] = allEntries;
   if (country !== 'all') entries = entries.filter((e) => e.country === country);
   if (department !== 'all') entries = entries.filter((e) => e.department === department);
   if (status !== 'all') entries = entries.filter((e) => e.payStatus === status);
 
-  const taxSummary = getPayrollTaxSummary();
-  const countries = [...new Set(MOCK_PAYROLL.map((e) => e.country))];
-  const departments = [...new Set(MOCK_PAYROLL.map((e) => e.department))];
-  const statuses = [...new Set(MOCK_PAYROLL.map((e) => e.payStatus))];
+  const countries = [...new Set(allEntries.map((e) => e.country))];
+  const departments = [...new Set(allEntries.map((e) => e.department))];
+  const statuses = [...new Set(allEntries.map((e) => e.payStatus))];
 
   return (
     <div className="min-h-[calc(100vh-3.5rem)] bg-rta-bg-light">
@@ -43,8 +72,23 @@ function PayrollContent() {
           </Button>
         </div>
         <h1 className="text-h3 font-bold text-rta-blue">Payroll</h1>
-        <p className="text-body-sm text-rta-text-secondary mt-1">Starts with SG. By country, department, role, employee, pay period/date/amount/method/status/type/frequency, taxes</p>
+        <p className="text-body-sm text-rta-text-secondary mt-1">
+          Starts with SG. By country, department, role, employee, pay period/date/amount/method/status/type/frequency, taxes
+          <span className="ml-2 text-rta-blue font-medium">
+            · {source === 'mock' ? 'Preview data' : 'Live data'}
+          </span>
+        </p>
 
+        {loading ? (
+          <Card className="border-rta-border bg-white shadow-card mt-6 mb-6">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-2 py-8 justify-center text-rta-text-secondary">
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span className="text-body-sm">Loading payroll…</span>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 mb-6">
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
             <div className="absolute top-0 right-0 w-20 h-20 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
@@ -68,6 +112,7 @@ function PayrollContent() {
             </CardContent>
           </Card>
         </div>
+        )}
 
         <div className="space-y-4 mb-6">
           <div className="flex flex-wrap gap-2">

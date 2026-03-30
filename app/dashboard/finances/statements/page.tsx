@@ -1,24 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ChevronRight, X } from 'lucide-react';
 import {
-  MOCK_STATEMENT_CUSTOMER,
-  MOCK_STATEMENT_SUPPLIER,
-  MOCK_STATEMENT_STAFF,
   type AccountStatement,
   type StatementLine,
 } from '@/lib/mock-data/finances';
 import { useDashboardPresentation } from '../../DashboardPresentationContext';
+import { Loader2 } from 'lucide-react';
+import { RequireMasterFinancials } from '@/lib/dashboard-capability-guard';
 
-const STATEMENTS: { id: string; label: string; data: AccountStatement }[] = [
-  { id: 'customer', label: 'Main customer account statement', data: MOCK_STATEMENT_CUSTOMER },
-  { id: 'supplier', label: 'Main supplier account statement', data: MOCK_STATEMENT_SUPPLIER },
-  { id: 'staff', label: 'Main staff account statement', data: MOCK_STATEMENT_STAFF },
-];
+const EMPTY_STATEMENT: AccountStatement = {
+  entity: '-',
+  entityType: 'customer',
+  currency: 'USD',
+  lines: [],
+  totalDebit: 0,
+  totalCredit: 0,
+  balance: 0,
+};
 
 function formatAmount(amount: number, currency = 'USD'): string {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency, maximumFractionDigits: 0 }).format(amount);
@@ -34,7 +37,30 @@ export default function StatementsPage() {
   const [selectedLine, setSelectedLine] = useState<StatementLine | null>(null);
   const [selectedCurrency, setSelectedCurrency] = useState<string>('USD');
   const [detailOpen, setDetailOpen] = useState(false);
-  const st = STATEMENTS[active]?.data;
+  const [loading, setLoading] = useState(true);
+  const [source, setSource] = useState('mock');
+  const [statements, setStatements] = useState<{ id: string; label: string; data: AccountStatement }[]>([
+    { id: 'customer', label: 'Main customer account statement', data: EMPTY_STATEMENT },
+    { id: 'supplier', label: 'Main supplier account statement', data: EMPTY_STATEMENT },
+    { id: 'staff', label: 'Main staff account statement', data: EMPTY_STATEMENT },
+  ]);
+
+  useEffect(() => {
+    fetch('/api/dashboard/finances/statements')
+      .then((res) => res.json())
+      .then((data) => {
+        const s = data.statements ?? {};
+        setStatements([
+          { id: 'customer', label: 'Main customer account statement', data: (s.customer as AccountStatement) ?? EMPTY_STATEMENT },
+          { id: 'supplier', label: 'Main supplier account statement', data: (s.supplier as AccountStatement) ?? EMPTY_STATEMENT },
+          { id: 'staff', label: 'Main staff account statement', data: (s.staff as AccountStatement) ?? EMPTY_STATEMENT },
+        ]);
+        setSource(data.source || 'mock');
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+  const st = statements[active]?.data;
 
   if (presentationMode) {
     return (
@@ -53,6 +79,7 @@ export default function StatementsPage() {
   }
 
   return (
+    <RequireMasterFinancials backHref="/dashboard">
     <div className="min-h-[calc(100vh-3.5rem)] bg-rta-bg-light">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
         <div className="flex items-center gap-4 mb-6">
@@ -64,10 +91,15 @@ export default function StatementsPage() {
           </Button>
         </div>
         <h1 className="text-h3 font-bold text-rta-blue">Account statements</h1>
-        <p className="text-body-sm text-rta-text-secondary mt-1">Main customer, supplier, and staff account statements</p>
+        <p className="text-body-sm text-rta-text-secondary mt-1">
+          Main customer, supplier, and staff account statements
+          <span className="ml-2 text-rta-blue font-medium">
+            · {source === 'mock' ? 'Preview data' : 'Live data'}
+          </span>
+        </p>
 
         <div className="flex flex-wrap gap-2 mt-6 mb-4">
-          {STATEMENTS.map((s, i) => (
+          {statements.map((s, i) => (
             <Button
               key={s.id}
               variant={active === i ? 'default' : 'outline'}
@@ -80,7 +112,16 @@ export default function StatementsPage() {
           ))}
         </div>
 
-        {st && (
+        {loading ? (
+          <Card className="border-rta-border bg-white shadow-card">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-2 py-12 justify-center text-rta-text-secondary">
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span className="text-body-sm">Loading statements…</span>
+              </div>
+            </CardContent>
+          </Card>
+        ) : st && (
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
             <CardHeader className="relative">
               <CardTitle className="text-base font-semibold text-rta-blue">{st.entity}</CardTitle>
@@ -210,5 +251,6 @@ export default function StatementsPage() {
         )}
       </div>
     </div>
+    </RequireMasterFinancials>
   );
 }

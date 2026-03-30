@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, ChevronRight, X, Wallet } from 'lucide-react';
-import { MOCK_PAYMENTS, getPaymentsByStatus, getPaymentsByEntityType, type PaymentRow } from '@/lib/mock-data/finances';
+import { ArrowLeft, ChevronRight, X, Wallet, Loader2 } from 'lucide-react';
+import type { PaymentRow } from '@/lib/mock-data/finances';
+import { RequireMasterFinancials } from '@/lib/dashboard-capability-guard';
 
 const STATUSES: { id: PaymentRow['status']; label: string }[] = [
   { id: 'due', label: 'Due' },
@@ -35,15 +36,30 @@ export default function PaymentsPage() {
   const [entityType, setEntityType] = useState<PaymentRow['entityType'] | 'all'>('all');
   const [selectedPayment, setSelectedPayment] = useState<PaymentRow | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [source, setSource] = useState('mock');
+  const [paymentsData, setPaymentsData] = useState<PaymentRow[]>([]);
 
-  let payments: PaymentRow[] = MOCK_PAYMENTS;
-  if (status !== 'all') payments = getPaymentsByStatus(status);
-  if (entityType !== 'all') payments = getPaymentsByEntityType(entityType);
-  if (status !== 'all' && entityType !== 'all') {
-    payments = MOCK_PAYMENTS.filter((p) => p.status === status && p.entityType === entityType);
-  }
+  useEffect(() => {
+    fetch('/api/dashboard/finances/payments')
+      .then((res) => res.json())
+      .then((data) => {
+        setPaymentsData((data.payments ?? []) as PaymentRow[]);
+        setSource(data.source || 'mock');
+      })
+      .catch(() => {
+        setPaymentsData([]);
+        setSource('mock');
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  let payments: PaymentRow[] = paymentsData;
+  if (status !== 'all') payments = payments.filter((p) => p.status === status);
+  if (entityType !== 'all') payments = payments.filter((p) => p.entityType === entityType);
 
   return (
+    <RequireMasterFinancials backHref="/dashboard">
     <div className="min-h-[calc(100vh-3.5rem)] bg-rta-bg-light">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
         <div className="flex items-center gap-4 mb-6">
@@ -55,7 +71,12 @@ export default function PaymentsPage() {
           </Button>
         </div>
         <h1 className="text-h3 font-bold text-rta-blue">Payments</h1>
-        <p className="text-body-sm text-rta-text-secondary mt-1">Due, overdue, late, on time, early. For customers, suppliers, staff</p>
+        <p className="text-body-sm text-rta-text-secondary mt-1">
+          Due, overdue, late, on time, early. For customers, suppliers, staff
+          <span className="ml-2 text-rta-blue font-medium">
+            · {source === 'mock' ? 'Preview data' : 'Live data'}
+          </span>
+        </p>
 
         <div className="mt-6 space-y-4">
           <div>
@@ -110,8 +131,15 @@ export default function PaymentsPage() {
 
         <Card className="mt-6 border-rta-border bg-white shadow-card">
           <CardContent className="pt-6">
-            <p className="text-body-sm text-rta-text-secondary mb-3">Click a row to view details</p>
-            <div className="overflow-x-auto rounded-md border border-rta-border">
+            {loading ? (
+              <div className="flex items-center gap-2 py-12 justify-center text-rta-text-secondary">
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span className="text-body-sm">Loading payments…</span>
+              </div>
+            ) : (
+              <>
+                <p className="text-body-sm text-rta-text-secondary mb-3">Click a row to view details</p>
+                <div className="overflow-x-auto rounded-md border border-rta-border">
               <table className="w-full text-left">
                 <thead>
                   <tr className="bg-rta-bg-light border-b border-rta-border">
@@ -156,9 +184,11 @@ export default function PaymentsPage() {
                   ))}
                 </tbody>
               </table>
-            </div>
-            {payments.length === 0 && (
-              <p className="py-8 text-center text-body-sm text-rta-text-secondary">No payments match the filters.</p>
+                </div>
+                {payments.length === 0 && (
+                  <p className="py-8 text-center text-body-sm text-rta-text-secondary">No payments match the filters.</p>
+                )}
+              </>
             )}
           </CardContent>
         </Card>
@@ -247,5 +277,6 @@ export default function PaymentsPage() {
         )}
       </div>
     </div>
+    </RequireMasterFinancials>
   );
 }

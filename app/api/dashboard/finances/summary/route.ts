@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getValidAccessToken } from '@/lib/xero-store';
 import { getXeroTokens } from '@/lib/xero-store';
+import { requireMasterFinancials } from '@/lib/dashboard-api-guard';
 import {
   getInvoicesIn,
   getInvoicesOut,
@@ -31,6 +32,9 @@ async function fetchXeroInvoices(accessToken: string, tenantId: string): Promise
 }
 
 export async function GET(request: NextRequest) {
+  const denied = requireMasterFinancials(request);
+  if (denied) return denied;
+
   const accessToken = await getValidAccessToken();
   const tokens = getXeroTokens();
   const tenantId = tokens?.tenant_id;

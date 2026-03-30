@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Loader2, ChevronRight, TrendingUp } from 'lucide-react';
 import { AnimatedNumber } from '@/components/dashboard/AnimatedNumber';
+import { RequireMasterFinancials } from '@/lib/dashboard-capability-guard';
 
 function formatAmount(amount: number, currency = 'USD'): string {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency, maximumFractionDigits: 0 }).format(amount);
@@ -59,6 +60,7 @@ export default function ReceivablesPage() {
   const outstandingTotal = data.outstanding.reduce((s, i) => s + i.amount, 0);
 
   return (
+    <RequireMasterFinancials backHref="/dashboard">
     <div className="min-h-[calc(100vh-3.5rem)] bg-rta-bg-light">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
         <div className="flex items-center gap-4 mb-6">
@@ -221,5 +223,6 @@ export default function ReceivablesPage() {
         </div>
       </div>
     </div>
+    </RequireMasterFinancials>
   );
 }

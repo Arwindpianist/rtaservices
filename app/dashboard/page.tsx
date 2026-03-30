@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -76,6 +77,8 @@ type XeroStatus = {
   error?: string;
 };
 
+type XeroIssueCode = 'error' | 'config' | 'exchange' | 'preflight' | 'preflight_ok';
+
 function getMedalRowClass(rank: number): string {
   if (rank === 1) return 'bg-amber-50/60';
   if (rank === 2) return 'bg-rta-bg-light/60';
@@ -121,6 +124,7 @@ function formatAmount(amount: number, currency = 'USD'): string {
 }
 
 export default function DashboardPage() {
+  const searchParams = useSearchParams();
   const { presentationMode } = useDashboardPresentation();
   const [zoho, setZoho] = useState<ZohoData>({
     opportunities: [],
@@ -137,6 +141,10 @@ export default function DashboardPage() {
   const [period, setPeriod] = useState<string>('all');
   const [selectedOpp, setSelectedOpp] = useState<Opportunity | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
+  const [xeroInstructionOpen, setXeroInstructionOpen] = useState(false);
+  const [xeroIssueCode, setXeroIssueCode] = useState<XeroIssueCode | null>(null);
+  const [xeroRedirectUri, setXeroRedirectUri] = useState('');
+  const [xeroConnectLoading, setXeroConnectLoading] = useState(false);
 
   useEffect(() => {
     fetch('/api/dashboard/me')
@@ -184,6 +192,68 @@ export default function DashboardPage() {
       .finally(() => setXeroLoading(false));
   }, []);
 
+  useEffect(() => {
+    const issue = searchParams.get('xero');
+    if (!issue) return;
+    if (issue === 'error' || issue === 'config' || issue === 'exchange') {
+      setXeroIssueCode(issue);
+      setXeroInstructionOpen(true);
+      // Get the exact redirect URI that the server will use for OAuth.
+      void (async () => {
+        try {
+          const preflight = await fetch('/api/xero/preflight');
+          const data = (await preflight.json()) as { redirectUri?: string };
+          setXeroRedirectUri(data.redirectUri || `${window.location.origin}/api/xero/callback`);
+        } catch {
+          setXeroRedirectUri(`${window.location.origin}/api/xero/callback`);
+        }
+      })();
+    }
+    const url = new URL(window.location.href);
+    url.searchParams.delete('xero');
+    window.history.replaceState({}, '', url.toString());
+  }, [searchParams]);
+
+  const proceedToXeroAuth = () => {
+    setXeroInstructionOpen(false);
+    window.location.assign('/api/xero/auth');
+  };
+
+  const connectToXero = async () => {
+    setXeroConnectLoading(true);
+    try {
+      const preflight = await fetch('/api/xero/preflight');
+      const data = (await preflight.json()) as {
+        ok?: boolean;
+        code?: string;
+        redirectUri?: string;
+      };
+      if (!preflight.ok || data.ok !== true) {
+        setXeroIssueCode('preflight');
+        setXeroRedirectUri(data.redirectUri || `${window.location.origin}/api/xero/callback`);
+        setXeroInstructionOpen(true);
+        return;
+      }
+      setXeroIssueCode('preflight_ok');
+      setXeroRedirectUri(data.redirectUri || `${window.location.origin}/api/xero/callback`);
+      setXeroInstructionOpen(true);
+    } catch {
+      setXeroIssueCode('preflight');
+      setXeroRedirectUri(`${window.location.origin}/api/xero/callback`);
+      setXeroInstructionOpen(true);
+    } finally {
+      setXeroConnectLoading(false);
+    }
+  };
+
+  const xeroIssueText: Record<XeroIssueCode, string> = {
+    error: 'Xero returned an OAuth error before authorization completed.',
+    config: 'Xero credentials are not configured on this deployment.',
+    exchange: 'Authorization succeeded but token exchange failed (usually redirect URI mismatch).',
+    preflight: 'Pre-check failed. Your customer likely needs to update the Xero app redirect URI for this domain.',
+    preflight_ok: 'Confirm the redirect URI below matches your customer’s Xero app settings, then proceed.',
+  };
+
   const isUsd = (o: { currency?: string }) => (o.currency || 'USD').toUpperCase() === 'USD';
   const activeOpps = zoho.opportunities.filter((o) => {
     const s = o.stage.toLowerCase();
@@ -213,24 +283,28 @@ export default function DashboardPage() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
-            <Button asChild variant="outline" size="sm" className="border-rta-border text-rta-text hover:bg-rta-bg-light">
-              <Link href="/dashboard/finances" className="inline-flex items-center gap-2">
-                <Receipt className="w-4 h-4" />
-                Finances
-              </Link>
-            </Button>
+            {capabilities?.canSeeMasterFinancials && (
+              <Button asChild variant="outline" size="sm" className="border-rta-border text-rta-text hover:bg-rta-bg-light">
+                <Link href="/dashboard/finances" className="inline-flex items-center gap-2">
+                  <Receipt className="w-4 h-4" />
+                  Finances
+                </Link>
+              </Button>
+            )}
               <Button asChild variant="outline" size="sm" className="border-rta-border text-rta-text hover:bg-rta-bg-light">
                 <Link href="/dashboard/quote-to-cash" className="inline-flex items-center gap-2">
                   <Link2 className="w-4 h-4" />
                   Quote-to-cash
                 </Link>
               </Button>
-            <Button asChild variant="outline" size="sm" className="border-rta-border text-rta-text hover:bg-rta-bg-light">
-              <Link href="/dashboard/receivables" className="inline-flex items-center gap-2">
-                <Wallet className="w-4 h-4" />
-                Receivables
-              </Link>
-            </Button>
+            {capabilities?.canSeeMasterFinancials && (
+              <Button asChild variant="outline" size="sm" className="border-rta-border text-rta-text hover:bg-rta-bg-light">
+                <Link href="/dashboard/receivables" className="inline-flex items-center gap-2">
+                  <Wallet className="w-4 h-4" />
+                  Receivables
+                </Link>
+              </Button>
+            )}
             <Button asChild variant="outline" size="sm" className="border-rta-border text-rta-text hover:bg-rta-bg-light">
               <Link href="/dashboard/customers" className="inline-flex items-center gap-2">
                 <Users className="w-4 h-4" />
@@ -679,7 +753,115 @@ export default function DashboardPage() {
         </div>
       )}
 
+      {xeroInstructionOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-rta-blue/60 backdrop-blur-sm"
+          onClick={() => setXeroInstructionOpen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="xero-fix-title"
+        >
+          <div
+            className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden border border-rta-border flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="bg-rta-bg-light border-b border-rta-border p-5">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h2 id="xero-fix-title" className="text-lg font-bold text-rta-text">
+                    Xero connection needs reconfiguration
+                  </h2>
+                  <p className="text-body-sm text-rta-text-secondary mt-1">
+                    {xeroIssueCode ? xeroIssueText[xeroIssueCode] : 'Connection could not be completed.'}
+                  </p>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setXeroInstructionOpen(false)}
+                  className="rounded-full shrink-0 hover:bg-black/5 text-rta-text-secondary"
+                  aria-label="Close"
+                >
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+            </div>
+            <div className="p-5 space-y-4">
+              <p className="text-body-sm text-rta-text">
+                {xeroIssueCode === 'preflight_ok'
+                  ? 'If the redirect URI below matches, click proceed to start OAuth.'
+                  : 'Ask your customer to update the Redirect URI in their Xero app, then try connecting again.'}
+              </p>
+              <div className="rounded-md border border-rta-border bg-white p-3">
+                <p className="text-body-sm font-semibold text-rta-text mb-2">Use these exact Xero app settings</p>
+                <ul className="space-y-1.5 text-body-sm text-rta-text">
+                  <li>
+                    <span className="font-medium">Integration type:</span> Web app
+                  </li>
+                  <li>
+                    <span className="font-medium">Company or application URL:</span>{' '}
+                    {typeof window !== 'undefined' ? window.location.origin : ''}
+                  </li>
+                  <li>
+                    <span className="font-medium">OAuth 2.0 redirect URI:</span>
+                  </li>
+                </ul>
+                <div className="mt-2 rounded-md border border-rta-border bg-rta-bg-light px-3 py-2 text-body-sm font-mono break-all text-rta-text">
+                  {xeroRedirectUri || `${typeof window !== 'undefined' ? window.location.origin : ''}/api/xero/callback`}
+                </div>
+                <p className="mt-2 text-xs text-rta-text-secondary">
+                  Must match exactly: protocol, domain, and path. No trailing slash.
+                </p>
+              </div>
+              <ol className="list-decimal pl-5 space-y-2 text-body-sm text-rta-text">
+                <li>Open Xero Developer Portal and create/edit the app.</li>
+                <li>Set Integration type to Web app.</li>
+                <li>Set Company or application URL to your live domain.</li>
+                <li>Set OAuth 2.0 redirect URI to the value shown above.</li>
+              </ol>
+              <ol className="list-decimal pl-5 space-y-2 text-body-sm text-rta-text" start={3}>
+                {xeroIssueCode === 'preflight_ok' ? (
+                  <>
+                    <li>Verify the redirect URI in Xero matches exactly.</li>
+                    <li>Click Proceed to Xero.</li>
+                  </>
+                ) : (
+                  <>
+                    <li>Save changes in Xero Developer Portal.</li>
+                    <li>Return here and click Connect to Xero again.</li>
+                  </>
+                )}
+              </ol>
+              <div className="flex flex-wrap gap-2 pt-2">
+                <Button
+                  className="bg-rta-blue hover:bg-rta-blue-hover text-white"
+                  onClick={() => {
+                    if (xeroIssueCode === 'preflight_ok') {
+                      proceedToXeroAuth();
+                      return;
+                    }
+                    setXeroInstructionOpen(false);
+                    void connectToXero();
+                  }}
+                  disabled={xeroConnectLoading}
+                >
+                  {xeroConnectLoading ? 'Checking…' : xeroIssueCode === 'preflight_ok' ? 'Proceed to Xero' : 'Try connect again'}
+                </Button>
+                <Button
+                  variant="outline"
+                  className="border-rta-border text-rta-text"
+                  onClick={() => setXeroInstructionOpen(false)}
+                >
+                  Close
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Xero */}
+      {capabilities?.canSeeMasterFinancials && (
       <Card className="border-rta-border bg-white shadow-card">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg font-semibold text-rta-text">
@@ -709,16 +891,23 @@ export default function DashboardPage() {
                 </div>
               </div>
             ) : (
-              <Button asChild className="bg-rta-blue hover:bg-rta-blue-hover text-white">
-                <Link href="/api/xero/auth" className="inline-flex items-center gap-2">
-                  Connect to Xero
+              <Button
+                className="bg-rta-blue hover:bg-rta-blue-hover text-white"
+                onClick={() => {
+                  void connectToXero();
+                }}
+                disabled={xeroConnectLoading}
+              >
+                <span className="inline-flex items-center gap-2">
+                  Connect to Xero (Setup Guide)
                   <ExternalLink className="w-4 h-4" />
-                </Link>
+                </span>
               </Button>
             )
           )}
         </CardContent>
       </Card>
+      )}
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { getValidAccessToken } from '@/lib/xero-store';
 import { getXeroTokens } from '@/lib/xero-store';
 import { MOCK_INVOICES } from '@/lib/mock-data/finances';
 import type { InvoiceItem } from '@/lib/dashboard-finances-types';
+import { requireMasterFinancials } from '@/lib/dashboard-api-guard';
 
 async function fetchXeroInvoices(
   accessToken: string,
@@ -70,6 +71,9 @@ function mockToItems(): InvoiceItem[] {
 }
 
 export async function GET(request: NextRequest) {
+  const denied = requireMasterFinancials(request);
+  if (denied) return denied;
+
   const accessToken = await getValidAccessToken();
   const tokens = getXeroTokens();
   const tenantId = tokens?.tenant_id;

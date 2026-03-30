@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Loader2, ChevronRight, X, FileText } from 'lucide-react';
 import type { InvoiceItem } from '@/lib/dashboard-finances-types';
+import { RequireMasterFinancials } from '@/lib/dashboard-capability-guard';
 
 const AGE_BUCKETS = [
   { id: '0-30', label: '0–30 days' },
@@ -48,6 +49,7 @@ export default function InvoicesPage() {
   const toReceive = invoices.filter((i) => i.type === 'out').reduce((s, i) => s + i.amount, 0);
 
   return (
+    <RequireMasterFinancials backHref="/dashboard">
     <div className="min-h-[calc(100vh-3.5rem)] bg-rta-bg-light">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
         <div className="flex items-center gap-4 mb-6">
@@ -291,5 +293,6 @@ export default function InvoicesPage() {
         )}
       </div>
     </div>
+    </RequireMasterFinancials>
   );
 }

@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, ChevronRight, X, Receipt } from 'lucide-react';
-import { getClaimsBySource, type Claim, type ClaimSource } from '@/lib/mock-data/finances';
+import { ArrowLeft, ChevronRight, X, Receipt, Loader2 } from 'lucide-react';
+import type { Claim, ClaimSource } from '@/lib/mock-data/finances';
+import { RequireMasterFinancials } from '@/lib/dashboard-capability-guard';
 
 const SOURCES: { id: ClaimSource; label: string }[] = [
   { id: 'client', label: 'From clients' },
@@ -26,9 +27,28 @@ export default function ClaimsPage() {
   const [source, setSource] = useState<ClaimSource>('client');
   const [selectedClaim, setSelectedClaim] = useState<Claim | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
-  const claims = getClaimsBySource(source);
+  const [loading, setLoading] = useState(true);
+  const [claimsData, setClaimsData] = useState<Claim[]>([]);
+  const [dataSource, setDataSource] = useState('mock');
+
+  useEffect(() => {
+    fetch('/api/dashboard/finances/claims')
+      .then((res) => res.json())
+      .then((data) => {
+        setClaimsData((data.claims ?? []) as Claim[]);
+        setDataSource(data.source || 'mock');
+      })
+      .catch(() => {
+        setClaimsData([]);
+        setDataSource('mock');
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const claims = claimsData.filter((c) => c.source === source);
 
   return (
+    <RequireMasterFinancials backHref="/dashboard">
     <div className="min-h-[calc(100vh-3.5rem)] bg-rta-bg-light">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
         <div className="flex items-center gap-4 mb-6">
@@ -40,7 +60,12 @@ export default function ClaimsPage() {
           </Button>
         </div>
         <h1 className="text-h3 font-bold text-rta-blue">Claims</h1>
-        <p className="text-body-sm text-rta-text-secondary mt-1">Claims from clients, vendor, and staff</p>
+        <p className="text-body-sm text-rta-text-secondary mt-1">
+          Claims from clients, vendor, and staff
+          <span className="ml-2 text-rta-blue font-medium">
+            · {dataSource === 'mock' ? 'Preview data' : 'Live data'}
+          </span>
+        </p>
 
         <div className="flex flex-wrap gap-2 mt-6 mb-4">
           {SOURCES.map((s) => (
@@ -61,8 +86,15 @@ export default function ClaimsPage() {
             <CardTitle className="text-base font-semibold text-rta-blue">{SOURCES.find((s) => s.id === source)?.label}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-body-sm text-rta-text-secondary mb-3">Click a row to view details</p>
-            <div className="overflow-x-auto rounded-md border border-rta-border">
+            {loading ? (
+              <div className="flex items-center gap-2 py-12 justify-center text-rta-text-secondary">
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span className="text-body-sm">Loading claims…</span>
+              </div>
+            ) : (
+              <>
+                <p className="text-body-sm text-rta-text-secondary mb-3">Click a row to view details</p>
+                <div className="overflow-x-auto rounded-md border border-rta-border">
               <table className="w-full text-left">
                 <thead>
                   <tr className="bg-rta-bg-light border-b border-rta-border">
@@ -105,9 +137,11 @@ export default function ClaimsPage() {
                   ))}
                 </tbody>
               </table>
-            </div>
-            {claims.length === 0 && (
-              <p className="py-8 text-center text-body-sm text-rta-text-secondary">No claims in this category.</p>
+                </div>
+                {claims.length === 0 && (
+                  <p className="py-8 text-center text-body-sm text-rta-text-secondary">No claims in this category.</p>
+                )}
+              </>
             )}
           </CardContent>
         </Card>
@@ -191,5 +225,6 @@ export default function ClaimsPage() {
         )}
       </div>
     </div>
+    </RequireMasterFinancials>
   );
 }

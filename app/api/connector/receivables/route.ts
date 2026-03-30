@@ -1,8 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getZohoAccessToken, getZohoCrmDomain } from '@/lib/zoho-client';
 import { getValidAccessToken } from '@/lib/xero-store';
 import { getXeroTokens } from '@/lib/xero-store';
 import { listLinks } from '@/lib/connector-store';
+import { requireMasterFinancials } from '@/lib/dashboard-api-guard';
 
 const WON_STAGE = (process.env.ZOHO_QUOTE_WON_STAGE || 'Won').toLowerCase();
 const QUOTE_FIELDS = 'id,Auto_Number_1,Grand_Total,Currency_2,Account_Name,Contact_Name,Quote_Stage,Valid_Till';
@@ -35,7 +36,10 @@ function extractVal(v: unknown): string | undefined {
   return undefined;
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const denied = requireMasterFinancials(request);
+  if (denied) return denied;
+
   const toBeInvoiced: { id: string; name: string; customer: string; amount: number; currency: string }[] = [];
   const outstanding: { id: string; number: string; entity: string; amount: number; currency: string; dueDate: string; ageBucket: string }[] = [];
   const ageing: Record<string, number> = { '0-30': 0, '30-60': 0, '60-90': 0, '90+': 0 };

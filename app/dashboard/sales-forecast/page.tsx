@@ -1,18 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, ChevronRight, X } from 'lucide-react';
-import {
-  MOCK_FORECAST_12_MONTHS,
-  MOCK_DEAL_FORECASTS,
-  MOCK_CLOSING_STAGES,
-  getCurrentQuarterForecast,
-  type DealForecast,
-} from '@/lib/mock-data/sales-forecast';
+import { ArrowLeft, ChevronRight, X, Loader2 } from 'lucide-react';
+import { type DealForecast, type ForecastMonth } from '@/lib/mock-data/sales-forecast';
 
 function formatAmount(amount: number, currency = 'USD'): string {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency, maximumFractionDigits: 0 }).format(amount);
@@ -21,7 +15,33 @@ function formatAmount(amount: number, currency = 'USD'): string {
 export default function SalesForecastPage() {
   const [selectedDeal, setSelectedDeal] = useState<DealForecast | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
-  const quarterForecast = getCurrentQuarterForecast();
+  const [loading, setLoading] = useState(true);
+  const [source, setSource] = useState('mock');
+  const [months, setMonths] = useState<ForecastMonth[]>([]);
+  const [quarterForecast, setQuarterForecast] = useState<ForecastMonth[]>([]);
+  const [deals, setDeals] = useState<DealForecast[]>([]);
+  const [closingStages, setClosingStages] = useState<Array<{ stage: string; count: number; value: number }>>([]);
+
+  useEffect(() => {
+    fetch('/api/dashboard/sales-forecast')
+      .then((res) => res.json())
+      .then((data) => {
+        setSource(data.source || 'mock');
+        setMonths((data.months ?? []) as ForecastMonth[]);
+        setQuarterForecast((data.quarter ?? []) as ForecastMonth[]);
+        setDeals((data.deals ?? []) as DealForecast[]);
+        setClosingStages((data.closingStages ?? []) as Array<{ stage: string; count: number; value: number }>);
+      })
+      .catch(() => {
+        setSource('mock');
+        setMonths([]);
+        setQuarterForecast([]);
+        setDeals([]);
+        setClosingStages([]);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
   const quarterTotal = quarterForecast.reduce((s, m) => s + m.forecastedValue, 0);
 
   return (
@@ -36,21 +56,32 @@ export default function SalesForecastPage() {
           </Button>
         </div>
         <h1 className="text-h3 font-bold text-rta-blue">Sales forecast</h1>
-        <p className="text-body-sm text-rta-text-secondary mt-1">Forecasted sales for the next 12 months, deal closing %, target closing month, current quarter, closing stages</p>
+        <p className="text-body-sm text-rta-text-secondary mt-1">
+          Forecasted sales for the next 12 months, deal closing %, target closing month, current quarter, closing stages
+          <span className="ml-2 text-rta-blue font-medium">
+            · {source === 'mock' ? 'Preview data' : 'Live data'}
+          </span>
+        </p>
 
         <Card className="mt-6 mb-8 relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
           <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
           <CardHeader className="relative">
             <CardTitle className="text-base font-semibold text-rta-blue">Forecasted sales - next 12 months</CardTitle>
-            <p className="text-body-sm text-rta-text-secondary">Monthly forecast (mock data)</p>
+            <p className="text-body-sm text-rta-text-secondary">Monthly forecast</p>
           </CardHeader>
           <CardContent className="relative">
-            <div className="overflow-x-auto">
+            {loading ? (
+              <div className="flex items-center gap-2 py-10 justify-center text-rta-text-secondary">
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span className="text-body-sm">Loading forecast…</span>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
                   <tr className="bg-rta-bg-light border-b border-rta-border">
                     <th className="px-4 py-3 text-body-sm font-semibold text-rta-text">Month</th>
-                    {MOCK_FORECAST_12_MONTHS.map((m) => (
+                    {months.map((m) => (
                       <th key={`${m.year}-${m.month}`} className="px-4 py-3 text-body-sm font-semibold text-rta-text text-right">
                         {m.month} {m.year}
                       </th>
@@ -60,7 +91,7 @@ export default function SalesForecastPage() {
                 <tbody>
                   <tr className="border-b border-rta-border">
                     <td className="px-4 py-3 text-body-sm font-medium text-rta-text">Forecast</td>
-                    {MOCK_FORECAST_12_MONTHS.map((m) => (
+                    {months.map((m) => (
                       <td key={`${m.year}-${m.month}`} className="px-4 py-3 text-body-sm text-rta-text tabular-nums text-right">
                         {formatAmount(m.forecastedValue, m.currency)}
                       </td>
@@ -68,7 +99,8 @@ export default function SalesForecastPage() {
                   </tr>
                 </tbody>
               </table>
-            </div>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -110,7 +142,7 @@ export default function SalesForecastPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {MOCK_DEAL_FORECASTS.map((d) => (
+                    {deals.map((d) => (
                       <tr
                         key={d.id}
                         role="button"
@@ -155,7 +187,7 @@ export default function SalesForecastPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {MOCK_CLOSING_STAGES.map((s) => (
+                  {closingStages.map((s) => (
                     <tr key={s.stage} className="border-b border-rta-border last:border-0">
                       <td className="px-4 py-3 text-body-sm font-medium text-rta-text">{s.stage}</td>
                       <td className="px-4 py-3 text-body-sm text-rta-text tabular-nums text-right">{s.count}</td>

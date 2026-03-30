@@ -38,9 +38,9 @@ export default function Navbar() {
 
   const serviceLinks = [
     { href: '/services', label: 'All Services Overview' },
-    { href: '/services#maintenance', label: 'Third-Party Maintenance' },
-    { href: '/services#oss', label: 'Open Source Software (OSS)' },
-    { href: '/services#professional', label: 'Professional Services' },
+    { href: '/services/tpm', label: 'Third-Party Maintenance' },
+    { href: '/services/oss', label: 'Open Source Software (OSS)' },
+    { href: '/services/ps', label: 'Professional Services' },
   ];
 
   return (
@@ -74,14 +74,14 @@ export default function Navbar() {
                 alt="RTA Services - Sustaining your IT assets"
                 width={280}
                 height={56}
-                className="h-14 md:h-16 w-auto"
+                className="h-10 md:h-12 lg:h-16 w-auto"
                 priority
               />
             </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-8">
+          <div className="hidden md:flex md:items-center md:space-x-2 lg:space-x-8">
             {/* Home */}
             {navLinks
               .filter((l) => l.href === '/')
@@ -93,7 +93,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className={`text-rta-text hover:text-rta-red px-3 py-2 text-body font-medium transition-colors duration-200 relative ${
+                    className={`text-rta-text hover:text-rta-red px-2 lg:px-3 py-2 text-sm lg:text-body font-medium transition-colors duration-200 relative ${
                       pathname === link.href ? 'text-rta-gold' : ''
                     }`}
                   >
@@ -128,7 +128,7 @@ export default function Navbar() {
               >
                 <Link
                   href="/services"
-                  className={`text-rta-text hover:text-rta-gold px-3 py-2 text-body font-medium transition-colors duration-200 relative flex items-center gap-1 ${
+                  className={`text-rta-text hover:text-rta-gold px-2 lg:px-3 py-2 text-sm lg:text-body font-medium transition-colors duration-200 relative flex items-center gap-1 ${
                     pathname === '/services' ? 'text-rta-gold' : ''
                   }`}
                 >
@@ -179,7 +179,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className={`text-rta-text hover:text-rta-red px-3 py-2 text-body font-medium transition-colors duration-200 relative ${
+                    className={`text-rta-text hover:text-rta-red px-2 lg:px-3 py-2 text-sm lg:text-body font-medium transition-colors duration-200 relative ${
                       pathname === link.href ? 'text-rta-gold' : ''
                     }`}
                   >
@@ -203,7 +203,7 @@ export default function Navbar() {
               ))}
             <Button
               asChild
-              className="bg-rta-gold-cta text-white hover:bg-rta-gold-cta-hover hover:shadow-lg"
+              className="bg-rta-gold-cta text-white hover:bg-rta-gold-cta-hover hover:shadow-lg md:px-3 md:text-sm lg:px-4 lg:text-base"
               style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
             >
               <Link href="/contact?form=quote">

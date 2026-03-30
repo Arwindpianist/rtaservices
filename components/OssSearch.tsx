@@ -14,12 +14,6 @@ import { Drawer } from 'vaul';
 import { CheckCircle2, Loader2, Search, ArrowRight } from 'lucide-react';
 import { OSS_CATALOG, OSS_FAMILY_LABEL, type OssFamily } from '@/lib/oss/oss-catalog';
 
-type SupportContextOption =
-  | 'General production support'
-  | 'Lifecycle / upgrade concern'
-  | 'Urgent operational need'
-  | 'Not sure yet';
-
 interface OssSearchResponse {
   title: string;
   paragraph: string;
@@ -44,7 +38,6 @@ export default function OssSearch({
   variant = 'embed',
 }: OssSearchProps) {
   const [input, setInput] = useState('');
-  const [supportContext, setSupportContext] = useState<SupportContextOption>('General production support');
   const [answer, setAnswer] = useState<OssSearchResponse | null>(null);
   const [loadingAnswer, setLoadingAnswer] = useState(false);
   const [answerError, setAnswerError] = useState('');
@@ -60,7 +53,6 @@ export default function OssSearch({
   const [submitError, setSubmitError] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [hintIndex, setHintIndex] = useState(0);
-  const [selectedFamilyFilters, setSelectedFamilyFilters] = useState<OssFamily[]>([]);
   const [selectedFamilies, setSelectedFamilies] = useState<OssFamily[]>([]);
   const [ossVersions, setOssVersions] = useState<Array<{ technology: string; version: string }>>([
     { technology: '', version: '' },
@@ -68,6 +60,8 @@ export default function OssSearch({
   const [typedParagraph, setTypedParagraph] = useState('');
   const [visibleBullets, setVisibleBullets] = useState(0);
   const [isGeneratingAnswer, setIsGeneratingAnswer] = useState(false);
+  const [showSearchAssist, setShowSearchAssist] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
   const typingTimersRef = useRef<number[]>([]);
   const lastTypedAnswerSignatureRef = useRef('');
 
@@ -111,6 +105,13 @@ export default function OssSearch({
     [familyExamples]
   );
 
+  const detectedFamilies = useMemo(() => {
+    const q = input.trim().toLowerCase();
+    if (!q) return [] as OssFamily[];
+    const matches = OSS_CATALOG.filter((item) => q.includes(item.name.toLowerCase())).map((item) => item.family);
+    return Array.from(new Set(matches));
+  }, [input]);
+
   const quickPrompts = useMemo(
     () => [
       'Kubernetes + PostgreSQL + Redis for production support',
@@ -145,11 +146,26 @@ export default function OssSearch({
     []
   );
 
-  const quickPromptChips = useMemo(() => {
-    if (quickPrompts.length <= 8) return quickPrompts;
-    const start = (hintIndex * 3) % quickPrompts.length;
-    return Array.from({ length: 8 }, (_, index) => quickPrompts[(start + index) % quickPrompts.length]);
-  }, [hintIndex, quickPrompts]);
+  const suggestedPrompts = useMemo(() => {
+    const q = input.trim().toLowerCase();
+    if (!q) return quickPrompts.slice(0, 4);
+
+    const ranked = quickPrompts
+      .map((prompt) => {
+        const lower = prompt.toLowerCase();
+        const score = q
+          .split(/\s+/)
+          .filter(Boolean)
+          .reduce((acc, token) => acc + (lower.includes(token) ? 1 : 0), 0);
+        return { prompt, score };
+      })
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 4)
+      .map((item) => item.prompt);
+
+    return ranked.length > 0 ? ranked : quickPrompts.slice(0, 4);
+  }, [input, quickPrompts]);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -176,30 +192,6 @@ export default function OssSearch({
     });
   }
 
-  function toggleFamilyFilter(family: OssFamily) {
-    setSelectedFamilyFilters((current) => {
-      const next = current.includes(family) ? current.filter((item) => item !== family) : [...current, family];
-
-      setInput((currentInput) => {
-        const currentTokens = currentInput
-          .split(',')
-          .map((token) => token.trim())
-          .filter(Boolean);
-
-        const manualTokens = currentTokens.filter((token) => !allFamilyExampleNames.has(token.toLowerCase()));
-        const selectedExampleTokens = next.flatMap((familyId) => familyExampleMap[familyId] ?? []);
-
-        const deduped = [...manualTokens, ...selectedExampleTokens].filter(
-          (token, index, list) => list.findIndex((item) => item.toLowerCase() === token.toLowerCase()) === index
-        );
-
-        return deduped.join(', ');
-      });
-
-      return next;
-    });
-  }
-
   useEffect(() => {
     if (!input.trim()) {
       setAnswer(null);
@@ -214,7 +206,7 @@ export default function OssSearch({
         const res = await fetch('/api/oss/search', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ input, supportContext, selectedFamilies: selectedFamilyFilters }),
+          body: JSON.stringify({ input, selectedFamilies: detectedFamilies }),
         });
         const data = (await res.json()) as OssSearchResponse & { error?: string };
         if (!res.ok) {
@@ -232,7 +224,7 @@ export default function OssSearch({
     }, 500);
 
     return () => clearTimeout(timeoutId);
-  }, [input, supportContext, selectedFamilyFilters]);
+  }, [input, detectedFamilies]);
 
   useEffect(() => {
     if (!answer) {
@@ -331,15 +323,14 @@ export default function OssSearch({
 
     const requirements = [
       `OSS in environment: ${input.trim()}`,
-      `Support context: ${supportContext}`,
       `Urgency: ${urgency}`,
       answer.recognizedNames.length > 0 ? `Recognized OSS: ${answer.recognizedNames.join(', ')}` : 'Recognized OSS: none',
       selectedFamilies.length > 0
         ? `Selected OSS families: ${selectedFamilies.map((family) => OSS_FAMILY_LABEL[family]).join(', ')}`
         : 'Selected OSS families: none',
-      selectedFamilyFilters.length > 0
-        ? `Preselected family filters: ${selectedFamilyFilters.map((family) => OSS_FAMILY_LABEL[family]).join(', ')}`
-        : 'Preselected family filters: none',
+      detectedFamilies.length > 0
+        ? `Auto-detected families: ${detectedFamilies.map((family) => OSS_FAMILY_LABEL[family]).join(', ')}`
+        : 'Auto-detected families: none',
       versionLines.length > 0
         ? `Declared versions: ${versionLines.map(({ technology, version }) => `${technology}${version ? ` (${version})` : ''}`).join(', ')}`
         : 'Declared versions: none',
@@ -440,78 +431,106 @@ export default function OssSearch({
 
   const SearchBody = (
     <div className="space-y-6">
-      <div className="rounded-2xl border border-rta-border bg-white p-4 sm:p-5 shadow-sm">
-        <div className="group inline-flex items-center gap-2 mb-3">
-          <p className="text-sm font-semibold text-rta-blue uppercase tracking-wide">Describe your stack</p>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                type="button"
-                aria-label="Describe your stack help"
-                className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-rta-border text-[11px] text-rta-text-secondary cursor-help hover:border-rta-blue/40 hover:text-rta-blue transition-colors"
-              >
-                ?
-              </button>
-            </TooltipTrigger>
-            <TooltipContent side="top" className="max-w-[280px]">
-              Type technologies, versions, issues, or goals. You can mix free text with selections below.
-            </TooltipContent>
-          </Tooltip>
-        </div>
-        <div className="relative rounded-xl p-[1px]">
+      <div className="p-1">
+        <div className="relative rounded-2xl p-[2px] max-w-4xl mx-auto">
           <ShineBorder />
-          <div className="relative rounded-[11px] bg-white">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-red-600" />
+          <div className="relative rounded-[15px] bg-white shadow-[0_14px_36px_rgba(1,42,74,0.16)]">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 text-rta-gold" />
             <Input
               id="oss-input"
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              onFocus={() => {
+                setShowSearchAssist(true);
+                setIsInputFocused(true);
+              }}
+              onBlur={() => {
+                window.setTimeout(() => setIsInputFocused(false), 120);
+              }}
               placeholder="Search PostgreSQL, Kubernetes outage, unsupported Redis version…"
               aria-label="Search your OSS stack"
-              className="pl-12 h-20 border-rta-border text-lg focus-visible:ring-rta-gold"
+              className="pl-14 pr-5 h-20 rounded-[15px] border-rta-border text-lg font-medium focus-visible:ring-rta-gold"
             />
           </div>
-        </div>
-
-        <div className="mt-3 rounded-lg border border-rta-border/70 bg-rta-bg-light/60 px-4 py-3 min-h-[50px] flex items-center">
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={hintIndex}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.2 }}
-              className="text-sm text-rta-text-secondary"
-            >
-              Try: <span className="font-semibold text-rta-text">{quickPrompts[hintIndex]}</span>
-            </motion.p>
+          <AnimatePresence>
+            {(showSearchAssist || input.trim().length > 0) && isInputFocused && (
+              <motion.div
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.16 }}
+                className="absolute left-0 right-0 top-[calc(100%+10px)] z-40 rounded-xl border border-rta-border bg-white shadow-[0_14px_30px_rgba(1,42,74,0.14)] overflow-hidden"
+              >
+                <div className="px-4 py-2.5 text-xs text-rta-text-secondary bg-rta-bg-light/40 border-b border-rta-border/60">
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={hintIndex}
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.18 }}
+                    >
+                      Try: <span className="font-semibold text-rta-text">{quickPrompts[hintIndex]}</span>
+                    </motion.p>
+                  </AnimatePresence>
+                </div>
+                {suggestedPrompts.map((prompt) => (
+                  <button
+                    key={prompt}
+                    type="button"
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      setInput(prompt);
+                      setIsInputFocused(false);
+                    }}
+                    className="w-full text-left px-4 py-2.5 text-sm text-rta-text-secondary hover:text-rta-text hover:bg-rta-bg-light transition-colors border-b border-rta-border/60 last:border-b-0"
+                  >
+                    {prompt}
+                  </button>
+                ))}
+              </motion.div>
+            )}
           </AnimatePresence>
-        </div>
-        <div className="mt-3 flex flex-wrap gap-2.5">
-          {quickPromptChips.map((prompt) => (
-            <button
-              key={prompt}
-              type="button"
-              onClick={() => setInput((current) => (current.trim() ? `${current.trim()} ${prompt}` : prompt))}
-              className="text-sm px-3 py-1.5 rounded-md bg-white border border-rta-border/70 text-rta-text-secondary hover:text-rta-text hover:border-rta-blue/40 transition-colors"
-            >
-              {prompt.split(' ').slice(0, 4).join(' ')}...
-            </button>
-          ))}
         </div>
 
         {answer && (
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-3 flex flex-wrap gap-2.5"
+            className="mt-4 rounded-xl border border-rta-border bg-rta-bg-light/40 p-3 sm:p-4"
           >
-            <span className="text-sm px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-              Recognized: {answer.recognizedNames.length}
-            </span>
-            <span className="text-sm px-3 py-1.5 rounded-full bg-rta-bg-light text-rta-text-secondary border border-rta-border">
+            <p className="text-sm font-semibold text-rta-text">
               Matched families: {answer.families.length}
-            </span>
+            </p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {answer.families.length > 0 ? (
+                answer.families.map((family) => (
+                  <span
+                    key={`matched-${family}`}
+                    className="text-sm px-3 py-1.5 rounded-full bg-rta-blue text-white border border-rta-blue shadow-sm"
+                  >
+                    {OSS_FAMILY_LABEL[family]}
+                  </span>
+                ))
+              ) : (
+                <span className="text-sm text-rta-text-secondary">No family match detected yet.</span>
+              )}
+            </div>
+            <p className="mt-3 text-xs font-medium uppercase tracking-wide text-rta-text-secondary">
+              Other families
+            </p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {familyExamples
+                .filter((family) => !answer.families.includes(family.family))
+                .map((family) => (
+                  <span
+                    key={`other-${family.family}`}
+                    className="text-sm px-3 py-1.5 rounded-full border border-rta-border bg-white text-rta-text-secondary"
+                  >
+                    {family.label}
+                  </span>
+                ))}
+            </div>
           </motion.div>
         )}
 
@@ -531,103 +550,7 @@ export default function OssSearch({
         )}
       </div>
 
-      <div className="rounded-2xl border border-rta-border bg-rta-bg-light/35 p-4 sm:p-5 shadow-sm">
-        <div className="group inline-flex items-center gap-2 mb-3">
-          <p className="text-sm font-semibold text-rta-blue uppercase tracking-wide">Familiar OSS families</p>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                type="button"
-                aria-label="Familiar OSS families help"
-                className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-rta-border text-[11px] text-rta-text-secondary cursor-help hover:border-rta-blue/40 hover:text-rta-blue transition-colors"
-              >
-                ?
-              </button>
-            </TooltipTrigger>
-            <TooltipContent side="top" className="max-w-[280px]">
-              Select multiple families to auto-insert representative technologies into the search input.
-            </TooltipContent>
-          </Tooltip>
-        </div>
-        <div className="flex flex-wrap gap-2.5">
-          {familyExamples.map((family) => (
-            <button
-              key={family.family}
-              type="button"
-              onClick={() => toggleFamilyFilter(family.family)}
-              title={family.examples.join(', ')}
-              className={`text-sm px-3 py-1.5 rounded-full border text-rta-text transition-all hover:-translate-y-0.5 ${
-                selectedFamilyFilters.includes(family.family)
-                  ? 'bg-rta-blue text-white border-rta-blue shadow-sm'
-                  : 'border-rta-border bg-white hover:bg-rta-bg-blue/20'
-              }`}
-            >
-              {family.label}
-            </button>
-          ))}
-        </div>
-        {selectedFamilyFilters.length > 0 && (
-          <p className="mt-2 text-xs text-rta-text-secondary">
-            Selected families: {selectedFamilyFilters.map((family) => OSS_FAMILY_LABEL[family]).join(', ')}
-          </p>
-        )}
-
-      </div>
-
-      <div className="rounded-2xl border border-rta-border bg-white p-4 sm:p-5 shadow-sm">
-        <div className="group inline-flex items-center gap-2 mb-2">
-          <Label htmlFor="support-context" className="text-rta-text text-base font-semibold cursor-default">
-            Support context
-          </Label>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                type="button"
-                aria-label="Support context help"
-                className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-rta-border text-[11px] text-rta-text-secondary cursor-help hover:border-rta-blue/40 hover:text-rta-blue transition-colors"
-              >
-                ?
-              </button>
-            </TooltipTrigger>
-            <TooltipContent side="top" className="max-w-[260px]">
-              Choose the scenario that best matches your current need.
-            </TooltipContent>
-          </Tooltip>
-        </div>
-        <div
-          id="support-context"
-          role="radiogroup"
-          aria-label="Support context"
-          className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2"
-        >
-          {(
-            [
-              'General production support',
-              'Lifecycle / upgrade concern',
-              'Urgent operational need',
-              'Not sure yet',
-            ] as SupportContextOption[]
-          ).map((option) => {
-            const active = supportContext === option;
-            return (
-              <button
-                key={option}
-                type="button"
-                role="radio"
-                aria-checked={active}
-                onClick={() => setSupportContext(option)}
-                className={`h-12 rounded-xl border px-4 text-sm sm:text-base text-left transition-all ${
-                  active
-                    ? 'border-rta-blue bg-rta-blue text-white shadow-sm'
-                    : 'border-rta-border bg-white text-rta-text-secondary hover:border-rta-blue/40 hover:bg-rta-bg-light'
-                }`}
-              >
-                {option}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      {/* Familiar OSS families are auto-detected from input and intentionally hidden to keep focus on search. */}
 
       {loadingAnswer && (
         <div className="flex items-center gap-2 text-rta-text-secondary text-body-sm">
@@ -772,25 +695,19 @@ export default function OssSearch({
                       <Input id="oss-in-env" value={input} onChange={(e) => setInput(e.target.value)} className="mt-2 border-rta-border bg-white" />
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="urgency">Urgency</Label>
-                        <select
-                          id="urgency"
-                          value={urgency}
-                          onChange={(e) => setUrgency(e.target.value)}
-                          className="mt-2 flex h-10 w-full rounded-md border border-rta-border bg-white px-3 py-2 text-sm"
-                        >
-                          <option>Low</option>
-                          <option>Medium</option>
-                          <option>High</option>
-                          <option>Critical</option>
-                        </select>
-                      </div>
-                      <div>
-                        <Label htmlFor="context-summary">Support context</Label>
-                        <Input id="context-summary" value={supportContext} readOnly className="mt-2 border-rta-border bg-rta-bg-light" />
-                      </div>
+                    <div>
+                      <Label htmlFor="urgency">Urgency</Label>
+                      <select
+                        id="urgency"
+                        value={urgency}
+                        onChange={(e) => setUrgency(e.target.value)}
+                        className="mt-2 flex h-10 w-full rounded-md border border-rta-border bg-white px-3 py-2 text-sm"
+                      >
+                        <option>Low</option>
+                        <option>Medium</option>
+                        <option>High</option>
+                        <option>Critical</option>
+                      </select>
                     </div>
 
                     <div>

@@ -94,6 +94,18 @@
   }
 }
 
+@keyframes orbit {
+  0% {
+    transform: rotate(calc(var(--angle) * 1deg))
+      translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));
+  }
+  100% {
+    transform: rotate(calc(var(--angle) * 1deg + 360deg))
+      translateY(calc(var(--radius) * 1px))
+      rotate(calc((var(--angle) * -1deg) - 360deg));
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -220,6 +232,10 @@
 
   .animate-shine {
     animation: shine var(--duration) infinite linear;
+  }
+
+  .animate-orbit {
+    animation: orbit calc(var(--duration) * 1s) linear infinite;
   }
 
   /* Primary CTA: dark gold background with white text for WCAG AA contrast */

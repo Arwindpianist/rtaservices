@@ -25,7 +25,7 @@ export default function PSPage() {
           >
             <div>
               <h1 className="text-h1-md md:text-h1 font-bold text-rta-blue mb-4">
-                <span className="text-rta-red">Professional Services</span> – Strategic Consulting & Make IT Happen
+                <span className="text-rta-text-secondary">Professional Services</span> – Strategic Consulting & Make IT Happen
               </h1>
               <p className="text-body-lg text-rta-text-secondary max-w-2xl mb-6">
                 RTA Professional Services – Delivering End-to-End IT Excellence. Comprehensive infrastructure solutions tailored for enterprise scale and reliability.
@@ -57,16 +57,37 @@ export default function PSPage() {
             variants={getAnimationVariants(staggerContainer)}
           >
             {[
-              { metric: 'L1–L3', title: 'Engineering', desc: 'Escalation and resolution from helpdesk to senior engineers and architects.' },
-              { metric: 'IMAC', title: 'Services', desc: 'Install, Move, Add & Change for servers, storage and networking.' },
-              { metric: 'End-to-end', title: 'Projects', desc: 'From architecture reviews to migrations, deployment, and ITAD.' },
+              {
+                metric: 'L1–L3',
+                title: 'Engineering',
+                desc: 'Escalation and resolution from helpdesk to senior engineers and architects.',
+                accentBorder: 'border-l-rta-blue',
+                accentMetric: 'text-rta-text-secondary',
+                accentBg: 'bg-rta-blue/[0.04]',
+              },
+              {
+                metric: 'IMAC',
+                title: 'Services',
+                desc: 'Install, Move, Add & Change for servers, storage and networking.',
+                accentBorder: 'border-l-rta-gold',
+                accentMetric: 'text-rta-gold',
+                accentBg: 'bg-rta-gold/[0.08]',
+              },
+              {
+                metric: 'End-to-end',
+                title: 'Projects',
+                desc: 'From architecture reviews to migrations, deployment, and ITAD.',
+                accentBorder: 'border-l-rta-red',
+                accentMetric: 'text-rta-red',
+                accentBg: 'bg-rta-red/[0.05]',
+              },
             ].map((block, idx) => (
               <motion.div
                 key={idx}
-                className="relative pl-6 border-l-[6px] border-l-rta-blue bg-white p-6 rounded-lg border border-rta-border shadow-sm"
+                className={`relative pl-6 border-l-[6px] ${block.accentBorder} ${block.accentBg} p-6 rounded-lg border border-rta-border/80 shadow-sm`}
                 variants={getAnimationVariants(fadeInUp)}
               >
-                <p className="text-3xl font-bold text-rta-blue mb-2">{block.metric}</p>
+                <p className={`text-3xl font-bold mb-2 ${block.accentMetric}`}>{block.metric}</p>
                 <h3 className="text-h3 font-bold text-rta-text mb-2">{block.title}</h3>
                 <p className="text-body text-rta-text-secondary">{block.desc}</p>
               </motion.div>

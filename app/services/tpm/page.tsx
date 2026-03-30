@@ -32,7 +32,7 @@ export default function TPMPage() {
           >
             <div>
               <h1 className="text-h1-md md:text-h1 font-bold text-rta-blue mb-4">
-                <span className="text-rta-red">Third-Party Maintenance</span> – Extend Hardware Lifespan
+                <span className="text-rta-gold">Third-Party Maintenance</span> – Extend Hardware Lifespan
               </h1>
               <p className="text-body-lg text-rta-text-secondary max-w-2xl mb-6">
                 Cost-effective alternative to OEM maintenance. Master service levels without premium renewals cost.

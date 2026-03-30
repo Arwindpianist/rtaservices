@@ -11,7 +11,6 @@ const PUBLIC_PATHS = [
   { path: '/about', priority: '0.8', changeFrequency: 'monthly' },
   { path: '/services', priority: '0.9', changeFrequency: 'monthly' },
   { path: '/services/oss', priority: '0.8', changeFrequency: 'monthly' },
-  { path: '/product', priority: '0.8', changeFrequency: 'monthly' },
   { path: '/contact', priority: '0.7', changeFrequency: 'monthly' },
   { path: '/support/request', priority: '0.85', changeFrequency: 'monthly' },
 ];

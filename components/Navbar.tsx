@@ -26,7 +26,13 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About Us' },
-    { href: '/product', label: 'Product' },
+    { href: '/contact', label: 'Contact' },
+  ];
+
+  const mobileNavLinks = [
+    { href: '/', label: 'Home' },
+    { href: '/services', label: 'Services' },
+    { href: '/about', label: 'About Us' },
     { href: '/contact', label: 'Contact' },
   ];
 
@@ -62,7 +68,7 @@ export default function Navbar() {
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
-            <Link href="/" className="flex items-center pt-0.5">
+            <Link href="/" className="flex items-center pt-1.5">
               <Image
                 src="/images/newlogo.png"
                 alt="RTA Services - Sustaining your IT assets"
@@ -76,36 +82,39 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex md:items-center md:space-x-8">
-            {navLinks.map((link) => (
-              <motion.div
-                key={link.href}
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Link
-                  href={link.href}
-                  className={`text-rta-text hover:text-rta-red px-3 py-2 text-body font-medium transition-colors duration-200 relative ${
-                    pathname === link.href ? 'text-rta-gold' : ''
-                  }`}
+            {/* Home */}
+            {navLinks
+              .filter((l) => l.href === '/')
+              .map((link) => (
+                <motion.div
+                  key={link.href}
+                  whileHover={{ y: -2 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  {link.label}
-                  {pathname === link.href && (
+                  <Link
+                    href={link.href}
+                    className={`text-rta-text hover:text-rta-red px-3 py-2 text-body font-medium transition-colors duration-200 relative ${
+                      pathname === link.href ? 'text-rta-gold' : ''
+                    }`}
+                  >
+                    {link.label}
+                    {pathname === link.href && (
+                      <motion.span
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-rta-gold"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 0.2 }}
+                      />
+                    )}
                     <motion.span
                       className="absolute bottom-0 left-0 right-0 h-0.5 bg-rta-gold"
                       initial={{ scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
+                      whileHover={{ scaleX: pathname === link.href ? 1 : 1 }}
                       transition={{ duration: 0.2 }}
                     />
-                  )}
-                  <motion.span
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-rta-gold"
-                    initial={{ scaleX: 0 }}
-                    whileHover={{ scaleX: pathname === link.href ? 1 : 1 }}
-                    transition={{ duration: 0.2 }}
-                  />
-                </Link>
-              </motion.div>
-            ))}
+                  </Link>
+                </motion.div>
+              ))}
             
             {/* Services Dropdown */}
             <div 
@@ -158,6 +167,40 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
+
+            {/* About Us + Contact */}
+            {navLinks
+              .filter((l) => l.href !== '/')
+              .map((link) => (
+                <motion.div
+                  key={link.href}
+                  whileHover={{ y: -2 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link
+                    href={link.href}
+                    className={`text-rta-text hover:text-rta-red px-3 py-2 text-body font-medium transition-colors duration-200 relative ${
+                      pathname === link.href ? 'text-rta-gold' : ''
+                    }`}
+                  >
+                    {link.label}
+                    {pathname === link.href && (
+                      <motion.span
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-rta-gold"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 0.2 }}
+                      />
+                    )}
+                    <motion.span
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-rta-gold"
+                      initial={{ scaleX: 0 }}
+                      whileHover={{ scaleX: pathname === link.href ? 1 : 1 }}
+                      transition={{ duration: 0.2 }}
+                    />
+                  </Link>
+                </motion.div>
+              ))}
             <Button
               asChild
               className="bg-rta-gold-cta text-white hover:bg-rta-gold-cta-hover hover:shadow-lg"
@@ -211,7 +254,7 @@ export default function Navbar() {
 
                     {/* Navigation links - compact spacing */}
                     <nav className="flex-1 px-4 py-3 space-y-1 overflow-y-auto">
-                      {navLinks.map((link, index) => (
+                      {mobileNavLinks.map((link, index) => (
                         <motion.div
                           key={link.href}
                           initial={{ x: 20, opacity: 0 }}

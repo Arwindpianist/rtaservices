@@ -1,9 +1,8 @@
 'use client';
 
-import Link from 'next/link';
-import QuoteForm from '@/components/QuoteForm';
+import Image from 'next/image';
+import OssSearch from '@/components/OssSearch';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Clock,
@@ -12,7 +11,6 @@ import {
   Shield,
   Wrench,
   CheckCircle2,
-  ArrowRight,
 } from 'lucide-react';
 import ProductLogo from '@/components/ProductLogo';
 import { OSS_PRODUCT_LOGO } from '@/lib/data/product-range-logos';
@@ -54,14 +52,9 @@ export default function OSSPage() {
               <div className="text-body-sm text-rta-text-secondary">open source initiative®</div>
             </div>
           </motion.div>
-        </div>
-      </section>
 
-      {/* Proof points – main selling points */}
-      <section className="py-12 lg:py-16 bg-white">
-        <div className="mx-auto" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10"
             initial="hidden"
             whileInView="visible"
             viewport={viewportOptions}
@@ -86,6 +79,26 @@ export default function OSSPage() {
         </div>
       </section>
 
+      {/* Stack-aware OSS Search */}
+      <section className="py-10 lg:py-14 bg-white relative">
+        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-rta-bg-blue/25 to-transparent pointer-events-none" aria-hidden="true" />
+        <div className="mx-auto relative z-10" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOptions}
+            variants={getAnimationVariants(fadeInUp)}
+          >
+            <OssSearch
+              heading="Tell us about your OSS environment"
+              description="Share your OSS stack, versions, and constraints so we can assess your current setup and recommend the right support model."
+              variant="page"
+              className="lg:-mt-8"
+            />
+          </motion.div>
+        </div>
+      </section>
+
       {/* Pain Points */}
       <section className="py-16 lg:py-24 bg-white">
         <div className="mx-auto" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
@@ -101,7 +114,7 @@ export default function OSSPage() {
             </h2>
           </motion.div>
           <motion.div
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+            className="w-full"
             initial="hidden"
             whileInView="visible"
             viewport={viewportOptions}
@@ -109,6 +122,7 @@ export default function OSSPage() {
           >
             <motion.div variants={getAnimationVariants(fadeInUp)}>
               {[
+                { title: 'High Cost of Commercial Software Licenses', desc: 'High licensing costs are a recurring burden on IT budgets and divert resources from higher-priority needs.' },
                 { title: 'Constant Updates & Patching', desc: 'Frequent security and bug fixes make it hard to stay compliant and secure.' },
                 { title: 'Maintaining End-of-Life Software', desc: 'Legacy systems like CentOS, AngularJS, or Tomcat still power critical apps but lack official vendor support.' },
                 { title: 'Shortage of Skilled Personnel', desc: "In-house teams may not have deep expertise across 400+ open-source technologies." },
@@ -118,14 +132,11 @@ export default function OSSPage() {
                 <div key={idx} className="flex gap-4 mb-6">
                   <div className="w-[6px] flex-shrink-0 min-h-[60px] bg-rta-red rounded-full" aria-hidden="true" />
                   <div>
-                    <h3 className="font-bold text-rta-red mb-1">{point.title}</h3>
-                    <p className="text-body-sm text-rta-text-secondary">{point.desc}</p>
+                    <h3 className="font-bold text-rta-red text-lg mb-1">{point.title}</h3>
+                    <p className="text-body text-rta-text-secondary">{point.desc}</p>
                   </div>
                 </div>
               ))}
-            </motion.div>
-            <motion.div variants={getAnimationVariants(fadeInUp)} className="relative hidden lg:block">
-              <div className="aspect-[3/4] max-h-[400px] bg-rta-bg-blue/20 rounded-xl" aria-hidden="true" />
             </motion.div>
           </motion.div>
         </div>
@@ -142,7 +153,7 @@ export default function OSSPage() {
             variants={getAnimationVariants(fadeInUp)}
           >
             <h2 className="text-h2-md md:text-h2 font-bold mb-2">
-              What Are the <span className="text-rta-red">Benefits</span> of Using RTA OSS?
+              What Are the <span className="text-rta-gold">Benefits</span> of Using RTA OSS?
             </h2>
           </motion.div>
           <motion.div
@@ -161,7 +172,7 @@ export default function OSSPage() {
                 { title: 'Ensure Operational Confidence', desc: 'Reliable response times. Provide proactive workshops and regular reviews.' },
               ].map((benefit, idx) => (
                 <div key={idx} className="flex gap-4 mb-6">
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-rta-red flex items-center justify-center mt-0.5">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-rta-gold flex items-center justify-center mt-0.5">
                     <CheckCircle2 className="w-4 h-4 text-white" aria-hidden="true" />
                   </div>
                   <div>
@@ -172,7 +183,15 @@ export default function OSSPage() {
               ))}
             </motion.div>
             <motion.div variants={getAnimationVariants(fadeInUp)} className="relative hidden lg:block">
-              <div className="aspect-[3/4] max-h-[400px] bg-rta-bg-blue/30 rounded-xl" aria-hidden="true" />
+              <div className="relative h-[400px] w-full rounded-xl overflow-hidden shadow-sm border border-rta-border">
+                <Image
+                  src="/images/services/service-ps-cover.jpg"
+                  alt="Open-source infrastructure support"
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                />
+              </div>
             </motion.div>
           </motion.div>
         </div>
@@ -259,7 +278,7 @@ export default function OSSPage() {
             variants={getAnimationVariants(fadeInUp)}
           >
             <h2 className="text-h2-md md:text-h2 font-bold text-rta-blue mb-2">
-              OpenLogic Support Levels
+              Our Enterprise Grade SLAs
             </h2>
           </motion.div>
           <motion.div
@@ -316,94 +335,6 @@ export default function OSSPage() {
         </div>
       </section>
 
-      {/* Long-Term Support (LTS) */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="mx-auto" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
-          <motion.div
-            className="mb-10"
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOptions}
-            variants={getAnimationVariants(fadeInUp)}
-          >
-            <h2 className="text-h2-md md:text-h2 font-bold text-white bg-rta-blue px-6 py-4 rounded-t-lg">
-              Long-Term Support (LTS): Extended Security &amp; Compliance
-            </h2>
-          </motion.div>
-          <motion.div
-            className="space-y-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOptions}
-            variants={getAnimationVariants(staggerContainer)}
-          >
-            <motion.div variants={getAnimationVariants(fadeInUp)} className="rounded-b-lg border border-t-0 border-rta-border p-6 bg-rta-card-bg">
-              <h3 className="text-h3 font-bold text-rta-blue mb-3">What is LTS?</h3>
-              <p className="text-body text-rta-text-secondary">
-                Long-Term Support (LTS) is a specialized offering for End-of-Life (EOL) versions of open-source software. It extends the lifecycle of critical applications by providing security maintenance and compliance support after community support ends.
-              </p>
-            </motion.div>
-
-            <motion.div variants={getAnimationVariants(fadeInUp)} className="rounded-lg border border-rta-border p-6 bg-rta-card-bg">
-              <h3 className="text-h3 font-bold text-rta-blue mb-4">Key LTS Benefits</h3>
-              <ul className="space-y-3">
-                {[
-                  'Security Patches: Proactive delivery of patches for disclosed vulnerabilities.',
-                  'CVE Remediation: Timely fixes for Common Vulnerabilities and Exposures.',
-                  'Compliance Support: Ensures systems remain compliant with industry standards.',
-                  'Patch Repository: Exclusive access to a curated repository of patches.',
-                  'Extended Lifecycle: Enables planned migrations without security risks.',
-                ].map((item, idx) => (
-                  <li key={idx} className="flex gap-3 text-body text-rta-text-secondary">
-                    <CheckCircle2 className="w-5 h-5 text-rta-gold flex-shrink-0 mt-0.5" aria-hidden="true" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            <motion.div variants={getAnimationVariants(fadeInUp)} className="rounded-lg border border-rta-border overflow-hidden">
-              <h3 className="text-h3 font-bold text-rta-blue mb-4 px-6 pt-6">LTS SLA Structure</h3>
-              <p className="text-body-sm text-rta-text-secondary mb-4 px-6">SLA targets based on CVE severity:</p>
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse bg-white">
-                  <thead>
-                    <tr>
-                      <th className="bg-rta-bg-light px-4 py-3 text-body-sm font-semibold text-rta-text">CVE Severity</th>
-                      <th className="bg-rta-bg-light px-4 py-3 text-body-sm font-semibold text-rta-text">SLA Target</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b border-rta-border">
-                      <td className="px-4 py-3 text-body-sm">Critical CVEs (CVSS 9–10)</td>
-                      <td className="px-4 py-3 text-body-sm font-semibold text-rta-red">14 Days</td>
-                    </tr>
-                    <tr className="border-b border-rta-border">
-                      <td className="px-4 py-3 text-body-sm">High/Medium CVEs (CVSS 7–8.9)</td>
-                      <td className="px-4 py-3 text-body-sm font-semibold">30 Days</td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-3 text-body-sm">Other patches (less critical)</td>
-                      <td className="px-4 py-3 text-body-sm">As soon as possible</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <p className="text-body-sm text-rta-text-secondary px-6 py-3 bg-rta-bg-light border-t border-rta-border">
-                Critical CVEs typically addressed within days.
-              </p>
-            </motion.div>
-
-            <motion.div variants={getAnimationVariants(fadeInUp)} className="rounded-lg border border-rta-border p-6 bg-rta-card-bg">
-              <h3 className="text-h3 font-bold text-rta-blue mb-3">Why Choose LTS?</h3>
-              <p className="text-body text-rta-text-secondary">
-                Minimize security risk while maintaining operational stability. LTS lets you plan strategic upgrades at your own pace without exposing infrastructure to known vulnerabilities.
-              </p>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
       {/* Technologies mastered */}
       <section className="py-12 bg-rta-card-bg border-y border-rta-border">
         <div className="mx-auto" style={{ maxWidth: '1400px', paddingLeft: '20px', paddingRight: '20px' }}>
@@ -437,27 +368,6 @@ export default function OSSPage() {
         </div>
       </section>
 
-      {/* Request Quote */}
-      <section id="request-quote" className="py-16 lg:py-24 bg-rta-bg-light scroll-mt-20">
-        <div className="mx-auto" style={{ maxWidth: '640px', paddingLeft: '20px', paddingRight: '20px' }}>
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOptions}
-            variants={getAnimationVariants(fadeInUp)}
-          >
-            <h2 className="text-h2-md md:text-h2 font-bold text-rta-blue mb-2 text-center">
-              Ready to Get Enterprise OSS Support?
-            </h2>
-            <p className="text-body text-rta-text-secondary mb-8 text-center max-w-xl mx-auto">
-              Connect with our experts for a free consultation. We&apos;ll help you maintain, migrate, and scale your open-source infrastructure.
-            </p>
-            <div className="bg-white rounded-xl border border-rta-border shadow-card p-6 sm:p-8">
-              <QuoteForm defaultService="rta-oss" />
-            </div>
-          </motion.div>
-        </div>
-      </section>
     </div>
   );
 }

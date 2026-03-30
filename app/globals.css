@@ -70,6 +70,30 @@
   }
 }
 
+@keyframes shiny-text {
+  0%,
+  90%,
+  100% {
+    background-position: calc(-100% - var(--shiny-width)) 0;
+  }
+  30%,
+  60% {
+    background-position: calc(100% + var(--shiny-width)) 0;
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -190,6 +214,14 @@
 }
 
 @layer components {
+  .animate-shiny-text {
+    animation: shiny-text 8s ease-in-out infinite;
+  }
+
+  .animate-shine {
+    animation: shine var(--duration) infinite linear;
+  }
+
   /* Primary CTA: dark gold background with white text for WCAG AA contrast */
   .btn-primary {
     @apply px-6 py-3 rounded-md font-semibold text-base leading-normal transition-all duration-200 active:scale-[0.98];

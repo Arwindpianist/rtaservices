@@ -31,7 +31,9 @@ export async function GET(request: NextRequest) {
   }
   const baseUrl = getBaseUrl(request);
   const redirectUri = `${baseUrl}/api/xero/callback`;
-  const scopes = 'openid profile email accounting.transactions accounting.settings offline_access';
+  // Use granular scopes for apps created with the new Xero scope model.
+  // We need invoice + payment access for connector flows, plus offline refresh.
+  const scopes = 'accounting.invoices accounting.payments offline_access';
   const state = crypto.randomUUID();
   const url = new URL('https://login.xero.com/identity/connect/authorize');
   url.searchParams.set('response_type', 'code');

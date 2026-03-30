@@ -29,8 +29,13 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get('code');
   const error = searchParams.get('error');
+  const errorDescription = searchParams.get('error_description');
   if (error || !code) {
-    return NextResponse.redirect(new URL(`/dashboard?xero=error`, request.url));
+    const redirect = new URL('/dashboard', request.url);
+    redirect.searchParams.set('xero', 'error');
+    if (error) redirect.searchParams.set('xero_error', error);
+    if (errorDescription) redirect.searchParams.set('xero_error_description', errorDescription);
+    return NextResponse.redirect(redirect);
   }
   const clientId = process.env.XERO_CLIENT_ID;
   const clientSecret = process.env.XERO_CLIENT_SECRET;
@@ -52,8 +57,22 @@ export async function GET(request: NextRequest) {
     }).toString(),
   });
   if (!res.ok) {
-    const err = await res.text();
-    return NextResponse.redirect(new URL(`/dashboard?xero=exchange`, request.url));
+    let exchangeError = '';
+    let exchangeErrorDescription = '';
+    try {
+      const payload = (await res.json()) as { error?: string; error_description?: string };
+      exchangeError = payload.error ?? '';
+      exchangeErrorDescription = payload.error_description ?? '';
+    } catch {
+      // no-op
+    }
+    const redirect = new URL('/dashboard', request.url);
+    redirect.searchParams.set('xero', 'exchange');
+    if (exchangeError) redirect.searchParams.set('xero_error', exchangeError);
+    if (exchangeErrorDescription) {
+      redirect.searchParams.set('xero_error_description', exchangeErrorDescription);
+    }
+    return NextResponse.redirect(redirect);
   }
   const data = await res.json();
   let tenantId = data.tenant_id || (Array.isArray(data.tenants) && data.tenants[0]?.tenantId);

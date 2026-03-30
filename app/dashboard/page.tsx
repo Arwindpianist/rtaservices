@@ -143,6 +143,8 @@ export default function DashboardPage() {
   const [detailOpen, setDetailOpen] = useState(false);
   const [xeroInstructionOpen, setXeroInstructionOpen] = useState(false);
   const [xeroIssueCode, setXeroIssueCode] = useState<XeroIssueCode | null>(null);
+  const [xeroErrorDetail, setXeroErrorDetail] = useState('');
+  const [xeroErrorDescription, setXeroErrorDescription] = useState('');
   const [xeroRedirectUri, setXeroRedirectUri] = useState('');
   const [xeroConnectLoading, setXeroConnectLoading] = useState(false);
 
@@ -194,9 +196,13 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const issue = searchParams.get('xero');
+    const errorDetail = searchParams.get('xero_error') || '';
+    const errorDescription = searchParams.get('xero_error_description') || '';
     if (!issue) return;
     if (issue === 'error' || issue === 'config' || issue === 'exchange') {
       setXeroIssueCode(issue);
+      setXeroErrorDetail(errorDetail);
+      setXeroErrorDescription(errorDescription);
       setXeroInstructionOpen(true);
       // Get the exact redirect URI that the server will use for OAuth.
       void (async () => {
@@ -211,6 +217,8 @@ export default function DashboardPage() {
     }
     const url = new URL(window.location.href);
     url.searchParams.delete('xero');
+    url.searchParams.delete('xero_error');
+    url.searchParams.delete('xero_error_description');
     window.history.replaceState({}, '', url.toString());
   }, [searchParams]);
 
@@ -787,6 +795,21 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="p-5 space-y-4">
+              {(xeroErrorDetail || xeroErrorDescription) && (
+                <div className="rounded-md border border-amber-200 bg-amber-50 p-3">
+                  <p className="text-body-sm font-semibold text-amber-900">Xero error details</p>
+                  {xeroErrorDetail && (
+                    <p className="text-body-sm text-amber-900 mt-1">
+                      <span className="font-medium">Error:</span> {xeroErrorDetail}
+                    </p>
+                  )}
+                  {xeroErrorDescription && (
+                    <p className="text-body-sm text-amber-900 mt-1">
+                      <span className="font-medium">Description:</span> {xeroErrorDescription}
+                    </p>
+                  )}
+                </div>
+              )}
               <p className="text-body-sm text-rta-text">
                 {xeroIssueCode === 'preflight_ok'
                   ? 'If the redirect URI below matches, click proceed to start OAuth.'

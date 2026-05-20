@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getZohoAccessToken, getZohoCrmDomain } from '@/lib/zoho-client';
 import { getValidAccessToken } from '@/lib/xero-store';
 import { getXeroTokens } from '@/lib/xero-store';
-import { getLinkByXeroInvoiceId } from '@/lib/connector-store';
-import { updatePaidAt } from '@/lib/connector-store';
+import { getLinkByXeroInvoiceIdAsync } from '@/lib/connector-store';
+import { updatePaidAtAsync } from '@/lib/connector-store';
 import { createInvoiceFromQuoteId } from '@/lib/connector-create-invoice';
 import { updateQuoteCustomField } from '@/lib/zoho-quote-update';
+import { invalidateCachePrefix } from '@/lib/cache-store';
 
 const WON_STAGE = (process.env.ZOHO_QUOTE_WON_STAGE || 'Won').toLowerCase();
 const QUOTE_FIELDS = 'id,Quote_Stage,Modified_Time,Created_Time';
@@ -100,9 +101,9 @@ async function runSync(_request: NextRequest) {
           if (status !== 'paid') continue;
           const payments = inv.Payments as { Date?: string }[] | undefined;
           const paidAt = payments?.[0]?.Date ?? new Date().toISOString().split('T')[0];
-          const link = getLinkByXeroInvoiceId(inv.InvoiceID);
+          const link = await getLinkByXeroInvoiceIdAsync(inv.InvoiceID);
           if (link && !link.paidAt) {
-            updatePaidAt(link.zohoQuoteId, paidAt);
+            await updatePaidAtAsync(link.zohoQuoteId, paidAt);
             paymentUpdates += 1;
             const customField = process.env.ZOHO_CUSTOM_FIELD_XERO_PAID_DATE;
             if (customField && customField.trim()) {
@@ -116,6 +117,9 @@ async function runSync(_request: NextRequest) {
     }
   }
 
+  await invalidateCachePrefix('connector:');
+  await invalidateCachePrefix('dashboard:finances');
+  await invalidateCachePrefix('dashboard:sales-forecast');
   return NextResponse.json({
     ok: true,
     created: created.length,

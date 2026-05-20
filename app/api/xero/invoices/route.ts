@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getValidAccessToken } from '@/lib/xero-store';
 import { getXeroTokens } from '@/lib/xero-store';
+import { requireModuleAccessAsync } from '@/lib/module-access';
 
 export async function GET(request: NextRequest) {
+  const denied = await requireModuleAccessAsync('dashboard.xero', 'view');
+  if (denied) return denied;
   const accessToken = await getValidAccessToken();
   const tokens = getXeroTokens();
   const tenantId = tokens?.tenant_id;

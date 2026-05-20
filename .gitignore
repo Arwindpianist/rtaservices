@@ -42,3 +42,5 @@ PRD.md
 docs/DEPLOY-rtaservices-net.md
 oss-requirements.txt
 .cursor/plans/dashboard_pending_and_presentation_mode_151cd0e2.plan.md
+.agents/skills/neon-postgres/SKILL.md
+skills-lock.json

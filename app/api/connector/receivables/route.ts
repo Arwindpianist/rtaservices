@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getZohoAccessToken, getZohoCrmDomain } from '@/lib/zoho-client';
 import { getValidAccessToken } from '@/lib/xero-store';
 import { getXeroTokens } from '@/lib/xero-store';
-import { listLinks } from '@/lib/connector-store';
-import { requireMasterFinancials } from '@/lib/dashboard-api-guard';
+import { listLinksAsync } from '@/lib/connector-store';
+import { requireMasterFinancialsAsync } from '@/lib/dashboard-api-guard';
 
 const WON_STAGE = (process.env.ZOHO_QUOTE_WON_STAGE || 'Won').toLowerCase();
 const QUOTE_FIELDS = 'id,Auto_Number_1,Grand_Total,Currency_2,Account_Name,Contact_Name,Quote_Stage,Valid_Till';
@@ -37,7 +37,8 @@ function extractVal(v: unknown): string | undefined {
 }
 
 export async function GET(request: NextRequest) {
-  const denied = requireMasterFinancials(request);
+  void request;
+  const denied = await requireMasterFinancialsAsync();
   if (denied) return denied;
 
   const toBeInvoiced: { id: string; name: string; customer: string; amount: number; currency: string }[] = [];
@@ -47,7 +48,7 @@ export async function GET(request: NextRequest) {
   let expectedCash60 = 0;
   let expectedCash90 = 0;
 
-  const links = listLinks();
+  const links = await listLinksAsync();
   const linkedQuoteIds = new Set(links.map((l) => l.zohoQuoteId));
 
   const { token: zohoToken } = await getZohoAccessToken();

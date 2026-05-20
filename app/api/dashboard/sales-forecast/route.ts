@@ -6,6 +6,8 @@ import {
   MOCK_FORECAST_12_MONTHS,
   getCurrentQuarterForecast,
 } from '@/lib/mock-data/sales-forecast';
+import { withReadThroughCache } from '@/lib/cache-store';
+import { requireModuleAccessAsync } from '@/lib/module-access';
 
 type DealRecord = {
   id?: string;
@@ -33,15 +35,18 @@ function stageWeight(stage: string): number {
 }
 
 export async function GET() {
+  const denied = await requireModuleAccessAsync('dashboard.sales_forecast', 'view');
+  if (denied) return denied;
+  const { value } = await withReadThroughCache('dashboard:sales-forecast', 300, async () => {
   const { token } = await getZohoAccessToken();
   if (!token) {
-    return NextResponse.json({
+    return {
       source: 'mock',
       months: MOCK_FORECAST_12_MONTHS,
       deals: MOCK_DEAL_FORECASTS,
       closingStages: MOCK_CLOSING_STAGES,
       quarter: getCurrentQuarterForecast(),
-    });
+    };
   }
 
   try {
@@ -110,20 +115,22 @@ export async function GET() {
       value: vals.value,
     }));
 
-    return NextResponse.json({
+    return {
       source: 'zoho',
       months,
       deals: dealForecasts,
       closingStages,
       quarter,
-    });
+    };
   } catch {
-    return NextResponse.json({
+    return {
       source: 'mock',
       months: MOCK_FORECAST_12_MONTHS,
       deals: MOCK_DEAL_FORECASTS,
       closingStages: MOCK_CLOSING_STAGES,
       quarter: getCurrentQuarterForecast(),
-    });
+    };
   }
+  });
+  return NextResponse.json(value);
 }

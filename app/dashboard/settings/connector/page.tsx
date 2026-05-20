@@ -6,25 +6,89 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 
-type ConnectorSettings = {
-  ZOHO_QUOTE_WON_STAGE: string;
-  XERO_DEFAULT_ACCOUNT_CODE: string;
-  XERO_DEFAULT_TAX_TYPE: string;
-  XERO_AUTO_SEND_INVOICE: boolean;
-  ZOHO_CUSTOM_FIELD_XERO_PAID_DATE: string;
+type UserSettingsPayload = {
+  user: { id: string; email: string; name: string; role: string };
+  settings: {
+    displayName: string | null;
+    defaultPeriod: 'this_week' | 'this_month' | 'this_quarter' | 'ytd';
+    tableDensity: 'comfortable' | 'compact';
+  };
 };
 
-export default function ConnectorSettingsPage() {
-  const [settings, setSettings] = useState<ConnectorSettings | null>(null);
+const PERIODS = [
+  { value: 'this_week', label: 'This Week' },
+  { value: 'this_month', label: 'This Month' },
+  { value: 'this_quarter', label: 'This Quarter' },
+  { value: 'ytd', label: 'Year to Date' },
+] as const;
+
+export default function SettingsPage() {
+  const [data, setData] = useState<UserSettingsPayload | null>(null);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [nameDraft, setNameDraft] = useState('');
+  const [defaultPeriod, setDefaultPeriod] = useState<UserSettingsPayload['settings']['defaultPeriod']>('ytd');
+  const [tableDensity, setTableDensity] = useState<UserSettingsPayload['settings']['tableDensity']>('comfortable');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
+  const load = async () => {
+    setLoading(true);
+    setError('');
+    const res = await fetch('/api/dashboard/settings');
+    const payload = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setError(payload.error || 'Failed to load settings');
+      setLoading(false);
+      return;
+    }
+    const parsed = payload as UserSettingsPayload;
+    setData(parsed);
+    setNameDraft(parsed.settings.displayName || parsed.user.name || '');
+    setDefaultPeriod(parsed.settings.defaultPeriod);
+    setTableDensity(parsed.settings.tableDensity);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    fetch('/api/connector/settings')
-      .then((res) => res.json())
-      .then(setSettings)
-      .catch(() => setSettings(null))
-      .finally(() => setLoading(false));
+    void load();
   }, []);
+
+  const save = async () => {
+    setSaving(true);
+    setError('');
+    setMessage('');
+    const res = await fetch('/api/dashboard/settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        displayName: nameDraft,
+        defaultPeriod,
+        tableDensity,
+      }),
+    });
+    const payload = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setError(payload.error || 'Failed to save settings');
+      setSaving(false);
+      return;
+    }
+    setMessage('Settings saved');
+    await load();
+    setSaving(false);
+  };
+
+  const requestSessionReset = async () => {
+    setError('');
+    setMessage('');
+    const res = await fetch('/api/dashboard/settings/session-reset', { method: 'POST' });
+    const payload = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setError(payload.error || 'Failed to send reset link');
+      return;
+    }
+    setMessage('A password reset link has been sent to your email.');
+  };
 
   return (
     <div className="min-h-[calc(100vh-3.5rem)] bg-rta-bg-light">
@@ -37,9 +101,9 @@ export default function ConnectorSettingsPage() {
             </Link>
           </Button>
         </div>
-        <h1 className="text-h3 font-bold text-rta-blue">Connector settings</h1>
+        <h1 className="text-h3 font-bold text-rta-blue">Settings</h1>
         <p className="text-body-sm text-rta-text-secondary mt-1">
-          Current Zoho–Xero connector configuration (read-only, from environment)
+          Manage your profile/session and dashboard preferences.
         </p>
 
         {loading ? (
@@ -47,39 +111,65 @@ export default function ConnectorSettingsPage() {
             <Loader2 className="w-5 h-5 animate-spin" />
             <span className="text-body-sm">Loading…</span>
           </div>
-        ) : settings ? (
+        ) : data ? (
           <Card className="border-rta-border bg-white shadow-card mt-6">
             <CardContent className="pt-6">
-              <dl className="space-y-4">
+              {error ? <p className="mb-3 text-sm text-rta-red">{error}</p> : null}
+              {message ? <p className="mb-3 text-sm text-green-700">{message}</p> : null}
+              <h2 className="text-body font-semibold text-rta-text">Profile & Session</h2>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 <div>
-                  <dt className="text-xs font-semibold text-rta-text-secondary uppercase tracking-wider">ZOHO_QUOTE_WON_STAGE</dt>
-                  <dd className="text-body-sm font-medium text-rta-text mt-1">{settings.ZOHO_QUOTE_WON_STAGE}</dd>
-                  <dd className="text-xs text-rta-text-secondary mt-0.5">Quote stage that triggers invoice creation</dd>
+                  <label className="text-xs font-semibold text-rta-text-secondary uppercase tracking-wider">Display Name</label>
+                  <input
+                    className="mt-1 h-10 w-full rounded-md border border-rta-border px-3 text-sm"
+                    value={nameDraft}
+                    onChange={(e) => setNameDraft(e.target.value)}
+                  />
                 </div>
                 <div>
-                  <dt className="text-xs font-semibold text-rta-text-secondary uppercase tracking-wider">XERO_DEFAULT_ACCOUNT_CODE</dt>
-                  <dd className="text-body-sm font-medium text-rta-text mt-1">{settings.XERO_DEFAULT_ACCOUNT_CODE}</dd>
-                  <dd className="text-xs text-rta-text-secondary mt-0.5">Revenue account for new invoices (must exist in Xero)</dd>
+                  <p className="text-xs font-semibold text-rta-text-secondary uppercase tracking-wider">Account</p>
+                  <p className="mt-1 text-body-sm font-medium text-rta-text">{data.user.email}</p>
+                  <p className="text-xs text-rta-text-secondary mt-0.5">Role: {data.user.role}</p>
+                </div>
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Button type="button" onClick={requestSessionReset}>Send Password Reset Link</Button>
+                <Button type="button" variant="outline" onClick={save} disabled={saving}>
+                  {saving ? 'Saving...' : 'Save Profile'}
+                </Button>
+              </div>
+
+              <h2 className="mt-8 text-body font-semibold text-rta-text">Dashboard Preferences</h2>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="text-xs font-semibold text-rta-text-secondary uppercase tracking-wider">Default Period</label>
+                  <select
+                    value={defaultPeriod}
+                    onChange={(e) => setDefaultPeriod(e.target.value as UserSettingsPayload['settings']['defaultPeriod'])}
+                    className="mt-1 h-10 w-full rounded-md border border-rta-border px-3 text-sm"
+                  >
+                    {PERIODS.map((p) => (
+                      <option key={p.value} value={p.value}>{p.label}</option>
+                    ))}
+                  </select>
                 </div>
                 <div>
-                  <dt className="text-xs font-semibold text-rta-text-secondary uppercase tracking-wider">XERO_DEFAULT_TAX_TYPE</dt>
-                  <dd className="text-body-sm font-medium text-rta-text mt-1">{settings.XERO_DEFAULT_TAX_TYPE}</dd>
-                  <dd className="text-xs text-rta-text-secondary mt-0.5">Tax type for line items</dd>
+                  <label className="text-xs font-semibold text-rta-text-secondary uppercase tracking-wider">Table Density</label>
+                  <select
+                    value={tableDensity}
+                    onChange={(e) => setTableDensity(e.target.value as UserSettingsPayload['settings']['tableDensity'])}
+                    className="mt-1 h-10 w-full rounded-md border border-rta-border px-3 text-sm"
+                  >
+                    <option value="comfortable">Comfortable</option>
+                    <option value="compact">Compact</option>
+                  </select>
                 </div>
-                <div>
-                  <dt className="text-xs font-semibold text-rta-text-secondary uppercase tracking-wider">XERO_AUTO_SEND_INVOICE</dt>
-                  <dd className="text-body-sm font-medium text-rta-text mt-1">{settings.XERO_AUTO_SEND_INVOICE ? 'true' : 'false'}</dd>
-                  <dd className="text-xs text-rta-text-secondary mt-0.5">Create as SUBMITTED when true, else DRAFT</dd>
-                </div>
-                <div>
-                  <dt className="text-xs font-semibold text-rta-text-secondary uppercase tracking-wider">ZOHO_CUSTOM_FIELD_XERO_PAID_DATE</dt>
-                  <dd className="text-body-sm font-medium text-rta-text mt-1">{settings.ZOHO_CUSTOM_FIELD_XERO_PAID_DATE || '(not set)'}</dd>
-                  <dd className="text-xs text-rta-text-secondary mt-0.5">Zoho Quote custom field for payment sync (optional)</dd>
-                </div>
-              </dl>
-              <p className="text-body-sm text-rta-text-secondary mt-6 pt-4 border-t border-rta-border">
-                To change these values, update your <code className="bg-rta-bg-light px-1 rounded">.env</code> or deployment environment and restart. See <code className="bg-rta-bg-light px-1 rounded">.env.example</code> and the connector roadmap for details.
-              </p>
+              </div>
+              <div className="mt-3">
+                <Button type="button" variant="outline" onClick={save} disabled={saving}>
+                  {saving ? 'Saving...' : 'Save Preferences'}
+                </Button>
+              </div>
             </CardContent>
           </Card>
         ) : (

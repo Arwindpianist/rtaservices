@@ -1,26 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getRoleForUser, getRoleCapabilities, isValidUserId } from '@/lib/dashboard-roles';
+import { NextResponse } from 'next/server';
+import { getCurrentUser } from '@/lib/auth-session';
 
-const COOKIE_NAME = 'rta_dashboard_session';
-const GATE_VALUE = 'gate';
-
-export async function GET(request: NextRequest) {
-  const value = request.cookies.get(COOKIE_NAME)?.value ?? '';
-
-  if (value === GATE_VALUE || value === '1') {
-    return NextResponse.json({ error: 'User not selected' }, { status: 401 });
-  }
-
-  if (!value || !isValidUserId(value)) {
+export async function GET() {
+  const user = await getCurrentUser();
+  if (!user) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   }
-
-  const role = getRoleForUser(value);
-  const capabilities = getRoleCapabilities(role);
-
   return NextResponse.json({
-    userId: value,
-    role,
-    capabilities,
+    userId: user.id,
+    role: user.role,
+    capabilities: user.capabilities,
+    modulePermissions: user.modulePermissions,
   });
 }

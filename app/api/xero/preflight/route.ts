@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { requireModuleAccessAsync } from '@/lib/module-access';
 
 function getBaseUrl(request: NextRequest): string {
   const xForwardedProto = request.headers.get('x-forwarded-proto');
@@ -25,6 +26,8 @@ function getBaseUrl(request: NextRequest): string {
 }
 
 export async function GET(request: NextRequest) {
+  const denied = await requireModuleAccessAsync('integrations.xero.connect', 'admin');
+  if (denied) return denied;
   const clientId = process.env.XERO_CLIENT_ID;
   const clientSecret = process.env.XERO_CLIENT_SECRET;
   const baseUrl = getBaseUrl(request);

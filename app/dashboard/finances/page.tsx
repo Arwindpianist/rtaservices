@@ -59,7 +59,7 @@ export default function FinancesPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 mb-8">
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
+            <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue-hover/10 transition-colors" />
             <CardContent className="relative pt-6">
               <p className="text-body-sm text-rta-text-secondary font-medium">Invoices in (to pay)</p>
               <p className="text-2xl font-bold text-rta-text tabular-nums mt-1">
@@ -68,7 +68,7 @@ export default function FinancesPage() {
             </CardContent>
           </Card>
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
+            <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue-hover/10 transition-colors" />
             <CardContent className="relative pt-6">
               <p className="text-body-sm text-rta-text-secondary font-medium">Invoices out (to receive)</p>
               <p className="text-2xl font-bold text-rta-text tabular-nums mt-1">
@@ -77,7 +77,7 @@ export default function FinancesPage() {
             </CardContent>
           </Card>
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
+            <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue-hover/10 transition-colors" />
             <CardContent className="relative pt-6">
               <p className="text-body-sm text-rta-text-secondary font-medium">Open claims</p>
               <p className="text-2xl font-bold text-rta-text tabular-nums mt-1">
@@ -86,7 +86,7 @@ export default function FinancesPage() {
             </CardContent>
           </Card>
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
+            <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue-hover/10 transition-colors" />
             <CardContent className="relative pt-6">
               <p className="text-body-sm text-rta-text-secondary font-medium">Payments due / overdue</p>
               <p className="text-2xl font-bold text-rta-text tabular-nums mt-1">
@@ -98,7 +98,7 @@ export default function FinancesPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
+            <div className="absolute top-0 right-0 w-20 h-20 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue-hover/10 transition-colors" />
             <CardHeader className="relative">
               <CardTitle className="flex items-center gap-2 text-base font-semibold text-rta-blue">
                 <Receipt className="w-4 h-4 text-rta-blue" />
@@ -116,7 +116,7 @@ export default function FinancesPage() {
             </CardContent>
           </Card>
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
+            <div className="absolute top-0 right-0 w-20 h-20 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue-hover/10 transition-colors" />
             <CardHeader className="relative">
               <CardTitle className="flex items-center gap-2 text-base font-semibold text-rta-blue">
                 <Wallet className="w-4 h-4 text-rta-blue" />
@@ -134,7 +134,7 @@ export default function FinancesPage() {
             </CardContent>
           </Card>
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
+            <div className="absolute top-0 right-0 w-20 h-20 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue-hover/10 transition-colors" />
             <CardHeader className="relative">
               <CardTitle className="flex items-center gap-2 text-base font-semibold text-rta-blue">
                 <FileText className="w-4 h-4 text-rta-blue" />
@@ -152,7 +152,7 @@ export default function FinancesPage() {
             </CardContent>
           </Card>
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
+            <div className="absolute top-0 right-0 w-20 h-20 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue-hover/10 transition-colors" />
             <CardHeader className="relative">
               <CardTitle className="flex items-center gap-2 text-base font-semibold text-rta-blue">
                 <FileText className="w-4 h-4 text-rta-blue" />
@@ -170,7 +170,7 @@ export default function FinancesPage() {
             </CardContent>
           </Card>
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
+            <div className="absolute top-0 right-0 w-20 h-20 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue-hover/10 transition-colors" />
             <CardHeader className="relative">
               <CardTitle className="flex items-center gap-2 text-base font-semibold text-rta-blue">
                 <Building2 className="w-4 h-4 text-rta-blue" />
@@ -188,7 +188,7 @@ export default function FinancesPage() {
             </CardContent>
           </Card>
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
+            <div className="absolute top-0 right-0 w-20 h-20 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue-hover/10 transition-colors" />
             <CardHeader className="relative">
               <CardTitle className="flex items-center gap-2 text-base font-semibold text-rta-blue">
                 <TrendingUp className="w-4 h-4 text-rta-blue" />

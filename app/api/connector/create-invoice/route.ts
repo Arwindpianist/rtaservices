@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createInvoiceFromQuoteId } from '@/lib/connector-create-invoice';
+import { invalidateCachePrefix } from '@/lib/cache-store';
 
 export async function POST(request: NextRequest) {
   let body: { zohoQuoteId?: string };
@@ -16,6 +17,8 @@ export async function POST(request: NextRequest) {
   const result = await createInvoiceFromQuoteId(zohoQuoteId);
 
   if (result.ok) {
+    await invalidateCachePrefix('connector:');
+    await invalidateCachePrefix('dashboard:finances');
     return NextResponse.json({
       ok: true,
       xeroInvoiceId: result.xeroInvoiceId,

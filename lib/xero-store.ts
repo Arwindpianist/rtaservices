@@ -2,6 +2,9 @@
  * Xero token store. In-memory with optional file persistence to data/xero-tokens.json.
  * For production multi-instance, replace with Vercel KV or a DB (same interface).
  */
+import { sql } from '@/lib/db';
+import { ensureNeonSchema } from '@/lib/neon-schema';
+import { features } from '@/lib/features';
 
 const DATA_DIR = 'data';
 const DATA_FILE = 'xero-tokens.json';
@@ -11,6 +14,9 @@ type StoredTokens = {
   refresh_token: string;
   expires_at: number;
   tenant_id?: string;
+  authorized_by_user_id?: string;
+  authorized_by_role?: string;
+  authorized_at?: string;
 };
 
 let stored: StoredTokens | null = null;
@@ -84,6 +90,9 @@ function saveToFile(): void {
 }
 
 export function getXeroTokens(): StoredTokens | null {
+  if (features.neonPersistence) {
+    return stored;
+  }
   loadFromFile();
   return stored;
 }
@@ -93,18 +102,42 @@ export function setXeroTokens(tokens: {
   refresh_token: string;
   expires_in: number;
   tenant_id?: string;
+  authorized_by_user_id?: string;
+  authorized_by_role?: string;
 }) {
+  if (features.neonPersistence) {
+    stored = {
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+      expires_at: Date.now() + tokens.expires_in * 1000,
+      tenant_id: tokens.tenant_id,
+      authorized_by_user_id: tokens.authorized_by_user_id,
+      authorized_by_role: tokens.authorized_by_role,
+      authorized_at: new Date().toISOString(),
+    };
+    void setXeroTokensAsync(tokens);
+    return;
+  }
   loadFromFile();
   stored = {
     access_token: tokens.access_token,
     refresh_token: tokens.refresh_token,
     expires_at: Date.now() + tokens.expires_in * 1000,
     tenant_id: tokens.tenant_id,
+    authorized_by_user_id: tokens.authorized_by_user_id,
+    authorized_by_role: tokens.authorized_by_role,
+    authorized_at: new Date().toISOString(),
   };
   saveToFile();
 }
 
 export function clearXeroTokens() {
+  if (features.neonPersistence) {
+    loaded = true;
+    stored = null;
+    void clearXeroTokensAsync();
+    return;
+  }
   loaded = true;
   stored = null;
   try {
@@ -117,7 +150,8 @@ export function clearXeroTokens() {
 }
 
 export async function getValidAccessToken(): Promise<string | null> {
-  loadFromFile();
+  await loadFromNeonIfEnabled();
+  if (!features.neonPersistence) loadFromFile();
   if (!stored) return null;
   const buffer = 60 * 1000; // refresh 1 min before expiry
   if (Date.now() >= stored.expires_at - buffer) {
@@ -137,13 +171,79 @@ export async function getValidAccessToken(): Promise<string | null> {
     });
     if (!res.ok) return null;
     const data = await res.json();
-    setXeroTokens({
+    await setXeroTokensAsync({
       access_token: data.access_token,
       refresh_token: data.refresh_token || stored.refresh_token,
       expires_in: data.expires_in || 1800,
       tenant_id: data.tenant_id || stored.tenant_id,
     });
+    stored = {
+      access_token: data.access_token,
+      refresh_token: data.refresh_token || stored.refresh_token,
+      expires_at: Date.now() + (data.expires_in || 1800) * 1000,
+      tenant_id: data.tenant_id || stored.tenant_id,
+    };
     return stored.access_token;
   }
   return stored.access_token;
+}
+
+async function loadFromNeonIfEnabled(): Promise<void> {
+  if (!features.neonPersistence || stored) return;
+  await ensureNeonSchema();
+  const rows = await sql<StoredTokens[]>`
+    SELECT access_token, refresh_token, expires_at, tenant_id
+    FROM xero_tokens
+    WHERE id = 'default'
+    LIMIT 1
+  `;
+  const row = rows[0];
+  if (row) {
+    stored = row;
+    loaded = true;
+  }
+}
+
+export async function setXeroTokensAsync(tokens: {
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
+  tenant_id?: string;
+  authorized_by_user_id?: string;
+  authorized_by_role?: string;
+}): Promise<void> {
+  if (!features.neonPersistence) {
+    setXeroTokens(tokens);
+    return;
+  }
+  await ensureNeonSchema();
+  const expiresAt = Date.now() + tokens.expires_in * 1000;
+  await sql`
+    INSERT INTO xero_tokens (id, access_token, refresh_token, expires_at, tenant_id, authorized_by_user_id, authorized_by_role, authorized_at, updated_at)
+    VALUES ('default', ${tokens.access_token}, ${tokens.refresh_token}, ${expiresAt}, ${tokens.tenant_id ?? null}, ${tokens.authorized_by_user_id ?? null}, ${tokens.authorized_by_role ?? null}, NOW(), NOW())
+    ON CONFLICT (id) DO UPDATE SET
+      access_token = EXCLUDED.access_token,
+      refresh_token = EXCLUDED.refresh_token,
+      expires_at = EXCLUDED.expires_at,
+      tenant_id = EXCLUDED.tenant_id,
+      authorized_by_user_id = COALESCE(EXCLUDED.authorized_by_user_id, xero_tokens.authorized_by_user_id),
+      authorized_by_role = COALESCE(EXCLUDED.authorized_by_role, xero_tokens.authorized_by_role),
+      authorized_at = COALESCE(EXCLUDED.authorized_at, xero_tokens.authorized_at),
+      updated_at = NOW()
+  `;
+}
+
+export async function getXeroTokensAsync(): Promise<StoredTokens | null> {
+  if (!features.neonPersistence) return getXeroTokens();
+  await loadFromNeonIfEnabled();
+  return stored;
+}
+
+export async function clearXeroTokensAsync(): Promise<void> {
+  if (!features.neonPersistence) {
+    clearXeroTokens();
+    return;
+  }
+  await ensureNeonSchema();
+  await sql`DELETE FROM xero_tokens WHERE id = 'default'`;
 }

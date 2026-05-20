@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { setXeroTokens } from '@/lib/xero-store';
+import { setXeroTokensAsync } from '@/lib/xero-store';
+import { getCurrentUser } from '@/lib/auth-session';
+import { hasModuleAccess } from '@/lib/module-access';
+import { logAuditEvent } from '@/lib/users';
 
 function getBaseUrl(request: NextRequest): string {
   const xForwardedProto = request.headers.get('x-forwarded-proto');
@@ -26,6 +29,14 @@ function getBaseUrl(request: NextRequest): string {
 }
 
 export async function GET(request: NextRequest) {
+  const current = await getCurrentUser();
+  if (!current) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+  const canConnect = await hasModuleAccess(current, 'integrations.xero.connect', 'admin');
+  if (!canConnect) {
+    return NextResponse.redirect(new URL('/dashboard?xero=forbidden', request.url));
+  }
   const { searchParams } = new URL(request.url);
   const code = searchParams.get('code');
   const error = searchParams.get('error');
@@ -85,11 +96,18 @@ export async function GET(request: NextRequest) {
       tenantId = conns[0]?.tenantId || conns[0]?.tenant_id;
     }
   }
-  setXeroTokens({
+  await setXeroTokensAsync({
     access_token: data.access_token,
     refresh_token: data.refresh_token,
     expires_in: data.expires_in || 1800,
     tenant_id: tenantId,
+    authorized_by_user_id: current.id,
+    authorized_by_role: current.role,
+  });
+  await logAuditEvent({
+    eventType: 'xero.connection.authorized',
+    actorUserId: current.id,
+    metadata: { tenantId },
   });
   return NextResponse.redirect(new URL('/dashboard', request.url));
 }

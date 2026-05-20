@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { setLink } from '@/lib/connector-store';
+import { setLinkAsync } from '@/lib/connector-store';
+import { invalidateCachePrefix } from '@/lib/cache-store';
 
 /**
  * POST: manually link an Xero invoice to a Zoho quote (reconciliation).
@@ -22,12 +23,14 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  setLink({
+  await setLinkAsync({
     zohoQuoteId,
     xeroInvoiceId,
     xeroInvoiceNumber: body.xeroInvoiceNumber?.trim(),
     createdAt: new Date().toISOString(),
   });
 
+  await invalidateCachePrefix('connector:');
+  await invalidateCachePrefix('dashboard:finances');
   return NextResponse.json({ ok: true, zohoQuoteId, xeroInvoiceId });
 }

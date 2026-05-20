@@ -41,7 +41,7 @@ export default function OSSProductRange() {
           <Button
             asChild
             variant="outline"
-            className="border-2 border-rta-blue text-rta-blue bg-transparent hover:bg-rta-blue hover:text-white px-8 py-4 text-base font-semibold rounded-lg transition-colors duration-300"
+            className="border-2 border-rta-blue text-rta-blue bg-transparent hover:bg-rta-blue-hover hover:text-white px-8 py-4 text-base font-semibold rounded-lg transition-colors duration-300"
             aria-label="Search supported open-source software and request OSS support"
           >
             <Link href="/support/request">

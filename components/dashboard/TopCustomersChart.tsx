@@ -3,16 +3,16 @@
 type DataPoint = { name: string; value: number };
 
 const getMedalBadgeClass = (rank: number): string => {
-  if (rank === 1) return 'bg-amber-500/15 text-amber-800 border border-amber-300 font-bold';
-  if (rank === 2) return 'bg-slate-200/80 text-slate-700 border border-slate-400 font-bold';
-  if (rank === 3) return 'bg-amber-700/15 text-amber-900 border border-amber-600 font-semibold';
+  if (rank === 1) return 'bg-rta-gold/15 text-rta-gold border border-rta-gold/40 font-bold';
+  if (rank === 2) return 'bg-rta-red/15 text-rta-red border border-rta-red/45 font-bold';
+  if (rank === 3) return 'bg-rta-blue/15 text-rta-blue border border-rta-blue/45 font-semibold';
   return 'bg-rta-bg-light text-rta-text-secondary border border-transparent';
 };
 
 const getMedalRowClass = (rank: number): string => {
-  if (rank === 1) return 'bg-amber-50/70';
-  if (rank === 2) return 'bg-slate-100/70';
-  if (rank === 3) return 'bg-amber-100/60';
+  if (rank === 1) return 'bg-rta-gold/10';
+  if (rank === 2) return 'bg-rta-red/10';
+  if (rank === 3) return 'bg-rta-blue/10';
   return '';
 };
 

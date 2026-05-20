@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { MOCK_PAYMENTS } from '@/lib/mock-data/finances';
-import { requireMasterFinancials } from '@/lib/dashboard-api-guard';
+import { requireMasterFinancialsAsync } from '@/lib/dashboard-api-guard';
+import { requireModuleAccessAsync } from '@/lib/module-access';
 
 export async function GET(request: NextRequest) {
-  const denied = requireMasterFinancials(request);
+  void request;
+  const moduleDenied = await requireModuleAccessAsync('dashboard.finances', 'view');
+  if (moduleDenied) return moduleDenied;
+  const denied = await requireMasterFinancialsAsync();
   if (denied) return denied;
 
   return NextResponse.json({

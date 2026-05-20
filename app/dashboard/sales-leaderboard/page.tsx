@@ -48,7 +48,7 @@ export default function SalesLeaderboardPage() {
         <p className="text-body-sm text-rta-text-secondary mt-1">Top 10 salespeople by closed value (from Zoho CRM)</p>
 
         <Card className="mt-6 relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
+          <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue-hover/10 transition-colors" />
           <CardHeader className="relative">
             <CardTitle className="flex items-center gap-2 text-base font-semibold text-rta-blue">
               <Trophy className="w-4 h-4 text-rta-blue" />

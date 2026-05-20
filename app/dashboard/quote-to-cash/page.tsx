@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, Loader2, ChevronRight, X, FileText, Send } from 'lucide-react';
+import { ArrowLeft, Loader2, ChevronRight, X, FileText, Send, Save } from 'lucide-react';
 import { getStageBadgeClass } from '@/lib/stage-colors';
 
 type PipelineRow = {
@@ -45,6 +45,7 @@ export default function QuoteToCashPage() {
   const [selectedRow, setSelectedRow] = useState<PipelineRow | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
   const [creatingId, setCreatingId] = useState<string | null>(null);
+  const [draftSaving, setDraftSaving] = useState(false);
 
   const fetchPipeline = () => {
     setLoading(true);
@@ -110,6 +111,36 @@ export default function QuoteToCashPage() {
 
   const isWon = (stage: string) => (stage || '').toLowerCase().includes(WON_STAGE.toLowerCase());
   const showCreateButton = (row: PipelineRow) => isWon(row.stage) && !row.xeroInvoiceId;
+  const saveDraft = async () => {
+    if (!selectedRow) return;
+    setDraftSaving(true);
+    try {
+      const res = await fetch('/api/pipeline-drafts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          zohoQuoteId: selectedRow.zohoQuoteId,
+          payload: {
+            quoteName: selectedRow.quoteName,
+            customer: selectedRow.customer,
+            stage: selectedRow.stage,
+            amount: selectedRow.amount,
+            currency: selectedRow.currency,
+          },
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.error || 'Failed to save draft');
+        return;
+      }
+      alert('Draft saved');
+    } catch {
+      alert('Failed to save draft');
+    } finally {
+      setDraftSaving(false);
+    }
+  };
 
   return (
     <div className="min-h-[calc(100vh-3.5rem)] bg-rta-bg-light">
@@ -319,18 +350,29 @@ export default function QuoteToCashPage() {
                 </div>
                 {showCreateButton(selectedRow) && (
                   <div className="mt-4">
-                    <Button
-                      className="w-full sm:w-auto bg-rta-blue hover:bg-rta-blue-hover text-white"
-                      disabled={creatingId === selectedRow.zohoQuoteId}
-                      onClick={() => handleCreateInXero(selectedRow.zohoQuoteId)}
-                    >
-                      {creatingId === selectedRow.zohoQuoteId ? (
-                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                      ) : (
-                        <Send className="w-4 h-4 mr-2" />
-                      )}
-                      Create in Xero
-                    </Button>
+                    <div className="flex flex-wrap gap-2">
+                      <Button
+                        variant="outline"
+                        className="w-full sm:w-auto"
+                        disabled={draftSaving}
+                        onClick={saveDraft}
+                      >
+                        {draftSaving ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Save className="w-4 h-4 mr-2" />}
+                        Save draft
+                      </Button>
+                      <Button
+                        className="w-full sm:w-auto bg-rta-blue hover:bg-rta-blue-hover text-white"
+                        disabled={creatingId === selectedRow.zohoQuoteId}
+                        onClick={() => handleCreateInXero(selectedRow.zohoQuoteId)}
+                      >
+                        {creatingId === selectedRow.zohoQuoteId ? (
+                          <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        ) : (
+                          <Send className="w-4 h-4 mr-2" />
+                        )}
+                        Create in Xero
+                      </Button>
+                    </div>
                   </div>
                 )}
               </div>

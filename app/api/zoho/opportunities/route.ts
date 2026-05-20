@@ -1,21 +1,42 @@
 import { NextResponse } from 'next/server';
 import { getZohoAccessToken, getZohoCrmDomain } from '@/lib/zoho-client';
+import { withReadThroughCache } from '@/lib/cache-store';
+import { refreshSnapshotIfStale } from '@/lib/sync/snapshot-sync';
 
 function getSinceDate(period: string): string | null {
   const now = new Date();
   let since: Date;
   switch (period) {
+    case 'this_week': {
+      const day = now.getDay(); // 0=Sun, 1=Mon...
+      const diffToMonday = day === 0 ? 6 : day - 1;
+      since = new Date(now);
+      since.setDate(now.getDate() - diffToMonday);
+      since.setHours(0, 0, 0, 0);
+      break;
+    }
     case 'week':
       since = new Date(now);
       since.setDate(since.getDate() - 7);
+      break;
+    case 'this_month':
+      since = new Date(now.getFullYear(), now.getMonth(), 1);
       break;
     case 'month':
       since = new Date(now);
       since.setDate(since.getDate() - 30);
       break;
+    case 'this_quarter': {
+      const quarterStartMonth = Math.floor(now.getMonth() / 3) * 3;
+      since = new Date(now.getFullYear(), quarterStartMonth, 1);
+      break;
+    }
     case 'quarter':
       since = new Date(now);
       since.setDate(since.getDate() - 90);
+      break;
+    case 'ytd':
+      since = new Date(now.getFullYear(), 0, 1);
       break;
     case 'year':
       since = new Date(now);
@@ -33,8 +54,19 @@ async function getAccessToken(): Promise<{ token: string | null; error?: string 
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const period = searchParams.get('period') || 'all';
+  const period = searchParams.get('period') || 'ytd';
   const debug = searchParams.get('debug') === '1';
+  const search = (searchParams.get('search') || '').trim().toLowerCase();
+  const stageFilter = (searchParams.get('stage') || '').trim().toLowerCase();
+  const currencyFilter = (searchParams.get('currency') || '').trim().toUpperCase();
+  const accountFilter = (searchParams.get('account') || '').trim().toLowerCase();
+  const ownerFilter = (searchParams.get('owner') || '').trim().toLowerCase();
+  const createdByFilter = (searchParams.get('createdBy') || '').trim().toLowerCase();
+  const countryFilter = (searchParams.get('billingCountry') || '').trim().toLowerCase();
+  const cityFilter = (searchParams.get('billingCity') || '').trim().toLowerCase();
+  const minAmount = Number(searchParams.get('minAmount') || '');
+  const maxAmount = Number(searchParams.get('maxAmount') || '');
+  const cacheKey = `zoho:opportunities:${searchParams.toString() || 'default'}`;
 
   const { token: accessToken, error: tokenError } = await getAccessToken();
   if (!accessToken) {
@@ -58,6 +90,7 @@ export async function GET(request: Request) {
     });
   };
 
+  const producer = async () => {
   try {
     const QUOTE_FIELDS = [
       'Auto_Number_1', 'Currency_2', 'Grand_Total', 'Quote_Stage', 'Subject', 'Description',
@@ -244,7 +277,6 @@ export async function GET(request: Request) {
       };
     };
 
-    let top: Opportunity[];
     let allOpportunities: Opportunity[] = [];
     let productCounts: Record<string, number> = {};
     let salespersonMapRaw: Record<string, { quoted: number; closed: number }> = {};
@@ -255,7 +287,6 @@ export async function GET(request: Request) {
       let quotes = (quotesData && (quotesData.data || quotesData.quotes)) || [];
       quotes = filterByDate(quotes as { Created_Time?: string }[]);
       allOpportunities = quotes.map((q) => mapQuoteToOpportunity(q as QuoteRecord));
-      top = allOpportunities.slice(0, 10);
       const productMap: Record<string, number> = {};
       for (const quote of quotes) {
         const q = quote as Record<string, unknown>;
@@ -299,7 +330,7 @@ export async function GET(request: Request) {
         return std ? String(std).toUpperCase() : 'USD';
       };
       const getDealCreator = (d: DealRecord) => getCreatorName(d) ?? extractVal(d.Modified_By) ?? extractVal(d.Owner);
-      top = filteredDeals.slice(0, 10).map((d: DealRecord) => {
+      allOpportunities = filteredDeals.map((d: DealRecord) => {
         const stage = typeof d.Stage === 'string' ? d.Stage : (d.Stage && typeof d.Stage === 'object' && 'name' in d.Stage ? d.Stage.name : undefined);
         const acct = d.Account_Name as { name?: string } | undefined;
         return {
@@ -317,7 +348,6 @@ export async function GET(request: Request) {
           modifiedBy: extractVal(d.Modified_By) ?? undefined,
         };
       });
-      allOpportunities = top;
       for (const o of allOpportunities) {
         const creator = (o.createdBy || o.modifiedBy || '').trim();
         if (!creator) continue;
@@ -327,8 +357,43 @@ export async function GET(request: Request) {
       }
     }
 
+    const filteredOpportunities = allOpportunities.filter((o) => {
+      const amount = Number(o.amount ?? 0);
+      if (Number.isFinite(minAmount) && (searchParams.get('minAmount') || '') !== '' && amount < minAmount) return false;
+      if (Number.isFinite(maxAmount) && (searchParams.get('maxAmount') || '') !== '' && amount > maxAmount) return false;
+      if (stageFilter && !(o.stage || '').toLowerCase().includes(stageFilter)) return false;
+      if (currencyFilter && (o.currency || '').toUpperCase() !== currencyFilter) return false;
+      if (accountFilter && !(o.accountName || '').toLowerCase().includes(accountFilter)) return false;
+      if (ownerFilter && !(o.modifiedBy || '').toLowerCase().includes(ownerFilter)) return false;
+      if (createdByFilter && !(o.createdBy || '').toLowerCase().includes(createdByFilter)) return false;
+      if (countryFilter && !(o.billingCountry || '').toLowerCase().includes(countryFilter)) return false;
+      if (cityFilter && !(o.billingCity || '').toLowerCase().includes(cityFilter)) return false;
+      if (search) {
+        const haystack = [
+          o.name,
+          o.subject,
+          o.accountName,
+          o.dealName,
+          o.contactName,
+          o.description,
+          o.endCustomer,
+          o.stage,
+          o.billingCountry,
+          o.billingCity,
+          o.createdBy,
+          o.modifiedBy,
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+        if (!haystack.includes(search)) return false;
+      }
+      return true;
+    });
+
+    const top = filteredOpportunities.slice(0, 50);
     const customerMap: Record<string, number> = {};
-    for (const o of allOpportunities) {
+    for (const o of filteredOpportunities) {
       const name = o.accountName || o.endCustomer || 'Unknown';
       if (!customerMap[name]) customerMap[name] = 0;
       customerMap[name] += o.amount || 0;
@@ -345,7 +410,7 @@ export async function GET(request: Request) {
       .map(([name, count]) => ({ name, count }));
 
     if (Object.keys(salespersonMapRaw).length === 0) {
-      for (const o of allOpportunities) {
+      for (const o of filteredOpportunities) {
         const name = (o.createdBy || o.modifiedBy || '').trim();
         if (!name) continue;
         if (!salespersonMapRaw[name]) salespersonMapRaw[name] = { quoted: 0, closed: 0 };
@@ -376,7 +441,7 @@ export async function GET(request: Request) {
     }
 
     const stageMap: Record<string, { count: number; value: number }> = {};
-    for (const o of allOpportunities) {
+    for (const o of filteredOpportunities) {
       const stage = o.stage || '-';
       if (!stageMap[stage]) stageMap[stage] = { count: 0, value: 0 };
       stageMap[stage].count += 1;
@@ -388,7 +453,7 @@ export async function GET(request: Request) {
       value: data.value,
     }));
 
-    const closed = allOpportunities.filter((o) => {
+    const closed = filteredOpportunities.filter((o) => {
       const s = (o.stage || '').toLowerCase();
       return s.includes('closed') || s.includes('won') || s.includes('lost');
     });
@@ -397,30 +462,41 @@ export async function GET(request: Request) {
       ? Math.round((won.length / closed.length) * 100)
       : null;
 
-    return NextResponse.json(
-      {
-        opportunities: top,
-        winPercentage,
-        topCustomers,
-        topProducts,
-        topSalespeople,
-        stageDistribution,
-        ...(debugInfo && { _debug: debugInfo }),
+    return {
+      opportunities: top,
+      winPercentage,
+      topCustomers,
+      topProducts,
+      topSalespeople,
+      stageDistribution,
+      filterMeta: {
+        totalCount: allOpportunities.length,
+        filteredCount: filteredOpportunities.length,
+        stages: Array.from(new Set(allOpportunities.map((o) => o.stage).filter(Boolean))).sort(),
+        currencies: Array.from(new Set(allOpportunities.map((o) => (o.currency || '').toUpperCase()).filter(Boolean))).sort(),
+        accounts: Array.from(new Set(allOpportunities.map((o) => o.accountName || '').filter(Boolean))).sort().slice(0, 200),
+        owners: Array.from(new Set(allOpportunities.map((o) => o.modifiedBy || '').filter(Boolean))).sort(),
+        creators: Array.from(new Set(allOpportunities.map((o) => o.createdBy || '').filter(Boolean))).sort(),
+        billingCountries: Array.from(new Set(allOpportunities.map((o) => o.billingCountry || '').filter(Boolean))).sort(),
+        billingCities: Array.from(new Set(allOpportunities.map((o) => o.billingCity || '').filter(Boolean))).sort(),
       },
-      { headers: { 'Cache-Control': 'no-store, max-age=0' } }
-    );
+      ...(debugInfo && { _debug: debugInfo }),
+    };
   } catch (e) {
-    return NextResponse.json(
-      {
-        error: 'Failed to fetch deals',
-        opportunities: [],
-        winPercentage: null,
-        topCustomers: [],
-        topProducts: [],
-        topSalespeople: [],
-        stageDistribution: [],
-      },
-      { status: 200 }
-    );
+    return {
+      error: 'Failed to fetch deals',
+      opportunities: [],
+      winPercentage: null,
+      topCustomers: [],
+      topProducts: [],
+      topSalespeople: [],
+      stageDistribution: [],
+    };
   }
+  };
+  const { value } = await withReadThroughCache(cacheKey, 120, producer);
+  void refreshSnapshotIfStale(cacheKey, 60_000, 120, producer);
+  return NextResponse.json(value, {
+    headers: { 'Cache-Control': 'private, max-age=45, stale-while-revalidate=120' },
+  });
 }

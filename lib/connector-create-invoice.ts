@@ -7,7 +7,7 @@ import { getZohoAccessToken, getZohoCrmDomain } from '@/lib/zoho-client';
 import { getValidAccessToken } from '@/lib/xero-store';
 import { getXeroTokens } from '@/lib/xero-store';
 import { findOrCreateXeroContact } from '@/lib/xero-contacts';
-import { getLinkByQuoteId, setLink } from '@/lib/connector-store';
+import { getLinkByQuoteIdAsync, setLinkAsync } from '@/lib/connector-store';
 
 const QUOTE_FIELDS = [
   'Auto_Number_1', 'Currency_2', 'Grand_Total', 'Quote_Stage', 'Subject', 'Description',
@@ -118,7 +118,7 @@ export type CreateInvoiceResult =
 export async function createInvoiceFromQuoteId(zohoQuoteId: string): Promise<CreateInvoiceResult> {
   const wonStage = (process.env.ZOHO_QUOTE_WON_STAGE || 'Won').toLowerCase();
 
-  const existing = getLinkByQuoteId(zohoQuoteId);
+  const existing = await getLinkByQuoteIdAsync(zohoQuoteId);
   if (existing) {
     return {
       ok: true,
@@ -202,7 +202,7 @@ export async function createInvoiceFromQuoteId(zohoQuoteId: string): Promise<Cre
   const xeroInvoiceId = inv.InvoiceID;
   const xeroInvoiceNumber = inv.InvoiceNumber;
 
-  setLink({
+  await setLinkAsync({
     zohoQuoteId,
     xeroInvoiceId,
     xeroInvoiceNumber,

@@ -62,6 +62,10 @@ rtaservices/
    # For email sending (optional - currently forms log to console)
    # RESEND_API_KEY=your_resend_api_key
    # Or use other email services like SendGrid, AWS SES, etc.
+
+   # Shut down dashboard, sign-in, and all protected APIs (public site stays live)
+   # DISABLE_AUTHENTICATED_ROUTES=true
+   # DISABLE_AUTHENTICATED_ROUTES_MESSAGE=Dashboard is temporarily unavailable.
    ```
 
 4. **Run development server:**

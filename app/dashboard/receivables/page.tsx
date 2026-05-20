@@ -78,7 +78,7 @@ export default function ReceivablesPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 mb-6">
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
+            <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue-hover/10 transition-colors" />
             <CardContent className="relative pt-6">
               <p className="text-body-sm text-rta-text-secondary font-medium">To be invoiced</p>
               <p className="text-2xl font-bold text-rta-text tabular-nums mt-1">
@@ -88,7 +88,7 @@ export default function ReceivablesPage() {
             </CardContent>
           </Card>
           <Card className="relative border-rta-border bg-white shadow-card overflow-hidden group hover:shadow-card-hover transition-all duration-300">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue/10 transition-colors" />
+            <div className="absolute top-0 right-0 w-24 h-24 bg-rta-blue/5 rounded-bl-full -translate-y-1/2 translate-x-1/2 group-hover:bg-rta-blue-hover/10 transition-colors" />
             <CardContent className="relative pt-6">
               <p className="text-body-sm text-rta-text-secondary font-medium">Outstanding</p>
               <p className="text-2xl font-bold text-rta-text tabular-nums mt-1">

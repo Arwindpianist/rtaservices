@@ -173,7 +173,7 @@ export default function ServicesPage() {
                         <Button
                           asChild
                           variant="outline"
-                          className="flex-1 border-rta-blue text-rta-blue hover:bg-rta-blue hover:text-white"
+                          className="flex-1 border-rta-blue text-rta-blue hover:bg-rta-blue-hover hover:text-white"
                           size="lg"
                         >
                           <Link href={`${detailHref}#request-quote`}>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,6 +17,7 @@ import type { RoleCapabilities } from '@/lib/dashboard-roles';
 import { useDashboardPresentation } from './DashboardPresentationContext';
 import { DashboardTableSkeleton } from '@/components/dashboard/DashboardSkeleton';
 import { cn } from '@/lib/utils';
+import DashboardRouteLoading from './loading';
 
 type Opportunity = {
   id?: string;
@@ -206,7 +207,7 @@ function getAccountLine(opp: Opportunity): string {
   return '—';
 }
 
-export default function DashboardPage() {
+function DashboardPageContent() {
   const searchParams = useSearchParams();
   const { presentationMode } = useDashboardPresentation();
   const [zoho, setZoho] = useState<ZohoData>({
@@ -1267,5 +1268,13 @@ export default function DashboardPage() {
       )}
       </div>
     </div>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<DashboardRouteLoading />}>
+      <DashboardPageContent />
+    </Suspense>
   );
 }

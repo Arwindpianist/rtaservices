@@ -24,10 +24,6 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
-  // Enable SWC minification for better performance
-  swcMinify: true,
-  // Optimize fonts
-  optimizeFonts: true,
 }
 
 module.exports = nextConfig

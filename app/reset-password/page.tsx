@@ -1,13 +1,26 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
-export default function ResetPasswordPage() {
+function ResetPasswordFallback() {
+  return (
+    <div className="min-h-screen bg-rta-bg-light flex items-center justify-center p-4">
+      <Card className="w-full max-w-md border-rta-border bg-white">
+        <CardHeader>
+          <CardTitle>Reset password</CardTitle>
+          <CardDescription>Loading…</CardDescription>
+        </CardHeader>
+      </Card>
+    </div>
+  );
+}
+
+function ResetPasswordContent() {
   const params = useSearchParams();
   const token = useMemo(() => params.get('token') || '', [params]);
   const [password, setPassword] = useState('');
@@ -60,5 +73,13 @@ export default function ResetPasswordPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<ResetPasswordFallback />}>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }

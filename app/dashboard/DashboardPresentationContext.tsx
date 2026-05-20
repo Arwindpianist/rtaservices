@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useCallback, useMemo, useState } from 'react';
+import { createContext, useContext, useCallback, useMemo, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 const SESSION_TOP5_KEY = 'rta_dashboard_top5_opp_ids';
@@ -34,7 +34,17 @@ export function useDashboardPresentation(): DashboardPresentationContextValue {
   return ctx;
 }
 
-export function DashboardPresentationProvider({ children }: { children: React.ReactNode }) {
+const defaultPresentationValue: DashboardPresentationContextValue = {
+  presentationMode: false,
+  setPresentationMode: () => {},
+  selectedTop5OpportunityIds: [],
+  setSelectedTop5OpportunityIds: () => {},
+  clearPresentationSelection: () => {},
+  presentationSessionOpenedAt: null,
+  setPresentationSessionOpenedAt: () => {},
+};
+
+function DashboardPresentationProviderInner({ children }: { children: React.ReactNode }) {
   const searchParams = useSearchParams();
   const presentationFromUrl = searchParams.get('presentation') === 'true';
   const [override, setOverride] = useState<boolean | null>(() => {
@@ -115,5 +125,19 @@ export function DashboardPresentationProvider({ children }: { children: React.Re
     <DashboardPresentationContext.Provider value={value}>
       {children}
     </DashboardPresentationContext.Provider>
+  );
+}
+
+export function DashboardPresentationProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <Suspense
+      fallback={
+        <DashboardPresentationContext.Provider value={defaultPresentationValue}>
+          {children}
+        </DashboardPresentationContext.Provider>
+      }
+    >
+      <DashboardPresentationProviderInner>{children}</DashboardPresentationProviderInner>
+    </Suspense>
   );
 }

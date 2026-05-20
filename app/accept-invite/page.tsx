@@ -1,13 +1,26 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
-export default function AcceptInvitePage() {
+function AcceptInviteFallback() {
+  return (
+    <div className="min-h-screen bg-rta-bg-light flex items-center justify-center p-4">
+      <Card className="w-full max-w-md border-rta-border bg-white">
+        <CardHeader>
+          <CardTitle>Accept invitation</CardTitle>
+          <CardDescription>Loading invite…</CardDescription>
+        </CardHeader>
+      </Card>
+    </div>
+  );
+}
+
+function AcceptInviteContent() {
   const params = useSearchParams();
   const token = useMemo(() => params.get('token') || '', [params]);
   const [name, setName] = useState('');
@@ -62,5 +75,13 @@ export default function AcceptInvitePage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function AcceptInvitePage() {
+  return (
+    <Suspense fallback={<AcceptInviteFallback />}>
+      <AcceptInviteContent />
+    </Suspense>
   );
 }

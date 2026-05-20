@@ -66,6 +66,9 @@ rtaservices/
    # Shut down dashboard, sign-in, and all protected APIs (public site stays live)
    # DISABLE_AUTHENTICATED_ROUTES=true
    # DISABLE_AUTHENTICATED_ROUTES_MESSAGE=Dashboard is temporarily unavailable.
+
+   # Vercel Hobby: cron runs once daily (see vercel.json). Pro plan allows more frequent schedules.
+   # CRON_SECRET=your_secret_for_manual_POST_to_/api/cron/neon-sync
    ```
 
 4. **Run development server:**

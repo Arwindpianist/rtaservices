@@ -44,6 +44,11 @@ rtaservices/
     └── images/              # Image assets
 ```
 
+## Documentation
+
+- **[User Guide](docs/USER_GUIDE.md)** — Expanded customer-facing guide for Word delivery (public site → sign-in → staff dashboard → superadmin, per-module walkthroughs, FAQ). Screenshot placeholders: `docs/images/user-guide/`.
+- **[Dashboard completion matrix](docs/dashboard-completion-matrix.md)** — Internal module/data-source status.
+
 ## 🛠️ Setup
 
 1. **Install dependencies:**
